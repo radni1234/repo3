@@ -1,9 +1,13 @@
 package com.isem.mvc.dao;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.isem.mvc.model.Uloga;
 
-public interface UlogaDao extends JpaRepository<Uloga, Long> {
+public interface UlogaDao extends PagingAndSortingRepository<Uloga, Long> {
 	Uloga findById(Long id);
+	
+	List<Uloga> findAll();
 }
