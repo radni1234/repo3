@@ -13,8 +13,8 @@ public class UlogaService {
 	@Autowired
 	private UlogaDao ulogaDao;
 	
-	public Uloga save(Uloga o) {
-		return ulogaDao.save(o);
+	public Uloga save(Uloga u) {
+		return ulogaDao.save(u);
 	}
 	
 	public Uloga findById (Long id) {
