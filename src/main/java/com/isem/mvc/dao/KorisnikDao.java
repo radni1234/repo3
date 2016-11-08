@@ -14,6 +14,8 @@ public interface KorisnikDao extends PagingAndSortingRepository<Korisnik, Long>{
 	
 	Korisnik findByUsername (String userName);
 	
+	Korisnik findById(Long id);
+	
 	List<Korisnik> findAll();
 	
 	Page<Korisnik> findAll(Pageable pageRequest);

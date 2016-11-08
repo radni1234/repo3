@@ -30,11 +30,16 @@ public class KorisnikService {
 	public Korisnik findByUsername (String userName) {
 		Korisnik k = new Korisnik();
 		k = korisnikDao.findByUsername(userName);
-		System.out.println(k);
 		return k;
 	}
 	
-	public void obrisiKorisnika (Long id) {
+	public Korisnik findById (Long id) {
+		Korisnik k = new Korisnik();
+		k = korisnikDao.findById(id);	
+		return k;
+	}
+	
+	public void delete (Long id) {
 		korisnikDao.delete(id);
 	}
 }
