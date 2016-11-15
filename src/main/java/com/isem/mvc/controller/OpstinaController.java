@@ -29,11 +29,18 @@ public class OpstinaController {
 		return opstinaService.findAll();
 	}
 	
+	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
+	public Opstina vratiOpstinaId(@RequestParam("id") Long id){
+		return opstinaService.findById(id);
+	}
+	
+	/*
 	@RequestMapping(value="/jedna", method=RequestMethod.GET)
 	public Opstina getOpstina(@RequestParam("naziv") String naziv) {
 		System.out.println("naziv "+naziv);
 		return opstinaService.findByNaziv(naziv);
 	}
+	*/
 	
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
 	public Opstina addOpstina(@RequestBody Opstina o) {

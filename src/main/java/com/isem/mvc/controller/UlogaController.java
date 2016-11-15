@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isem.mvc.model.Uloga;
@@ -28,6 +29,10 @@ public class UlogaController {
 		return ulogaService.findAll();
 	}
 	
+	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
+	public Uloga vratiUlogaId(@RequestParam("id") Long id){
+		return ulogaService.findById(id);
+	}	
 	
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
 	public Uloga addUloga(@RequestBody Uloga u) {
