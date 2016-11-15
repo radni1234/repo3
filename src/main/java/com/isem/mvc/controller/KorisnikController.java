@@ -48,26 +48,36 @@ public class KorisnikController {
 	}	
 	
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
-	public Korisnik addKorisnik(@RequestBody Korisnik k) {
-		Korisnik ko = new Korisnik();
+	public Korisnik addKorisnik(@RequestBody Korisnik korisnik) {
+		Korisnik update = new Korisnik();
 		
-		if (k.getId() != null) {
-		
-			ko = korisnikService.findById(k.getId());
-			System.out.println("test3:"+ko);
+		if (korisnik.getId() != null) {		
+			update = korisnikService.findById(korisnik.getId());			
 		}
 		
-		if(ko != null){
-			ko.setUloga(k.getUloga());
-			ko.setOpstina(k.getOpstina());
-			ko.setUsername(k.getUsername());
-			ko.setPassword(k.getPassword());
-			System.out.println("test2:"+ko);
-			return korisnikService.save(ko);
+		if(update != null){
+			update.setUloga(korisnik.getUloga());
+			update.setOpstina(korisnik.getOpstina());
+			update.setUsername(korisnik.getUsername());
+			update.setPassword(korisnik.getPassword());
+			update.setMesto(korisnik.getMesto());
+			update.setNaziv(korisnik.getNaziv());
+			update.setTel(korisnik.getTel());
+			update.setFax(korisnik.getFax());
+			update.setMob(korisnik.getMob());
+			update.setMail(korisnik.getMail());
+			update.setBlokiran(korisnik.getBlokiran());
+			update.setRasveta(korisnik.getRasveta());
+			update.setAlarmRacun(korisnik.getAlarmRacun());
+			update.setAlarmRacunStart(korisnik.getAlarmRacunStart());
+			update.setAlarmTrend(korisnik.getAlarmTrend());
+			update.setAlarmTrendStart(korisnik.getAlarmTrendStart());
+			
+			return korisnikService.save(update);
 			
 	    } else {
-	    	System.out.println("test:"+k);
-	    	return korisnikService.save(k);
+	    	
+	    	return korisnikService.save(korisnik);
 	    }		
 		
 	}
