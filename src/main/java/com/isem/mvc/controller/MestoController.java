@@ -42,6 +42,10 @@ public class MestoController {
 	
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
 	public Mesto addMesto(@RequestBody Mesto mesto) {
+		
+		return mestoService.save(mesto);
+		
+		/*
 		Mesto update = new Mesto();
 		
 		if (mesto.getId() != null) {		
@@ -58,6 +62,6 @@ public class MestoController {
 	    
 	    	return mestoService.save(mesto);
 	    }		
-		
+		*/
 	}
 }

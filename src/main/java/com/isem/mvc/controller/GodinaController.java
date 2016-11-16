@@ -24,7 +24,7 @@ public class GodinaController {
 		return godinaService.findAll();
 	}
 	
-	@RequestMapping(value="/jedna", method=RequestMethod.GET)
+	@RequestMapping(value="/jedan", method=RequestMethod.GET)
 	public Godina getGodina(@RequestParam("id") Long id) {
 		return godinaService.findById(id);
 	}

@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Version;
 
 @Entity
 public class Korisnik {
@@ -61,13 +62,18 @@ public class Korisnik {
 	@Column(name = "ALARM_TREND_START")
 	private Date alarmTrendStart;
 	
+	@Version
+    @Column(name = "VERSION")
+    private Integer version;	
+	
 	public Long getId() {
 		return id;
 	}
-	public void setId(Long id) {
-		this.id = id;
+		
+	public Integer getVersion() {
+		return version;
 	}
-	
+
 	public Opstina getOpstina() {
 		return opstina;
 	}

@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Version;
+
 
 @Entity
 public class Mesto {
@@ -23,13 +25,13 @@ public class Mesto {
             foreignKey = @ForeignKey(name = "MESTO_FK")
     )
 	private Opstina opstina;
+	
+	@Version
+    @Column(name = "VERSION")
+    private Integer version;	
 
 	public Long getId() {
 		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getNaziv() {
@@ -47,7 +49,12 @@ public class Mesto {
 	public void setOpstina(Opstina opstina) {
 		this.opstina = opstina;
 	}
+	
+	public Integer getVersion() {
+		return version;
+	}
 
+	
 	@Override
 	public String toString() {
 		return "Mesto [id=" + id + ", naziv=" + naziv + ", opstina=" + opstina + "]";

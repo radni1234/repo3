@@ -1,9 +1,11 @@
 package com.isem.mvc.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Version;
 
 @Entity	
 public class Uloga {
@@ -14,13 +16,17 @@ public class Uloga {
 	private String naziv;
 	
 	private String kraciNaz;
+	
+	@Version
+    @Column(name = "VERSION")
+    private Integer version;
 
 	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public Integer getVersion() {
+		return version;
 	}
 
 	public String getNaziv() {
