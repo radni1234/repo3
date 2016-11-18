@@ -26,6 +26,10 @@ public class MestoService {
 	
 	public Mesto findById (Long id) {		
 		return mestoDao.findById(id);
+	}	
+	
+	public List<Mesto> findMestoByOpstina(Long id){
+		return mestoDao.findMestoByOpstina(id);
 	}
 		
 	public Mesto save(Mesto mesto) {

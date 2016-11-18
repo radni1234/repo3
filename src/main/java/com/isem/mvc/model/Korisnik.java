@@ -22,20 +22,14 @@ public class Korisnik {
 	private String password;
 	
 	@ManyToOne
-    @JoinColumn(name = "opstina_id",
-            foreignKey = @ForeignKey(name = "KORISNIK_FK")
-    )
-	private Opstina opstina;
-	
-	@ManyToOne
     @JoinColumn(name = "uloga_id",
-            foreignKey = @ForeignKey(name = "KORISNIK_FK2")
+            foreignKey = @ForeignKey(name = "KORISNIK_FK1")
     )
 	private Uloga uloga;
 	
 	@ManyToOne
     @JoinColumn(name = "mesto_id",
-            foreignKey = @ForeignKey(name = "KORISNIK_FK3")
+            foreignKey = @ForeignKey(name = "KORISNIK_FK2")
     )
 	private Mesto mesto;
 	
@@ -49,15 +43,15 @@ public class Korisnik {
 	private String mob;
 	@Column(name = "MAIL", length = 100)
 	private String mail;
-	@Column(name = "BLOKIRAN", length = 1)
+	@Column(name = "BLOKIRAN", columnDefinition = "varchar(1) default 'N'")
 	private String blokiran;
-	@Column(name = "RASVETA", length = 1)
+	@Column(name = "RASVETA", columnDefinition = "varchar(1) default 'N'")
 	private String rasveta;
-	@Column(name = "ALARM_RACUN", length = 1)
+	@Column(name = "ALARM_RACUN", columnDefinition = "varchar(1) default 'N'")
 	private String alarmRacun;
 	@Column(name = "ALARM_RACUN_START")
 	private Date alarmRacunStart;
-	@Column(name = "ALARM_TREND", length = 1)
+	@Column(name = "ALARM_TREND", columnDefinition = "varchar(1) default 'N'")
 	private String alarmTrend;
 	@Column(name = "ALARM_TREND_START")
 	private Date alarmTrendStart;
@@ -74,13 +68,6 @@ public class Korisnik {
 		return version;
 	}
 
-	public Opstina getOpstina() {
-		return opstina;
-	}
-	public void setOpstina(Opstina opstina) {
-		this.opstina = opstina;
-	}
-	
 	public Uloga getUloga() {
 		return uloga;
 	}
@@ -172,15 +159,17 @@ public class Korisnik {
 	public void setAlarmTrendStart(Date alarmTrendStart) {
 		this.alarmTrendStart = alarmTrendStart;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Korisnik [id=" + id + ", username=" + username + ", password=" + password + ", opstina=" + opstina
-				+ ", uloga=" + uloga + ", mesto=" + mesto + ", naziv=" + naziv + ", tel=" + tel + ", fax=" + fax
-				+ ", mob=" + mob + ", mail=" + mail + ", blokiran=" + blokiran + ", rasveta=" + rasveta
-				+ ", alarmRacun=" + alarmRacun + ", alarmRacunStart=" + alarmRacunStart + ", alarmTrend=" + alarmTrend
-				+ ", alarmTrendStart=" + alarmTrendStart + "]";
+		return "Korisnik [id=" + id + ", username=" + username + ", password=" + password + ", uloga=" + uloga
+				+ ", mesto=" + mesto + ", naziv=" + naziv + ", tel=" + tel + ", fax=" + fax + ", mob=" + mob + ", mail="
+				+ mail + ", blokiran=" + blokiran + ", rasveta=" + rasveta + ", alarmRacun=" + alarmRacun
+				+ ", alarmRacunStart=" + alarmRacunStart + ", alarmTrend=" + alarmTrend + ", alarmTrendStart="
+				+ alarmTrendStart + ", version=" + version + "]";
 	}
+	
+	
 	
 	
 }

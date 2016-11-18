@@ -57,7 +57,6 @@ public class KorisnikController {
 		
 		if(update != null){
 			update.setUloga(korisnik.getUloga());
-			update.setOpstina(korisnik.getOpstina());
 			update.setUsername(korisnik.getUsername());
 			update.setPassword(korisnik.getPassword());
 			update.setMesto(korisnik.getMesto());

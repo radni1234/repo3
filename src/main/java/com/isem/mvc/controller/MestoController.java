@@ -35,10 +35,17 @@ public class MestoController {
 		return mestoService.findAll(pageable);
 	}
 	
+	@RequestMapping(value = "/sve", params = {"ops_id"})
+	public List<Mesto> getAllMestoByOpstina(@RequestParam(value = "ops_id") Long id) {	
+		return mestoService.findMestoByOpstina(id);
+	}
+	
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
-	public Mesto vratiMestoaId(@RequestParam("id") Long id){
+	public Mesto vratiMestoId(@RequestParam("id") Long id){
 		return mestoService.findById(id);
 	}	
+	
+	
 	
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
 	public Mesto addMesto(@RequestBody Mesto mesto) {
