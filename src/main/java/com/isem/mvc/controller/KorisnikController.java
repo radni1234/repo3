@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isem.mvc.model.Korisnik;
 import com.isem.mvc.service.KorisnikService;
+import com.isem.mvc.view.KorisnikView;
 
 @RestController
 @RequestMapping("/korisnik")
@@ -21,8 +22,8 @@ public class KorisnikController {
 	
 
 	@Autowired
-	private KorisnikService korisnikService;
-	
+	private KorisnikService korisnikService;	
+
 	@RequestMapping("/sve")
 	public List<Korisnik> getAllKorisnik() {
 		return korisnikService.findAll();
@@ -46,6 +47,11 @@ public class KorisnikController {
 	public Korisnik vratiKorisnikaId(@RequestParam("id") Long id){
 		return korisnikService.findById(id);
 	}	
+	
+	@RequestMapping(value="/tab", method=RequestMethod.GET)
+	public List<KorisnikView> vratiKorisnikTabela(){
+		return korisnikService.findAllView();
+	}
 	
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
 	public Korisnik addKorisnik(@RequestBody Korisnik korisnik) {

@@ -8,12 +8,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.isem.mvc.dao.KorisnikDao;
+import com.isem.mvc.dao.KorisnikViewDao;
 import com.isem.mvc.model.Korisnik;
+import com.isem.mvc.view.KorisnikView;
 
 @Service
 public class KorisnikService {
 	@Autowired
 	private KorisnikDao korisnikDao;
+	
+	@Autowired
+	private KorisnikViewDao korisnikViewDao;
 	
 	public List<Korisnik> findAll () {
 		return korisnikDao.findAll();
@@ -38,6 +43,10 @@ public class KorisnikService {
 		k = korisnikDao.findById(id);	
 		return k;
 	}
+	
+	public List<KorisnikView> findAllView(){
+		return korisnikViewDao.findAll();
+	};
 	
 	public void delete (Long id) {
 		korisnikDao.delete(id);
