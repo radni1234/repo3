@@ -49,7 +49,7 @@ public class KorisnikController {
 	}	
 	
 	@RequestMapping(value="/tab", method=RequestMethod.GET)
-	public List<KorisnikView> vratiKorisnikTabela(){
+	public List<KorisnikView> vratiKorisnikView(){
 		return korisnikService.findAllView();
 	}
 	
