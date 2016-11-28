@@ -45,4 +45,9 @@ public class JedMereController {
 		
 		return jedMereService.save(jedMere);
 	}
+	
+	@RequestMapping("/obrisi")
+	public void test(@RequestBody Long id) {
+		jedMereService.delete(id);
+	}
 }

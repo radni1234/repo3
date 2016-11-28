@@ -31,7 +31,7 @@ public class JedMereService {
 		return jedMereDao.findAll(pageRequest);
 	}
 	
-	public void deleteJedMere (Long id) {
+	public void delete (Long id) {
 		jedMereDao.delete(id);
 	}
 }

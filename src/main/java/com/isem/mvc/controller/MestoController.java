@@ -71,4 +71,9 @@ public class MestoController {
 	    }		
 		*/
 	}
+	
+	@RequestMapping("/obrisi")
+	public void test(@RequestBody Long id) {
+		mestoService.delete(id);
+	}
 }
