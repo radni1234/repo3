@@ -18,62 +18,42 @@ import com.isem.mvc.service.MestoService;
 @RestController
 @RequestMapping("/mesto")
 public class MestoController {
+		
 	@Autowired
-	private MestoService mestoService;
-	
-	@RequestMapping("/sve")
-	public List<Mesto> getAllMesto() {
-		return mestoService.findAll();
+	private MestoService service;
+
+	@RequestMapping(value="/sve", method=RequestMethod.GET)
+	public List<Mesto> getAll() {
+		return service.findAll();
 	}
-	
-	@RequestMapping(value = "/sve", params = {"str", "vel"})
-	public Page<Mesto> getAllMesto(@RequestParam(value = "str") int strana, 
-									  @RequestParam(value = "vel") int velicina ) {
+
+	@RequestMapping(value="/sve", params = {"str", "vel"}, method=RequestMethod.GET)
+	public Page<Mesto> getAll(@RequestParam(value = "str") int strana, 
+								@RequestParam(value = "vel") int velicina ) {
 		
-	    Pageable pageable = new PageRequest(strana, velicina);
-	    
-		return mestoService.findAll(pageable);
+		Pageable pageable = new PageRequest(strana, velicina);
+		
+		return service.findAll(pageable);
 	}
 	
-	@RequestMapping(value = "/sve", params = {"ops_id"})
+	@RequestMapping(value = "/sve", params = {"ops_id"}, method=RequestMethod.GET)
 	public List<Mesto> getAllMestoByOpstina(@RequestParam(value = "ops_id") Long id) {	
-		return mestoService.findMestoByOpstina(id);
+		return service.findMestoByOpstina(id);
 	}
-	
+
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
-	public Mesto vratiMestoId(@RequestParam("id") Long id){
-		return mestoService.findById(id);
-	}	
-	
-	
-	
+	public Mesto findById(@RequestParam("id") Long id){
+		return service.findById(id);
+	}		
+
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
-	public Mesto addMesto(@RequestBody Mesto mesto) {
+	public Mesto add(@RequestBody Mesto obj) {
 		
-		return mestoService.save(mesto);
-		
-		/*
-		Mesto update = new Mesto();
-		
-		if (mesto.getId() != null) {		
-			update = mestoService.findById(mesto.getId());			
-		}
-		
-		if(update != null){
-			update.setNaziv(mesto.getNaziv());
-			update.setOpstina(mesto.getOpstina());
-			
-			return mestoService.save(update);
-			
-	    } else {
-	    
-	    	return mestoService.save(mesto);
-	    }		
-		*/
+		return service.save(obj);
 	}
-	
-	@RequestMapping("/obrisi")
-	public void test(@RequestBody Long id) {
-		mestoService.delete(id);
+
+	@RequestMapping(value="/obrisi", params = {"id"}, method=RequestMethod.DELETE)
+	public void delete(@RequestParam("id") Long id) {
+		service.delete(id);
 	}
 }

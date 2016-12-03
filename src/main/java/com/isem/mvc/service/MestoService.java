@@ -14,29 +14,29 @@ import com.isem.mvc.model.Mesto;
 public class MestoService {
 	
 	@Autowired
-	private MestoDao mestoDao;
-	
-	public List<Mesto> findAll () {
-		return mestoDao.findAll();
-	}
-	
-	public Page<Mesto> findAll (Pageable pageRequest) {
-		return mestoDao.findAll(pageRequest);
-	}
+	private MestoDao dao;
 	
 	public Mesto findById (Long id) {		
-		return mestoDao.findById(id);
+		return dao.findById(id);
 	}	
 	
 	public List<Mesto> findMestoByOpstina(Long id){
-		return mestoDao.findMestoByOpstina(id);
+		return dao.findMestoByOpstina(id);
 	}
-		
-	public Mesto save(Mesto mesto) {
-		return mestoDao.save(mesto);
+			
+	public List<Mesto> findAll () {
+		return dao.findAll();
+	}
+	
+	public Page<Mesto> findAll (Pageable pageRequest) {
+		return dao.findAll(pageRequest);
+	}
+			
+	public Mesto save(Mesto obj) {
+		return dao.save(obj);
 	}		
 	
 	public void delete (Long id) {
-		mestoDao.delete(id);
+		dao.delete(id);
 	}
 }

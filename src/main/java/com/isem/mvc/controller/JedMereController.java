@@ -19,35 +19,35 @@ import com.isem.mvc.service.JedMereService;
 @RequestMapping("/jedmere")
 public class JedMereController {
 	@Autowired
-	private JedMereService jedMereService;
+	private JedMereService service;
 	
-	@RequestMapping("/sve")
-	public List<JedMere> getAllJedMere() {
-		return jedMereService.findAll();
+	@RequestMapping(value="/sve", method=RequestMethod.GET)
+	public List<JedMere> getAll() {
+		return service.findAll();
 	}
 	
-	@RequestMapping(value = "/sve", params = {"str", "vel"})
-	public Page<JedMere> getAllJedMere(@RequestParam(value = "str") int strana, 
-									  @RequestParam(value = "vel") int velicina ) {
+	@RequestMapping(value="/sve", params = {"str", "vel"}, method=RequestMethod.GET)
+	public Page<JedMere> getAll(@RequestParam(value = "str") int strana, 
+								@RequestParam(value = "vel") int velicina ) {
 		
 	    Pageable pageable = new PageRequest(strana, velicina);
 	    
-		return jedMereService.findAll(pageable);
+		return service.findAll(pageable);
 	}
 	
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
-	public JedMere vratiJedMereId(@RequestParam("id") Long id){
-		return jedMereService.findById(id);
+	public JedMere findById(@RequestParam("id") Long id){
+		return service.findById(id);
 	}		
 	
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
-	public JedMere addJedMere(@RequestBody JedMere jedMere) {
+	public JedMere add(@RequestBody JedMere obj) {
 		
-		return jedMereService.save(jedMere);
+		return service.save(obj);
 	}
 	
-	@RequestMapping("/obrisi")
-	public void test(@RequestBody Long id) {
-		jedMereService.delete(id);
+	@RequestMapping(value="/obrisi", params = {"id"}, method=RequestMethod.DELETE)
+	public void delete(@RequestParam("id") Long id) {
+		service.delete(id);
 	}
 }

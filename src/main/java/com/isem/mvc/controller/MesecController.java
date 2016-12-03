@@ -19,34 +19,35 @@ import com.isem.mvc.service.MesecService;
 @RequestMapping("/mesec")
 public class MesecController {
 	@Autowired
-	MesecService mesecService;
-	
-	@RequestMapping("/sve")
-	public List<Mesec> getAllMesec() {
-		return mesecService.findAll();
+	private MesecService service;
+
+	@RequestMapping(value="/sve", method=RequestMethod.GET)
+	public List<Mesec> getAll() {
+		return service.findAll();
 	}
-	
-	@RequestMapping(value = "/sve", params = {"str", "vel"})
-	public Page<Mesec> getAllMesec(@RequestParam(value = "str") int strana, 
-									  @RequestParam(value = "vel") int velicina ) {
+
+	@RequestMapping(value="/sve", params = {"str", "vel"}, method=RequestMethod.GET)
+	public Page<Mesec> getAll(@RequestParam(value = "str") int strana, 
+								@RequestParam(value = "vel") int velicina ) {
 		
-	    Pageable pageable = new PageRequest(strana, velicina);
-	    
-		return mesecService.findAll(pageable);
+		Pageable pageable = new PageRequest(strana, velicina);
+		
+		return service.findAll(pageable);
 	}
-	
-	@RequestMapping(value="/jedan", method=RequestMethod.GET)
-	public Mesec getMesec(@RequestParam("id") Long id) {
-		return mesecService.findById(id);
-	}
-	
+
+	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
+	public Mesec findById(@RequestParam("id") Long id){
+		return service.findById(id);
+	}		
+
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
-	public Mesec addMesec(@RequestBody Mesec mesec) {
-		return mesecService.save(mesec);		
+	public Mesec add(@RequestBody Mesec obj) {
+		
+		return service.save(obj);
 	}
-	
-	@RequestMapping("/obrisi")
-	public void test(@RequestBody Long id) {
-		mesecService.delete(id);
+
+	@RequestMapping(value="/obrisi", params = {"id"}, method=RequestMethod.DELETE)
+	public void delete(@RequestParam("id") Long id) {
+		service.delete(id);
 	}
 }

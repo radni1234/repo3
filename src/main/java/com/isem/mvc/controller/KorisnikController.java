@@ -18,78 +18,59 @@ import com.isem.mvc.view.KorisnikView;
 
 @RestController
 @RequestMapping("/korisnik")
-public class KorisnikController {
+public class KorisnikController {	
 	
 
 	@Autowired
-	private KorisnikService korisnikService;	
+	private KorisnikService service;
 
-	@RequestMapping("/sve")
-	public List<Korisnik> getAllKorisnik() {
-		return korisnikService.findAll();
+	@RequestMapping(value="/sve", method=RequestMethod.GET)
+	public List<Korisnik> getAll() {
+		return service.findAll();
 	}
-	
-	@RequestMapping(value = "/sve", params = {"strana", "velicina"})
-	public Page<Korisnik> getAllKorisnik(@RequestParam(value = "strana") int strana, 
-									  @RequestParam(value = "velicina") int velicina ) {
+
+	@RequestMapping(value="/sve", params = {"str", "vel"}, method=RequestMethod.GET)
+	public Page<Korisnik> getAll(@RequestParam(value = "str") int strana, 
+								@RequestParam(value = "vel") int velicina ) {
 		
-	    Pageable pageable = new PageRequest(strana, velicina);
-	    
-		return korisnikService.findAll(pageable);
+		Pageable pageable = new PageRequest(strana, velicina);
+		
+		return service.findAll(pageable);
 	}
-	
-	@RequestMapping(value="/jedan", params = {"username"}, method=RequestMethod.GET)
-	public Korisnik vratiKorisnikaUsername(@RequestParam("username") String username){
-		return korisnikService.findByUsername(username);
-	}
-	
-	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
-	public Korisnik vratiKorisnikaId(@RequestParam("id") Long id){
-		return korisnikService.findById(id);
-	}	
 	
 	@RequestMapping(value="/tab", method=RequestMethod.GET)
-	public List<KorisnikView> vratiKorisnikView(){
-		return korisnikService.findAllView();
+	public List<KorisnikView> getAllView(){
+		return service.findAllView();
 	}
 	
+	@RequestMapping(value="/tab", params = {"str", "vel"}, method=RequestMethod.GET)
+	public Page<KorisnikView> getAllView(@RequestParam(value = "str") int strana, 
+								@RequestParam(value = "vel") int velicina ) {
+		
+		Pageable pageable = new PageRequest(strana, velicina);
+		
+		return service.findAllView(pageable);
+	}
+
+	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
+	public Korisnik findById(@RequestParam("id") Long id){
+		return service.findById(id);
+	}		
+	
+	@RequestMapping(value="/jedan", params = {"username"}, method=RequestMethod.GET)
+	public Korisnik findByUsername(@RequestParam("username") String username){
+		return service.findByUsername(username);
+	}
+
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
-	public Korisnik addKorisnik(@RequestBody Korisnik korisnik) {
-		Korisnik update = new Korisnik();
+	public Korisnik add(@RequestBody Korisnik obj) {
 		
-		if (korisnik.getId() != null) {		
-			update = korisnikService.findById(korisnik.getId());			
-		}
-		
-		if(update != null){
-			update.setUloga(korisnik.getUloga());
-			update.setUsername(korisnik.getUsername());
-			update.setPassword(korisnik.getPassword());
-			update.setMesto(korisnik.getMesto());
-			update.setNaziv(korisnik.getNaziv());
-			update.setTel(korisnik.getTel());
-			update.setFax(korisnik.getFax());
-			update.setMob(korisnik.getMob());
-			update.setMail(korisnik.getMail());
-			update.setBlokiran(korisnik.getBlokiran());
-			update.setRasveta(korisnik.getRasveta());
-			update.setAlarmRacun(korisnik.getAlarmRacun());
-			update.setAlarmRacunStart(korisnik.getAlarmRacunStart());
-			update.setAlarmTrend(korisnik.getAlarmTrend());
-			update.setAlarmTrendStart(korisnik.getAlarmTrendStart());
-			
-			return korisnikService.save(update);
-			
-	    } else {
-	    	
-	    	return korisnikService.save(korisnik);
-	    }		
-		
+		return service.save(obj);
 	}
-	
-	@RequestMapping(value="/obrisi", method=RequestMethod.POST)
-	public void obrisiKorisnika(@RequestBody Long id) {
-		korisnikService.delete(id);
+
+	@RequestMapping(value="/obrisi", params = {"id"}, method=RequestMethod.DELETE)
+	public void delete(@RequestParam("id") Long id) {
+		service.delete(id);
 	}	
 		 
 }

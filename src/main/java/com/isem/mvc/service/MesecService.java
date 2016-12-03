@@ -13,25 +13,25 @@ import com.isem.mvc.model.Mesec;
 @Service
 public class MesecService {
 	@Autowired
-	private MesecDao mesecDao;	
+	private MesecDao dao;	
 	
 	public Mesec findById (Long id) {
-		return mesecDao.findById(id);
+		return dao.findById(id);
 	}
 	
 	public List<Mesec> findAll () {
-		return mesecDao.findAll();
+		return dao.findAll();
 	}
 	
 	public Page<Mesec> findAll (Pageable pageRequest) {
-		return mesecDao.findAll(pageRequest);
+		return dao.findAll(pageRequest);
 	}
 	
-	public Mesec save(Mesec o) {
-		return mesecDao.save(o);
+	public Mesec save(Mesec obj) {
+		return dao.save(obj);
 	}
 	
 	public void delete(Long id) {
-		mesecDao.delete(id);
+		dao.delete(id);
 	}
 }

@@ -3,6 +3,9 @@ package com.isem.mvc.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,38 +20,35 @@ import com.isem.mvc.service.GodinaService;
 public class GodinaController {
 	
 	@Autowired
-	private GodinaService godinaService;
-	
-	@RequestMapping("/sve")
-	public List<Godina> getAllGodina() {
-		return godinaService.findAll();
+	private GodinaService service;
+
+	@RequestMapping(value="/sve", method=RequestMethod.GET)
+	public List<Godina> getAll() {
+		return service.findAll();
 	}
-	
-	@RequestMapping(value="/jedan", method=RequestMethod.GET)
-	public Godina getGodina(@RequestParam("id") Long id) {
-		return godinaService.findById(id);
+
+	@RequestMapping(value="/sve", params = {"str", "vel"}, method=RequestMethod.GET)
+	public Page<Godina> getAll(@RequestParam(value = "str") int strana, 
+								@RequestParam(value = "vel") int velicina ) {
+		
+		Pageable pageable = new PageRequest(strana, velicina);
+		
+		return service.findAll(pageable);
 	}
-	
+
+	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
+	public Godina findById(@RequestParam("id") Long id){
+		return service.findById(id);
+	}		
+
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
-	public Godina addGodina(@RequestBody Godina o) {
-		Godina op = new Godina();
+	public Godina add(@RequestBody Godina obj) {
 		
-		if (o.getId() != null) {
-		
-			op = godinaService.findById(o.getId());
-		}
-		
-		if(op != null){
-			op.setNaziv(o.getNaziv());
-			return godinaService.save(op);
-	    } else {
-	    	return godinaService.save(o);
-	    }		
-		
+		return service.save(obj);
 	}
-	
-	@RequestMapping("/obrisi")
-	public void test(@RequestBody Long id) {
-		godinaService.delete(id);
+
+	@RequestMapping(value="/obrisi", params = {"id"}, method=RequestMethod.DELETE)
+	public void delete(@RequestParam("id") Long id) {
+		service.delete(id);
 	}
 }

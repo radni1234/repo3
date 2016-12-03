@@ -13,25 +13,25 @@ import com.isem.mvc.model.JedMere;
 @Service
 public class JedMereService {
 	@Autowired
-	private JedMereDao jedMereDao;
-	
-	public JedMere save(JedMere j) {
-		return jedMereDao.save(j);
-	}
+	private JedMereDao dao;	
 	
 	public JedMere findById (Long id) {
-		return jedMereDao.findById(id);
+		return dao.findById(id);
 	}
 	
 	public List<JedMere> findAll () {
-		return jedMereDao.findAll();
+		return dao.findAll();
 	}
 	
 	public Page<JedMere> findAll (Pageable pageRequest) {
-		return jedMereDao.findAll(pageRequest);
+		return dao.findAll(pageRequest);
+	}
+	
+	public JedMere save(JedMere obj) {
+		return dao.save(obj);
 	}
 	
 	public void delete (Long id) {
-		jedMereDao.delete(id);
+		dao.delete(id);
 	}
 }

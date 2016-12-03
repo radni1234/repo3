@@ -2,6 +2,8 @@ package com.isem.mvc.dao;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,5 +16,7 @@ public interface OpstinaDao extends PagingAndSortingRepository<Opstina, Long> {
 	Opstina findById(Long id);
 	
 	List<Opstina> findAll();
+	
+	Page<Opstina> findAll(Pageable pageRequest);
 }
 

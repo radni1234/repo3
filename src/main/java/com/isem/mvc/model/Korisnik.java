@@ -43,16 +43,16 @@ public class Korisnik {
 	private String mob;
 	@Column(name = "MAIL", length = 100)
 	private String mail;
-	@Column(name = "BLOKIRAN", columnDefinition = "varchar(1) default 'N'")
-	private String blokiran;
-	@Column(name = "RASVETA", columnDefinition = "varchar(1) default 'N'")
-	private String rasveta;
-	@Column(name = "ALARM_RACUN", columnDefinition = "varchar(1) default 'N'")
-	private String alarmRacun;
+	@Column(name = "BLOKIRAN")
+	private Boolean blokiran;
+	@Column(name = "RASVETA")
+	private Boolean rasveta;
+	@Column(name = "ALARM_RACUN")
+	private Boolean alarmRacun;
 	@Column(name = "ALARM_RACUN_START")
 	private Date alarmRacunStart;
-	@Column(name = "ALARM_TREND", columnDefinition = "varchar(1) default 'N'")
-	private String alarmTrend;
+	@Column(name = "ALARM_TREND")
+	private Boolean alarmTrend;
 	@Column(name = "ALARM_TREND_START")
 	private Date alarmTrendStart;
 	
@@ -123,36 +123,46 @@ public class Korisnik {
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
-	public String getBlokiran() {
+
+	public Boolean getBlokiran() {
 		return blokiran;
 	}
-	public void setBlokiran(String blokiran) {
+
+	public void setBlokiran(Boolean blokiran) {
 		this.blokiran = blokiran;
 	}
-	public String getRasveta() {
+
+	public Boolean getRasveta() {
 		return rasveta;
 	}
-	public void setRasveta(String rasveta) {
+
+	public void setRasveta(Boolean rasveta) {
 		this.rasveta = rasveta;
 	}
-	public String getAlarmRacun() {
+
+	public Boolean getAlarmRacun() {
 		return alarmRacun;
 	}
-	public void setAlarmRacun(String alarmRacun) {
+
+	public void setAlarmRacun(Boolean alarmRacun) {
 		this.alarmRacun = alarmRacun;
 	}
+
+	public Boolean getAlarmTrend() {
+		return alarmTrend;
+	}
+
+	public void setAlarmTrend(Boolean alarmTrend) {
+		this.alarmTrend = alarmTrend;
+	}
+
 	public Date getAlarmRacunStart() {
 		return alarmRacunStart;
 	}
 	public void setAlarmRacunStart(Date alarmRacunStart) {
 		this.alarmRacunStart = alarmRacunStart;
 	}
-	public String getAlarmTrend() {
-		return alarmTrend;
-	}
-	public void setAlarmTrend(String alarmTrend) {
-		this.alarmTrend = alarmTrend;
-	}
+	
 	public Date getAlarmTrendStart() {
 		return alarmTrendStart;
 	}

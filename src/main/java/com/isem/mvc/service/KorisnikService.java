@@ -20,6 +20,14 @@ public class KorisnikService {
 	@Autowired
 	private KorisnikViewDao korisnikViewDao;
 	
+	public Korisnik findById (Long id) {
+		return korisnikDao.findById(id);
+	}
+	
+	public Korisnik findByUsername (String userName) {	
+		return korisnikDao.findByUsername(userName);
+	}
+	
 	public List<Korisnik> findAll () {
 		return korisnikDao.findAll();
 	}
@@ -27,26 +35,18 @@ public class KorisnikService {
 	public Page<Korisnik> findAll (Pageable pageRequest) {
 		return korisnikDao.findAll(pageRequest);
 	}
-		
-	public Korisnik save(Korisnik korisnik) {
-		return korisnikDao.save(korisnik);
-	}
-	
-	public Korisnik findByUsername (String userName) {
-		Korisnik k = new Korisnik();
-		k = korisnikDao.findByUsername(userName);
-		return k;
-	}
-	
-	public Korisnik findById (Long id) {
-		Korisnik k = new Korisnik();
-		k = korisnikDao.findById(id);	
-		return k;
-	}
 	
 	public List<KorisnikView> findAllView(){
 		return korisnikViewDao.findAll();
 	};
+	
+	public Page<KorisnikView> findAllView (Pageable pageRequest) {
+		return korisnikViewDao.findAll(pageRequest);
+	}
+				
+	public Korisnik save(Korisnik korisnik) {
+		return korisnikDao.save(korisnik);
+	}	
 	
 	public void delete (Long id) {
 		korisnikDao.delete(id);
