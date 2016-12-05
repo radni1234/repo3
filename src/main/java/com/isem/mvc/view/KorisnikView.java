@@ -20,12 +20,12 @@ public class KorisnikView {
 	private String tel;
 	private String fax;	
 	private String mob;	
-	private String rasveta;
-	private String alarmRacun;
+	private Boolean rasveta;
+	private Boolean alarmRacun;
 	private Date alarmRacunStart;	
-	private String alarmTrend;
+	private Boolean alarmTrend;
 	private Date alarmTrendStart;
-	private String blokiran;
+	private Boolean blokiran;
 	
 	public Long getId() {
 		return id;
@@ -61,22 +61,27 @@ public class KorisnikView {
 	public String getMob() {
 		return mob;
 	}
-	public String getRasveta() {
-		return rasveta;
-	}
-	public String getAlarmRacun() {
-		return alarmRacun;
-	}
+
 	public Date getAlarmRacunStart() {
 		return alarmRacunStart;
 	}
-	public String getAlarmTrend() {
-		return alarmTrend;
-	}
+
 	public Date getAlarmTrendStart() {
 		return alarmTrendStart;
 	}
-	public String getBlokiran() {
+	public Boolean getRasveta() {
+		return rasveta;
+	}
+	public Boolean getAlarmRacun() {
+		return alarmRacun;
+	}
+	public Boolean getAlarmTrend() {
+		return alarmTrend;
+	}
+	public Boolean getBlokiran() {
 		return blokiran;
 	}
+	
+	
+
 }
