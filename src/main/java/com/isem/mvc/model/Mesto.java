@@ -27,7 +27,7 @@ public class Mesto {
 	private Opstina opstina;
 	
 	@Version
-    @Column(name = "VERSION")
+    @Column(name = "VERSION", columnDefinition = "int(11) default 0")
     private Integer version;	
 
 	public Long getId() {

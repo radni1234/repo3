@@ -1,0 +1,25 @@
+GET /entitet/sve
+GET /entitet/sve?params = {"str", "vel"}
+GET /entitet/jedan?params = {"id"}
+POST /entitet/dodaj
+DELETE /entitet/obrisi
+
+entiteti:
+
+JED_MERE - jedmere
+GODINA - godina
+MESEC - mesec
+OPSTINA - opstina
+ULOGA - uloga
+DELOVI_OBJEKTA_PRIKAZ - del_obj_prikaz
+//DELOVI_OBJEKTA - del_obj
+
+KORISNIK - korisnik
+GET /tab
+GET /tab?params = {"str", "vel"}
+GET /jedan?params = {"username"}
+
+MESTO - mesto
+GET /sve?params = {"ops_id"}
+
+

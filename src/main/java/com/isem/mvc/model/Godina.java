@@ -20,7 +20,7 @@ public class Godina {
 	private String naziv;
 	
 	@Version
-    @Column(name = "VERSION")
+    @Column(name = "VERSION", columnDefinition = "int(11) default 0")
     private Integer version;
 
 	public Integer getVersion() {

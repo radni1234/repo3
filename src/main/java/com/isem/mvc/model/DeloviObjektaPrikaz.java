@@ -7,26 +7,29 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Version;
 
-@Entity	
-public class Uloga {
+@Entity
+public class DeloviObjektaPrikaz {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
+	@Column(name = "NAZIV", unique = true, nullable = false, length = 100)
 	private String naziv;
-	
-	private String kraciNaz;
 	
 	@Version
     @Column(name = "VERSION", columnDefinition = "int(11) default 0")
     private Integer version;
 
+	public Integer getVersion() {
+		return version;
+	}
+
 	public Long getId() {
 		return id;
 	}
 
-	public Integer getVersion() {
-		return version;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getNaziv() {
@@ -37,16 +40,10 @@ public class Uloga {
 		this.naziv = naziv;
 	}
 
-	public String getKraciNaz() {
-		return kraciNaz;
-	}
-
-	public void setKraciNaz(String kraciNaz) {
-		this.kraciNaz = kraciNaz;
-	}
-	
 	@Override
 	public String toString() {
-		return "Uloga id=" + id + ", naziv=" + naziv + ", kraciNaz=" + kraciNaz + "]";
+		return "DeloviObjektaPrikaz [id=" + id + ", naziv=" + naziv + "]";
 	}
+	
+	
 }
