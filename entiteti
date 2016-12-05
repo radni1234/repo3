@@ -12,7 +12,10 @@ MESEC - mesec
 OPSTINA - opstina
 ULOGA - uloga
 DELOVI_OBJEKTA_PRIKAZ - del_obj_prikaz
-//DELOVI_OBJEKTA - del_obj
+DELOVI_OBJEKTA - del_obj
+GRUPA - grupa
+PODGRUPA - podgrupa
+NACIN_FINANSIRANJA - nac_fin
 
 KORISNIK - korisnik
 GET /tab
