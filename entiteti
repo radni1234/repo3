@@ -25,4 +25,6 @@ GET /jedan?params = {"username"}
 MESTO - mesto
 GET /sve?params = {"ops_id"}
 
-
+OBJEKAT - objekat
+GET /tab
+GET /tab?params = {"str", "vel"}

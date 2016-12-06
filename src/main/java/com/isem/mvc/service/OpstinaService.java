@@ -14,8 +14,8 @@ import com.isem.mvc.model.Opstina;
 public class OpstinaService {
 	
 	@Autowired
-	private OpstinaDao dao;
-	
+	private OpstinaDao dao;	
+
 	public Opstina findById (Long id) {
 		return dao.findById(id);
 	}
