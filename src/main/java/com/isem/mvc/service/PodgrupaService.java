@@ -18,6 +18,10 @@ public class PodgrupaService {
 	public Podgrupa findById (Long id) {
 		return dao.findById(id);
 	}
+	
+	public List<Podgrupa> findPodgrupaByGrupa(Long id){
+		return dao.findPodgrupaByGrupa(id);
+	}
 
 	public List<Podgrupa> findAll () {
 		return dao.findAll();

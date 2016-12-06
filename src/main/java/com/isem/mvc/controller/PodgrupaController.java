@@ -34,6 +34,11 @@ public class PodgrupaController {
 		
 		return service.findAll(pageable);
 	}
+	
+	@RequestMapping(value = "/sve", params = {"gru_id"}, method=RequestMethod.GET)
+	public List<Podgrupa> findPodgrupaByGrupa(@RequestParam(value = "gru_id") Long id) {	
+		return service.findPodgrupaByGrupa(id);
+	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
 	public Podgrupa findById(@RequestParam("id") Long id){
