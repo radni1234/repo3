@@ -30,3 +30,12 @@ GET /sve?params = {"ops_id"}
 OBJEKAT - objekat
 GET /tab
 GET /tab?params = {"str", "vel"}
+
+OBJEKAT_STRUJA - /objekat/struja
+OBJEKAT_GREJANJE - /objekat/grejanje
+OBJEKAT_HLADJENJE - /objekat/hladjenje
+OBJEKAT_KK - /objekat/kk
+OBJEKAT_TOPLA_VODA - /objekat/topla_voda
+OBJEKAT_VENTILACIJA - /objekat/ventilacija
+OBJEKAT_VODA - /objekat/voda
+OBJEKAT_OSTALO - /objekat/ostalo

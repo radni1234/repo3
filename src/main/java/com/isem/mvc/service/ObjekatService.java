@@ -19,7 +19,6 @@ public class ObjekatService {
 	
 	@Autowired
 	private ObjekatViewDao viewDao;
-	
 		
 	public Objekat findById (Long id) {
 		return dao.findById(id);
@@ -48,4 +47,5 @@ public class ObjekatService {
 	public void delete (Long id) {
 		dao.delete(id);
 	}
+	
 }
