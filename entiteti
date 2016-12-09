@@ -15,6 +15,9 @@ DELOVI_OBJEKTA_PRIKAZ - del_obj_prikaz
 DELOVI_OBJEKTA - del_obj
 NACIN_FINANSIRANJA - nac_fin
 GRUPA - grupa
+PDV - pdv
+DOBAVLJAC - dobavljac
+STEPEN_DAN - stepen_dan
 
 PODGRUPA - podgrupa
 GET /sve?params = {"gru_id"}
