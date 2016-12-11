@@ -25,4 +25,44 @@ public class SvetiljkaTip {
 	@Version
 	@Column(name = "VERSION", columnDefinition = "int(11) default 0")
 	private Integer version;
+
+	public Long getId() {
+		return id;
+	}
+
+	public String getNaziv() {
+		return naziv;
+	}
+
+	public String getIzvor() {
+		return izvor;
+	}
+
+	public Double getSnaga() {
+		return snaga;
+	}
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setNaziv(String naziv) {
+		this.naziv = naziv;
+	}
+
+	public void setIzvor(String izvor) {
+		this.izvor = izvor;
+	}
+
+	public void setSnaga(Double snaga) {
+		this.snaga = snaga;
+	}
+
+	@Override
+	public String toString() {
+		return "SvetiljkaTip [id=" + id + ", naziv=" + naziv + ", izvor=" + izvor + ", snaga=" + snaga + ", version="
+				+ version + "]";
+	}
+	
+	
 }
