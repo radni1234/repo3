@@ -19,6 +19,16 @@ PDV - pdv
 DOBAVLJAC - dobavljac
 STEPEN_DAN - stepen_dan
 
+ENERGENT_TIP - energent_tip
+ENERGENT - energent
+BROJILO_VRSTA - brojilo_vrsta
+BROJILO_TIP - brojilo_tip
+
+
+
+STUB_TIP - stub_tip
+SVETILJKA_TIP - svetiljka_tip
+
 PODGRUPA - podgrupa
 GET /sve?params = {"gru_id"}
 
