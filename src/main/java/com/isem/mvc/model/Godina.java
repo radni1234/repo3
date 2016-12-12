@@ -13,7 +13,7 @@ public class Godina {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
-	@Column(name = "GOD", unique = true, nullable = false, precision = 4, scale = 0)
+	@Column(name = "GOD", unique = true, nullable = false, columnDefinition = "numeric(4)")
 	private double god;
 	
 	@Column(name = "NAZIV", unique = true, length = 20)

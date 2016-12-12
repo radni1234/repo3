@@ -19,4 +19,27 @@ public class EnergentTip {
 	@Version
 	@Column(name = "VERSION", columnDefinition = "int(11) default 0")
 	private Integer version;
+
+	public Long getId() {
+		return id;
+	}
+
+	public String getNaziv() {
+		return naziv;
+	}
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setNaziv(String naziv) {
+		this.naziv = naziv;
+	}
+
+	@Override
+	public String toString() {
+		return "EnergentTip [id=" + id + ", naziv=" + naziv + ", version=" + version + "]";
+	}
+	
+	
 }

@@ -8,9 +8,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
+@Table(uniqueConstraints= @UniqueConstraint(columnNames = {"GODINA_ID", "MESEC_ID", "OPSTINA_ID"}) )
 public class StepenDan {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

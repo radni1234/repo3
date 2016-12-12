@@ -34,6 +34,20 @@ public class StepenDanController {
 		
 		return service.findAll(pageable);
 	}
+	
+	@RequestMapping(value="/tab", method=RequestMethod.GET)
+	public List<StepenDan> getAllView() {
+		return service.findAll();
+	}
+
+	@RequestMapping(value="/tab", params = {"str", "vel"}, method=RequestMethod.GET)
+	public Page<StepenDan> getAllView(@RequestParam(value = "str") int strana, 
+								@RequestParam(value = "vel") int velicina ) {
+		
+		Pageable pageable = new PageRequest(strana, velicina);
+		
+		return service.findAll(pageable);
+	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
 	public StepenDan findById(@RequestParam("id") Long id){
