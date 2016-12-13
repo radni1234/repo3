@@ -88,34 +88,7 @@ public class Objekat {
 	private String koMail;
 	
 	@Column(name = "OP_BR_ETAZA", columnDefinition = "numeric(3)")
-	private Integer opBrEtaza;
-	
-	@Column(name = "OP_BROJ_SMENA", columnDefinition = "numeric(1)")
-	private Integer opBrojSmena;
-	
-	@Column(name = "OP_BR_SATI_1", columnDefinition = "numeric(2)")
-	private Integer opBrSati1;
-	
-	@Column(name = "OP_BR_SATI_2", columnDefinition = "numeric(2)")
-	private Integer opBrSati2;
-	
-	@Column(name = "OP_BR_SATI_3", columnDefinition = "numeric(2)")
-	private Integer opBrSati3;
-	
-	@Column(name = "OP_BR_SATI_4", columnDefinition = "numeric(2)")
-	private Integer opBrSati4;
-	
-	@Column(name = "OP_BR_OSOBA_1", columnDefinition = "numeric(10)")
-	private Integer opBrOsoba1;
-	
-	@Column(name = "OP_BR_OSOBA_2", columnDefinition = "numeric(10)")
-	private Integer opBrOsoba2;
-	
-	@Column(name = "OP_BR_OSOBA_3", columnDefinition = "numeric(10)")
-	private Integer opBrOsoba3;
-	
-	@Column(name = "OP_BR_OSOBA_4", columnDefinition = "numeric(10)")
-	private Integer opBrOsoba4;
+	private Integer opBrEtaza;	
 	
 	@Column(name = "OP_BR_RD_NED", columnDefinition = "numeric(1)")
 	private Integer opBrRdNed;
@@ -133,22 +106,10 @@ public class Objekat {
 	private Integer opBrNrdLeto;
 	
 	@Column(name = "OP_BR_STALNO_ZAP", columnDefinition = "numeric(10)")
-	private Integer opBrStalnoZap;
-	
-	@Column(name = "OP_BR_STALNIH_KOR", columnDefinition = "numeric(10)")
-	private Integer opBrStalnihKor;
-	
+	private Integer opBrStalnoZap;	
+
 	@Column(name = "OP_BR_KOR", columnDefinition = "numeric(10)")
-	private Integer opBrKor;
-	
-	@Column(name = "OP_PROJ_BR_KOR", columnDefinition = "numeric(10)")
-	private Integer opProjBrKor;
-	
-	@Column(name = "OP_POPUNJENOST_KAP", columnDefinition = "numeric(5,2)")
-	private Double opPopunjenostKap;
-	
-	@Column(name = "OP_BR_DNEV_KOR", columnDefinition = "numeric(10)")
-	private Integer opBrDnevKor;
+	private Integer opBrKor;	
 	
 	@Column(name = "GREJ_OPIS", length = 1000)
 	private String grejOpis;
@@ -306,43 +267,7 @@ public class Objekat {
 
 	public Integer getOpBrEtaza() {
 		return opBrEtaza;
-	}
-
-	public Integer getOpBrojSmena() {
-		return opBrojSmena;
-	}
-
-	public Integer getOpBrSati1() {
-		return opBrSati1;
-	}
-
-	public Integer getOpBrSati2() {
-		return opBrSati2;
-	}
-
-	public Integer getOpBrSati3() {
-		return opBrSati3;
-	}
-
-	public Integer getOpBrSati4() {
-		return opBrSati4;
-	}
-
-	public Integer getOpBrOsoba1() {
-		return opBrOsoba1;
-	}
-
-	public Integer getOpBrOsoba2() {
-		return opBrOsoba2;
-	}
-
-	public Integer getOpBrOsoba3() {
-		return opBrOsoba3;
-	}
-
-	public Integer getOpBrOsoba4() {
-		return opBrOsoba4;
-	}
+	}	
 
 	public Integer getOpBrRdNed() {
 		return opBrRdNed;
@@ -368,24 +293,8 @@ public class Objekat {
 		return opBrStalnoZap;
 	}
 
-	public Integer getOpBrStalnihKor() {
-		return opBrStalnihKor;
-	}
-
 	public Integer getOpBrKor() {
 		return opBrKor;
-	}
-
-	public Integer getOpProjBrKor() {
-		return opProjBrKor;
-	}
-
-	public Double getOpPopunjenostKap() {
-		return opPopunjenostKap;
-	}
-
-	public Integer getOpBrDnevKor() {
-		return opBrDnevKor;
 	}
 
 	public String getGrejOpis() {
@@ -564,42 +473,6 @@ public class Objekat {
 		this.opBrEtaza = opBrEtaza;
 	}
 
-	public void setOpBrojSmena(Integer opBrojSmena) {
-		this.opBrojSmena = opBrojSmena;
-	}
-
-	public void setOpBrSati1(Integer opBrSati1) {
-		this.opBrSati1 = opBrSati1;
-	}
-
-	public void setOpBrSati2(Integer opBrSati2) {
-		this.opBrSati2 = opBrSati2;
-	}
-
-	public void setOpBrSati3(Integer opBrSati3) {
-		this.opBrSati3 = opBrSati3;
-	}
-
-	public void setOpBrSati4(Integer opBrSati4) {
-		this.opBrSati4 = opBrSati4;
-	}
-
-	public void setOpBrOsoba1(Integer opBrOsoba1) {
-		this.opBrOsoba1 = opBrOsoba1;
-	}
-
-	public void setOpBrOsoba2(Integer opBrOsoba2) {
-		this.opBrOsoba2 = opBrOsoba2;
-	}
-
-	public void setOpBrOsoba3(Integer opBrOsoba3) {
-		this.opBrOsoba3 = opBrOsoba3;
-	}
-
-	public void setOpBrOsoba4(Integer opBrOsoba4) {
-		this.opBrOsoba4 = opBrOsoba4;
-	}
-
 	public void setOpBrRdNed(Integer opBrRdNed) {
 		this.opBrRdNed = opBrRdNed;
 	}
@@ -624,24 +497,8 @@ public class Objekat {
 		this.opBrStalnoZap = opBrStalnoZap;
 	}
 
-	public void setOpBrStalnihKor(Integer opBrStalnihKor) {
-		this.opBrStalnihKor = opBrStalnihKor;
-	}
-
 	public void setOpBrKor(Integer opBrKor) {
 		this.opBrKor = opBrKor;
-	}
-
-	public void setOpProjBrKor(Integer opProjBrKor) {
-		this.opProjBrKor = opProjBrKor;
-	}
-
-	public void setOpPopunjenostKap(Double opPopunjenostKap) {
-		this.opPopunjenostKap = opPopunjenostKap;
-	}
-
-	public void setOpBrDnevKor(Integer opBrDnevKor) {
-		this.opBrDnevKor = opBrDnevKor;
 	}
 
 	public void setGrejOpis(String grejOpis) {
@@ -739,22 +596,19 @@ public class Objekat {
 				+ godIzgr + ", projektanFirma=" + projektanFirma + ", izvodjacIzg=" + izvodjacIzg + ", godRekon="
 				+ godRekon + ", izvodjacRekon=" + izvodjacRekon + ", tipRek=" + tipRek + ", koIme=" + koIme
 				+ ", koPrezime=" + koPrezime + ", koZanimanje=" + koZanimanje + ", koTel=" + koTel + ", koFaks="
-				+ koFaks + ", koMob=" + koMob + ", koMail=" + koMail + ", opBrEtaza=" + opBrEtaza + ", opBrojSmena="
-				+ opBrojSmena + ", opBrSati1=" + opBrSati1 + ", opBrSati2=" + opBrSati2 + ", opBrSati3=" + opBrSati3
-				+ ", opBrSati4=" + opBrSati4 + ", opBrOsoba1=" + opBrOsoba1 + ", opBrOsoba2=" + opBrOsoba2
-				+ ", opBrOsoba3=" + opBrOsoba3 + ", opBrOsoba4=" + opBrOsoba4 + ", opBrRdNed=" + opBrRdNed
-				+ ", opBrRdGod=" + opBrRdGod + ", opPbrRsDan=" + opPbrRsDan + ", opBrNrdZima=" + opBrNrdZima
-				+ ", opBrNrdLeto=" + opBrNrdLeto + ", opBrStalnoZap=" + opBrStalnoZap + ", opBrStalnihKor="
-				+ opBrStalnihKor + ", opBrKor=" + opBrKor + ", opProjBrKor=" + opProjBrKor + ", opPopunjenostKap="
-				+ opPopunjenostKap + ", opBrDnevKor=" + opBrDnevKor + ", grejOpis=" + grejOpis + ", grejZa=" + grejZa
-				+ ", grejPoKorisna=" + grejPoKorisna + ", grejUkSnaga=" + grejUkSnaga + ", grejUkSnagaTela="
-				+ grejUkSnagaTela + ", hlaOpis=" + hlaOpis + ", hlaPo=" + hlaPo + ", hlaZa=" + hlaZa + ", hlaUkSnaga="
-				+ hlaUkSnaga + ", ventOpis=" + ventOpis + ", ventZa=" + ventZa + ", ventUkSnaga=" + ventUkSnaga
-				+ ", toplOpis=" + toplOpis + ", toplTemp=" + toplTemp + ", toplUkSnaga=" + toplUkSnaga + ", vodaOpis="
-				+ vodaOpis + ", elSnagaPotrosaca=" + elSnagaPotrosaca + ", elSnagaGrejalica=" + elSnagaGrejalica
-				+ ", elSnagaRasveta=" + elSnagaRasveta + ", trendTolerancija=" + trendTolerancija + ", alarmTrend="
-				+ alarmTrend + ", alarmTrendStart=" + alarmTrendStart + ", version=" + version + "]";
+				+ koFaks + ", koMob=" + koMob + ", koMail=" + koMail + ", opBrEtaza=" + opBrEtaza + ", opBrRdNed="
+				+ opBrRdNed + ", opBrRdGod=" + opBrRdGod + ", opPbrRsDan=" + opPbrRsDan + ", opBrNrdZima=" + opBrNrdZima
+				+ ", opBrNrdLeto=" + opBrNrdLeto + ", opBrStalnoZap=" + opBrStalnoZap + ", opBrKor=" + opBrKor
+				+ ", grejOpis=" + grejOpis + ", grejZa=" + grejZa + ", grejPoKorisna=" + grejPoKorisna
+				+ ", grejUkSnaga=" + grejUkSnaga + ", grejUkSnagaTela=" + grejUkSnagaTela + ", hlaOpis=" + hlaOpis
+				+ ", hlaPo=" + hlaPo + ", hlaZa=" + hlaZa + ", hlaUkSnaga=" + hlaUkSnaga + ", ventOpis=" + ventOpis
+				+ ", ventZa=" + ventZa + ", ventUkSnaga=" + ventUkSnaga + ", toplOpis=" + toplOpis + ", toplTemp="
+				+ toplTemp + ", toplUkSnaga=" + toplUkSnaga + ", vodaOpis=" + vodaOpis + ", elSnagaPotrosaca="
+				+ elSnagaPotrosaca + ", elSnagaGrejalica=" + elSnagaGrejalica + ", elSnagaRasveta=" + elSnagaRasveta
+				+ ", trendTolerancija=" + trendTolerancija + ", alarmTrend=" + alarmTrend + ", alarmTrendStart="
+				+ alarmTrendStart + ", version=" + version + "]";
 	}
 
+	
 	
 }

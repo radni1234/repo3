@@ -40,6 +40,9 @@ GET /jedan?params = {"username"}
 MESTO - mesto
 GET /sve?params = {"ops_id"}
 
+BROJILO - brojilo
+GET /sve?params = {"obj_id"}
+
 OBJEKAT - objekat
 GET /tab
 GET /tab?params = {"str", "vel"}
