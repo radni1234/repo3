@@ -23,11 +23,16 @@ ENERGENT_TIP - energent_tip
 ENERGENT - energent
 BROJILO_VRSTA - brojilo_vrsta
 BROJILO_TIP - brojilo_tip
+BROJILO_VRSTA_KOLONE - bro_vrs_kol
 REZIM_MERENJA - rezim_merenja
 
 
 STUB_TIP - stub_tip
 SVETILJKA_TIP - svetiljka_tip
+
+RN_TIP - rn_tip
+KOLONA_TIP - kolona_tip
+
 
 PODGRUPA - podgrupa
 GET /sve?params = {"gru_id"}
@@ -46,6 +51,8 @@ GET /sve?params = {"obj_id"}
 OBJEKAT - objekat
 GET /tab
 GET /tab?params = {"str", "vel"}
+
+
 
 OBJEKAT_STRUJA - /objekat/struja
 OBJEKAT_GREJANJE - /objekat/grejanje
