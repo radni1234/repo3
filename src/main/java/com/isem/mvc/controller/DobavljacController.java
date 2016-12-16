@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isem.mvc.model.Dobavljac;
 import com.isem.mvc.service.DobavljacService;
+import com.isem.mvc.view.DobavljacView;
 
 @RestController
 @RequestMapping("/dobavljac")
@@ -33,6 +34,20 @@ public class DobavljacController {
 		Pageable pageable = new PageRequest(strana, velicina);
 		
 		return service.findAll(pageable);
+	}
+	
+	@RequestMapping(value="/tab", method=RequestMethod.GET)
+	public List<DobavljacView> getAllView() {
+		return service.findAllView();
+	}
+
+	@RequestMapping(value="/tab", params = {"str", "vel"}, method=RequestMethod.GET)
+	public Page<DobavljacView> getAllView(@RequestParam(value = "str") int strana, 
+								@RequestParam(value = "vel") int velicina ) {
+		
+		Pageable pageable = new PageRequest(strana, velicina);
+		
+		return service.findAllView(pageable);
 	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)

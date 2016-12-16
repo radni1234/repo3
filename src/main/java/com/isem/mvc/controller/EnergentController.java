@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isem.mvc.model.Energent;
 import com.isem.mvc.service.EnergentService;
+import com.isem.mvc.view.EnergentView;
 
 @RestController
 @RequestMapping("/energent")
@@ -33,6 +34,20 @@ public class EnergentController {
 		Pageable pageable = new PageRequest(strana, velicina);
 		
 		return service.findAll(pageable);
+	}
+	
+	@RequestMapping(value="/tab", method=RequestMethod.GET)
+	public List<EnergentView> getAllView() {
+		return service.findAllView();
+	}
+
+	@RequestMapping(value="/tab", params = {"str", "vel"}, method=RequestMethod.GET)
+	public Page<EnergentView> getAllView(@RequestParam(value = "str") int strana, 
+								@RequestParam(value = "vel") int velicina ) {
+		
+		Pageable pageable = new PageRequest(strana, velicina);
+		
+		return service.findAllView(pageable);
 	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)

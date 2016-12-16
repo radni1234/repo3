@@ -17,10 +17,17 @@ NACIN_FINANSIRANJA - nac_fin
 GRUPA - grupa
 PDV - pdv
 DOBAVLJAC - dobavljac
+GET /tab
+GET /tab?params = {"str", "vel"}
+
 STEPEN_DAN - stepen_dan
 
 ENERGENT_TIP - energent_tip
+
 ENERGENT - energent
+GET /tab
+GET /tab?params = {"str", "vel"}
+
 BROJILO_VRSTA - brojilo_vrsta
 BROJILO_TIP - brojilo_tip
 BROJILO_VRSTA_KOLONE - bro_vrs_kol
