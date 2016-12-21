@@ -59,7 +59,8 @@ OBJEKAT - objekat
 GET /tab
 GET /tab?params = {"str", "vel"}
 
-
+RN - rn, rn_iznos, rn_potrosnja, rn_ostalo
+GET /tab
 
 OBJEKAT_STRUJA - /objekat/struja
 OBJEKAT_GREJANJE - /objekat/grejanje
