@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.Repository;
 
-import com.isem.mvc.view.ObjekatView;
+import com.isem.mvc.tab.ObjekatView;
 
 
 public interface ObjekatViewDao extends Repository<ObjekatView, Long> {

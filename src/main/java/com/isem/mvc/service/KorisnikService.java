@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.isem.mvc.dao.KorisnikDao;
 import com.isem.mvc.dao.KorisnikViewDao;
 import com.isem.mvc.model.Korisnik;
-import com.isem.mvc.view.KorisnikView;
+import com.isem.mvc.tab.KorisnikView;
 
 @Service
 public class KorisnikService {

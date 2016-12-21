@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.isem.mvc.dao.ObjekatDao;
 import com.isem.mvc.dao.ObjekatViewDao;
 import com.isem.mvc.model.Objekat;
-import com.isem.mvc.view.ObjekatView;
+import com.isem.mvc.tab.ObjekatView;
 
 @Service
 public class ObjekatService {

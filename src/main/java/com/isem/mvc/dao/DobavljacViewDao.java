@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.Repository;
 
-import com.isem.mvc.view.DobavljacView;
+import com.isem.mvc.tab.DobavljacView;
 
 public interface DobavljacViewDao extends Repository<DobavljacView, Long> {
 	DobavljacView findById(Long id);

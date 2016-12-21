@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isem.mvc.model.Objekat;
 import com.isem.mvc.service.ObjekatService;
-import com.isem.mvc.view.ObjekatView;
+import com.isem.mvc.tab.ObjekatView;
 
 @RestController
 @RequestMapping("/objekat")

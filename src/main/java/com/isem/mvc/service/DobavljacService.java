@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.isem.mvc.dao.DobavljacDao;
 import com.isem.mvc.dao.DobavljacViewDao;
 import com.isem.mvc.model.Dobavljac;
-import com.isem.mvc.view.DobavljacView;
+import com.isem.mvc.tab.DobavljacView;
 
 @Service
 public class DobavljacService {

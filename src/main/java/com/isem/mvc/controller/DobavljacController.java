@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isem.mvc.model.Dobavljac;
 import com.isem.mvc.service.DobavljacService;
-import com.isem.mvc.view.DobavljacView;
+import com.isem.mvc.tab.DobavljacView;
 
 @RestController
 @RequestMapping("/dobavljac")

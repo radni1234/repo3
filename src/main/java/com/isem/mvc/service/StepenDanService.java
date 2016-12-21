@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.isem.mvc.dao.StepenDanDao;
 import com.isem.mvc.dao.StepenDanViewDao;
 import com.isem.mvc.model.StepenDan;
-import com.isem.mvc.view.StepenDanView;
+import com.isem.mvc.tab.StepenDanView;
 
 @Service
 public class StepenDanService {

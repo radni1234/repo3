@@ -1,4 +1,4 @@
-package com.isem.mvc.view;
+package com.isem.mvc.tab;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

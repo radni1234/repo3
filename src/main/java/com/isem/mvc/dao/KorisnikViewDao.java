@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.Repository;
 
-import com.isem.mvc.view.KorisnikView;
+import com.isem.mvc.tab.KorisnikView;
 
 public interface KorisnikViewDao extends Repository<KorisnikView, Long> {
 	List<KorisnikView> findAll();

@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.Repository;
 
-import com.isem.mvc.view.StepenDanView;
+import com.isem.mvc.tab.StepenDanView;
 
 public interface StepenDanViewDao extends Repository<StepenDanView, Long> {
 	StepenDanView findById(Long id);

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isem.mvc.model.Energent;
 import com.isem.mvc.service.EnergentService;
-import com.isem.mvc.view.EnergentView;
+import com.isem.mvc.tab.EnergentView;
 
 @RestController
 @RequestMapping("/energent")

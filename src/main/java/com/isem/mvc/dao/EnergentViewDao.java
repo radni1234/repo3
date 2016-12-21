@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.Repository;
 
-import com.isem.mvc.view.EnergentView;
+import com.isem.mvc.tab.EnergentView;
 
 public interface EnergentViewDao extends Repository<EnergentView, Long> {
 	EnergentView findById(Long id);
