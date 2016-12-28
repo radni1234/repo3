@@ -36,6 +36,11 @@ public class RnController {
 		return service.findAll(pageable);
 	}
 	
+	@RequestMapping(value = "/sve", params = {"obj_id"}, method=RequestMethod.GET)
+	public List<Rn> getAllRnByObjekat(@RequestParam(value = "obj_id") Long id) {	
+		return service.findRnByObjekat(id);
+	}
+	
 	@RequestMapping(value="/tab", method=RequestMethod.GET)
 	public List<RnProc> getAllTab() {
 		return service.findAllProc();

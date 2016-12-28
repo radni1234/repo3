@@ -26,6 +26,10 @@ public class RnService {
 	public Rn findById (Long id) {
 		return dao.findById(id);
 	}
+	
+	public List<Rn> findRnByObjekat(Long id){
+		return dao.findRnByObjekat(id);
+	}
 
 	public List<Rn> findAll () {
 		return dao.findAll();
