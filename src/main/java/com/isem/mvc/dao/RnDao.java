@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.isem.mvc.model.Rn;
 import com.isem.mvc.model.Brojilo;
 
+@SuppressWarnings("unused")
 @Repository
 public interface RnDao extends PagingAndSortingRepository<Rn, Long> {
 	Rn findById(Long id);
