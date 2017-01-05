@@ -33,9 +33,11 @@ GET /sve?params = {"en_tip_id"}
 
 BROJILO_VRSTA - brojilo_vrsta
 BROJILO_TIP - brojilo_tip
-BROJILO_VRSTA_KOLONE - bro_vrs_kol
-REZIM_MERENJA - rezim_merenja
 
+BROJILO_VRSTA_KOLONE - bro_vrs_kol
+GET /sve?params = {"bro_vrs_id"}
+
+REZIM_MERENJA - rezim_merenja
 
 STUB_TIP - stub_tip
 SVETILJKA_TIP - svetiljka_tip

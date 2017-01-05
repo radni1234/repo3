@@ -34,6 +34,11 @@ public class BrojiloVrstaKoloneController {
 		
 		return service.findAll(pageable);
 	}
+	
+	@RequestMapping(value="/sve", params = {"bro_vrs_id"}, method=RequestMethod.GET)
+	public List<BrojiloVrstaKolone> findBrojiloVrstaKoloneByBrojiloVrsta(@RequestParam(value = "bro_vrs_id") Long bro_vrs_id) {
+		return service.findBrojiloVrstaKoloneByBrojiloVrsta(bro_vrs_id);
+	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
 	public BrojiloVrstaKolone findById(@RequestParam("id") Long id){
