@@ -26,6 +26,10 @@ public class EnergentTipService {
 	public Page<EnergentTip> findAll (Pageable pageRequest) {
 		return dao.findAll(pageRequest);
 	}
+	
+	public List<EnergentTip> findEnergentTipByBrojilo (Long id) {
+		return dao.findEnergentTipByBrojilo(id);
+	}
 
 	public EnergentTip save(EnergentTip obj) {
 		return dao.save(obj);

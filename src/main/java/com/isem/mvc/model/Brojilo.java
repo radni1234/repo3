@@ -42,6 +42,12 @@ public class Brojilo {
             foreignKey = @ForeignKey(name = "BROJILO_FK4")
     )
 	private Brojilo vodeceBrojilo;	
+	
+	@ManyToOne
+    @JoinColumn(name = "BROJILO_VRSTA_ID",
+            foreignKey = @ForeignKey(name = "BROJILO_FK5")
+    )
+	private BrojiloVrsta brojiloVrsta;	
 
 	@Column(name = "PROCENAT", columnDefinition = "numeric(5,2)")
 	private Double procenat;
@@ -138,14 +144,23 @@ public class Brojilo {
 	public void setOpis(String opis) {
 		this.opis = opis;
 	}
+	
+	public BrojiloVrsta getBrojiloVrsta() {
+		return brojiloVrsta;
+	}
+
+	public void setBrojiloVrsta(BrojiloVrsta brojiloVrsta) {
+		this.brojiloVrsta = brojiloVrsta;
+	}
 
 	@Override
 	public String toString() {
 		return "Brojilo [id=" + id + ", naziv=" + naziv + ", brojiloTip=" + brojiloTip + ", rezimMerenja="
-				+ rezimMerenja + ", objekat=" + objekat + ", vodeceBrojilo=" + vodeceBrojilo + ", procenat=" + procenat
-				+ ", obracunskiPeriod=" + obracunskiPeriod + ", automatski=" + automatski + ", opis=" + opis
-				+ ", version=" + version + "]";
+				+ rezimMerenja + ", objekat=" + objekat + ", vodeceBrojilo=" + vodeceBrojilo + ", brojiloVrsta="
+				+ brojiloVrsta + ", procenat=" + procenat + ", obracunskiPeriod=" + obracunskiPeriod + ", automatski="
+				+ automatski + ", opis=" + opis + ", version=" + version + "]";
 	}
+
 	
 	
 }

@@ -23,10 +23,13 @@ GET /tab?params = {"str", "vel"}
 STEPEN_DAN - stepen_dan
 
 ENERGENT_TIP - energent_tip
+GET /sve?params = {"bro_id"}
 
 ENERGENT - energent
 GET /tab
 GET /tab?params = {"str", "vel"}
+GET /sve?params = {"obj_id"}
+GET /sve?params = {"en_tip_id"}
 
 BROJILO_VRSTA - brojilo_vrsta
 BROJILO_TIP - brojilo_tip

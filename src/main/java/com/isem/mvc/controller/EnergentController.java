@@ -36,6 +36,18 @@ public class EnergentController {
 		return service.findAll(pageable);
 	}
 	
+	@RequestMapping(value="/sve", params = {"en_tip_id"}, method=RequestMethod.GET)
+	public List<Energent> findEnergentByEnergentTip(@RequestParam(value = "en_tip_id") Long en_tip_id ) {
+		
+		return service.findEnergentByEnergentTip(en_tip_id);
+	}
+	
+	@RequestMapping(value="/sve", params = {"obj_id"}, method=RequestMethod.GET)
+	public List<Energent> findEnergentByObjekat(@RequestParam(value = "obj_id") Long obj_id ) {
+		
+		return service.findEnergentByObjekat(obj_id);
+	}
+	
 	@RequestMapping(value="/tab", method=RequestMethod.GET)
 	public List<EnergentView> getAllView() {
 		return service.findAllView();

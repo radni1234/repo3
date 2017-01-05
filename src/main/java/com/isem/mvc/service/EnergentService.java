@@ -27,6 +27,14 @@ public class EnergentService {
 	public List<Energent> findAll () {
 		return dao.findAll();
 	}
+	
+	public List<Energent> findEnergentByEnergentTip (Long id) {
+		return dao.findEnergentByEnergentTip(id);
+	}
+	
+	public List<Energent> findEnergentByObjekat (Long id) {
+		return dao.findEnergentByObjekat(id);
+	}
 
 	public Page<Energent> findAll (Pageable pageRequest) {
 		return dao.findAll(pageRequest);

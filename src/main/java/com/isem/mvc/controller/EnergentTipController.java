@@ -35,6 +35,11 @@ public class EnergentTipController {
 		
 		return service.findAll(pageable);
 	}
+	
+	@RequestMapping(value="/sve", params = {"bro_id"}, method=RequestMethod.GET)
+	public List<EnergentTip> findEnergentTipByBrojilo(@RequestParam(value = "bro_id") Long bro_id ) {
+		return service.findEnergentTipByBrojilo(bro_id);
+	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
 	public EnergentTip findById(@RequestParam("id") Long id){
