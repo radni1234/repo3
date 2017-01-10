@@ -6,4 +6,5 @@ import com.isem.mvc.tab.RnProc;
 
 public interface RnProcDaoCustom {
 	List<RnProc> vratiRn();
+	List<RnProc> vratiRnObj(Long obj_id);
 }

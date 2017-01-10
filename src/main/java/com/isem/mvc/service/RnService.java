@@ -42,6 +42,10 @@ public class RnService {
 	public List<RnProc> findAllProc () {
 		return daoProc.vratiRn();
 	}
+	
+	public List<RnProc> findAllObjProc (Long obj_id) {
+		return daoProc.vratiRnObj(obj_id);
+	}
 
 	public Rn save(Rn obj) {
 		

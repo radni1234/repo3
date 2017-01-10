@@ -20,8 +20,14 @@ public class RnProcDaoCustomImpl implements RnProcDaoCustom {
 	@Override
 	public List<RnProc> vratiRn() {
 		Query query = entityManager.createNamedQuery("rn_proc");
-//	    query.setParameter("param1", arg1);
-//	    query.setParameter("param2", arg2);
+	    return query.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<RnProc> vratiRnObj(Long obj_id) {
+		Query query = entityManager.createNamedQuery("rn_obj_proc");
+		query.setParameter(1, obj_id);
 	    return query.getResultList();
 	}
 

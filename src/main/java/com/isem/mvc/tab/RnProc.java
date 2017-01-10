@@ -12,7 +12,12 @@ import javax.persistence.NamedNativeQuery;
             name = "rn_proc",
             query = "CALL rn_proc",
             resultClass = RnProc.class
-    )
+    ),
+    @NamedNativeQuery(
+            name = "rn_obj_proc",
+            query = "CALL rn_obj_proc(?1)",
+            resultClass = RnProc.class
+    ),
  })
 @Entity
 public class RnProc {
@@ -31,10 +36,10 @@ public class RnProc {
 	private Date datumu;
 	private String menjao;
 	private Date datumm;
-	private Integer version;	
-	private String iznos;
-	private String kolicina;
-	private String cena;
+//	private Integer version;	
+//	private String iznos;
+//	private String kolicina;
+//	private String cena;
 	
 	public Long getId() {
 		return id;
@@ -78,18 +83,18 @@ public class RnProc {
 	public Date getDatumm() {
 		return datumm;
 	}
-	public Integer getVersion() {
-		return version;
-	}
-	public String getIznos() {
-		return iznos;
-	}
-	public String getKolicina() {
-		return kolicina;
-	}
-	public String getCena() {
-		return cena;
-	}
+//	public Integer getVersion() {
+//		return version;
+//	}
+//	public String getIznos() {
+//		return iznos;
+//	}
+//	public String getKolicina() {
+//		return kolicina;
+//	}
+//	public String getCena() {
+//		return cena;
+//	}
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -132,18 +137,18 @@ public class RnProc {
 	public void setDatumm(Date datumm) {
 		this.datumm = datumm;
 	}
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
-	public void setIznos(String iznos) {
-		this.iznos = iznos;
-	}
-	public void setKolicina(String kolicina) {
-		this.kolicina = kolicina;
-	}
-	public void setCena(String cena) {
-		this.cena = cena;
-	}
+//	public void setVersion(Integer version) {
+//		this.version = version;
+//	}
+//	public void setIznos(String iznos) {
+//		this.iznos = iznos;
+//	}
+//	public void setKolicina(String kolicina) {
+//		this.kolicina = kolicina;
+//	}
+//	public void setCena(String cena) {
+//		this.cena = cena;
+//	}
 	
 	
 	

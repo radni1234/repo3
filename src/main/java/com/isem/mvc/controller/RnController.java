@@ -45,6 +45,11 @@ public class RnController {
 	public List<RnProc> getAllTab() {
 		return service.findAllProc();
 	}
+	
+	@RequestMapping(value="/tab", params = {"obj_id"}, method=RequestMethod.GET)
+	public List<RnProc> getAllObjTab(Long obj_id) {
+		return service.findAllObjProc(obj_id);
+	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
 	public Rn findById(@RequestParam("id") Long id){
