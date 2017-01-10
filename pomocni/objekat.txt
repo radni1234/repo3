@@ -1,0 +1,74 @@
+SELECT `objekat`.`ID`,
+    `objekat`.`NAZIV`,
+    `objekat`.`MESTO_ID`,
+    `objekat`.`ADRESA`,
+    `objekat`.`PODGRUPE_ID` PODGRUPA_ID,
+    `objekat`.`GOD_IZGR`,
+    `objekat`.`PROJEKTAN_FIRMA`,
+    `objekat`.`IZVODJAC_IZG`,
+    `objekat`.`GOD_REKON`,
+    `objekat`.`IZVODJAC_REKON`,
+    `objekat`.`TIP_REK`,
+    `objekat`.`KO_IME`,
+    `objekat`.`KO_PREZIME`,
+    `objekat`.`KO_ZANIMANJE`,
+    `objekat`.`KO_TEL`,
+    `objekat`.`KO_FAKS`,
+    `objekat`.`KO_MOB`,
+    `objekat`.`KO_MAIL`,
+    `objekat`.`OP_BR_ETAZA`,
+    `objekat`.`OP_BR_RD_NED`,
+    `objekat`.`OP_BR_RD_GOD`,
+    `objekat`.`OP_PBR_RS_DAN`,
+    `objekat`.`OP_BR_NRD_ZIMA`,
+    `objekat`.`OP_BR_NRD_LETO`,
+    `objekat`.`OP_BR_STALNO_ZAP`,
+    `objekat`.`OP_BR_KOR`,
+
+    `objekat`.`LON`,
+    `objekat`.`LAT`,
+    `objekat`.`NACIN_FINANSIRANJA_ID`,
+    `objekat`.`TREND_TOLERANCIJA`,
+    `objekat`.`ALARM_TREND`,
+    `objekat`.`ALARM_TREND_START`,
+    
+    `grejanje`.`OPIS` GREJ_OPIS,
+    `grejanje`.`PO_KORISNA` GREJ_PO_KORISNA, 
+    `grejanje`.`ZA_GREJ` GREJ_ZA,
+    `grejanje`.`UK_SNAGA` GREJ_UK_SNAGA,
+    
+    `hladjenje`.`OPIS` HLA_OPIS, 
+    `hladjenje`.`PO_HLA` HLA_PO,
+    `hladjenje`.`ZA_HLA` HLA_ZA,
+    `hladjenje`.`UK_SNAGA` HLA_UK_SNAGA,
+    
+	`ventilacija`.`OPIS` VENT_OPIS,
+    `ventilacija`.`ZAPREMINA` VENT_ZA,
+    `ventilacija`.`UK_SNAGA` VENT_UK_SNAGA,
+    
+    `topla_voda`.`OPIS` TOPL_OPIS,
+    `topla_voda`.`TEMP_VODE` TOPL_TEMP,
+    `topla_voda`.`UK_SNAGA` TOPL_UK_SNAGA,
+    
+    `voda`.`OPIS` VODA_OPIS,
+    
+    `struja`.`SNAGA_POTROSACA` EL_SNAGA_POTROSACA,
+    `struja`.`SNAGA_GREJALICA` EL_SNAGA_GREJALICA,
+    `struja`.`SNAGA_RASVETA` EL_SNAGA_RASVETA
+FROM (((((`test3`.`objekat` left outer join `test3`.`grejanje` on `objekat`.id = `grejanje`.objekat_id)
+		left outer join `test3`.`hladjenje` on `objekat`.id = `hladjenje`.objekat_id)
+        left outer join `test3`.`ventilacija` on `objekat`.id = `ventilacija`.objekat_id)
+		left outer join `test3`.`topla_voda` on `objekat`.id = `topla_voda`.objekat_id)
+        left outer join `test3`.`voda` on `objekat`.id = `voda`.objekat_id)
+        left outer join `test3`.`struja` on `objekat`.id = `struja`.objekat_id;
+        
+drop table objekat_grejanje;
+drop table objekat_hladjenje;
+drop table objekat_ventilacija;
+drop table objekat_topla_voda;
+drop table objekat_voda;
+drop table objekat_struja;
+drop table objekat_kk;
+drop table objekat_ostalo;
+drop table brojilo;
+drop table objekat;

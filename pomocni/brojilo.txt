@@ -1,0 +1,37 @@
+update brojilo b
+set brojilo_vrsta_id = (select case energent_id
+						when 7 then 4
+						when 10 then 6
+						when 11 then 7
+						when 14 then 5
+						when 20 then 9
+						when 23 then 8
+						when 16 then 
+							case model_placanja_id
+								when 3 then 1
+								when 4 then 2
+								when 5 then 3
+							end
+						end
+					from isem_vr.brojilo b2
+                    where b.id = b2.id)
+
+;
+
+
+
+select energent_id, model_placanja_id, case energent_id
+	when 7 then 4
+    when 10 then 6
+    when 11 then 7
+    when 14 then 5
+    when 20 then 9
+    when 23 then 8
+    when 16 then 
+		case model_placanja_id
+			when 3 then 1
+            when 4 then 2
+            when 5 then 3
+		end
+    end
+from isem_vr.brojilo;
