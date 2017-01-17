@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 import com.isem.mvc.dao.RnDao;
 import com.isem.mvc.dao.RnProcDaoCustomImpl;
 import com.isem.mvc.model.Rn;
-import com.isem.mvc.model.RnIznos;
-import com.isem.mvc.model.RnOstalo;
-import com.isem.mvc.model.RnPotrosnja;
+import com.isem.mvc.model.RnStavke;
 import com.isem.mvc.tab.RnProc;
 
 @Service
@@ -49,28 +47,35 @@ public class RnService {
 
 	public Rn save(Rn obj) {
 		
-		List<RnIznos> rnIznosList = obj.getRnIznos();		
+		List<RnStavke> rnStavkeList = obj.getRnStavke();		
 		
-		for (RnIznos r : rnIznosList) {
+		for (RnStavke r : rnStavkeList) {
 			r.setRn(obj);
 		    obj.addRnIznos(r);
 		}
 		
-		
-		List<RnPotrosnja> rnPotrosnjaList = obj.getRnPotrosnja();		
-		
-		for (RnPotrosnja r : rnPotrosnjaList) {
-			r.setRn(obj);
-		    obj.addRnPotrosnja(r);
-		}
-		
-		
-		List<RnOstalo> rnOstaloList = obj.getRnOstalo();				
-			
-		for (RnOstalo r : rnOstaloList) {
-			r.setRn(obj);
-		    obj.addRnOstalo(r);
-		}
+//		List<RnIznos> rnIznosList = obj.getRnIznos();		
+//		
+//		for (RnIznos r : rnIznosList) {
+//			r.setRn(obj);
+//		    obj.addRnIznos(r);
+//		}
+//		
+//		
+//		List<RnPotrosnja> rnPotrosnjaList = obj.getRnPotrosnja();		
+//		
+//		for (RnPotrosnja r : rnPotrosnjaList) {
+//			r.setRn(obj);
+//		    obj.addRnPotrosnja(r);
+//		}
+//		
+//		
+//		List<RnOstalo> rnOstaloList = obj.getRnOstalo();				
+//			
+//		for (RnOstalo r : rnOstaloList) {
+//			r.setRn(obj);
+//		    obj.addRnOstalo(r);
+//		}
 			
 		
 		return dao.save(obj);

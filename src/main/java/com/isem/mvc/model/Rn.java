@@ -87,52 +87,68 @@ public class Rn {
 	private Integer version;
 	
 	@OneToMany(mappedBy="rn", orphanRemoval=true, cascade = CascadeType.ALL)
-	private List<RnIznos> rnIznos;
+	private List<RnStavke> rnStavke;
 	
-	public void addRnIznos(RnIznos rnIzn) {
-       if (rnIzn == null) {
+	public void addRnIznos(RnStavke rnStav) {
+       if (rnStav == null) {
            return;
        }
-       rnIzn.setRn(this);
-       if (rnIznos == null) {
-    	   rnIznos = new ArrayList<RnIznos>();
-    	   rnIznos.add(rnIzn);
-       } else if (!rnIznos.contains(rnIzn)) {
-    	   rnIznos.add(rnIzn);
+       rnStav.setRn(this);
+       if (rnStavke == null) {
+    	   rnStavke = new ArrayList<RnStavke>();
+    	   rnStavke.add(rnStav);
+       } else if (!rnStavke.contains(rnStav)) {
+    	   rnStavke.add(rnStav);
        }
     }
 	
-	@OneToMany(mappedBy="rn", orphanRemoval=true, cascade = CascadeType.ALL)
-	private List<RnPotrosnja> rnPotrosnja;
-	
-	public void addRnPotrosnja(RnPotrosnja rnPot) {
-	       if (rnPot == null) {
-	           return;
-	       }
-	       rnPot.setRn(this);
-	       if (rnPotrosnja == null) {
-	    	   rnPotrosnja = new ArrayList<RnPotrosnja>();
-	    	   rnPotrosnja.add(rnPot);
-	       } else if (!rnPotrosnja.contains(rnPot)) {
-	    	   rnPotrosnja.add(rnPot);
-	       }
-	    }
-	
-	@OneToMany(mappedBy="rn", orphanRemoval=true, cascade = CascadeType.ALL)
-	private List<RnOstalo> rnOstalo;
-	
-	public void addRnOstalo(RnOstalo rnOst) {
-       if (rnOst == null) {
-           return;
-       }
-       rnOst.setRn(this);
-       if (rnOstalo == null) {
-    	   rnOstalo = new ArrayList<RnOstalo>();
-    	   rnOstalo.add(rnOst);
-       } else if (!rnOstalo.contains(rnOst)) {
-    	   rnOstalo.add(rnOst);
-       }
-    }
+//	@OneToMany(mappedBy="rn", orphanRemoval=true, cascade = CascadeType.ALL)
+//	private List<RnIznos> rnIznos;
+//	
+//	public void addRnIznos(RnIznos rnIzn) {
+//       if (rnIzn == null) {
+//           return;
+//       }
+//       rnIzn.setRn(this);
+//       if (rnIznos == null) {
+//    	   rnIznos = new ArrayList<RnIznos>();
+//    	   rnIznos.add(rnIzn);
+//       } else if (!rnIznos.contains(rnIzn)) {
+//    	   rnIznos.add(rnIzn);
+//       }
+//    }
+//	
+//	@OneToMany(mappedBy="rn", orphanRemoval=true, cascade = CascadeType.ALL)
+//	private List<RnPotrosnja> rnPotrosnja;
+//	
+//	public void addRnPotrosnja(RnPotrosnja rnPot) {
+//	       if (rnPot == null) {
+//	           return;
+//	       }
+//	       rnPot.setRn(this);
+//	       if (rnPotrosnja == null) {
+//	    	   rnPotrosnja = new ArrayList<RnPotrosnja>();
+//	    	   rnPotrosnja.add(rnPot);
+//	       } else if (!rnPotrosnja.contains(rnPot)) {
+//	    	   rnPotrosnja.add(rnPot);
+//	       }
+//	    }
+//	
+//	@OneToMany(mappedBy="rn", orphanRemoval=true, cascade = CascadeType.ALL)
+//	private List<RnOstalo> rnOstalo;
+//	
+//	public void addRnOstalo(RnOstalo rnOst) {
+//       if (rnOst == null) {
+//           return;
+//       }
+//       rnOst.setRn(this);
+//       if (rnOstalo == null) {
+//    	   rnOstalo = new ArrayList<RnOstalo>();
+//    	   rnOstalo.add(rnOst);
+//       } else if (!rnOstalo.contains(rnOst)) {
+//    	   rnOstalo.add(rnOst);
+//       }
+//    }
 
 	public Long getId() {
 		return id;
@@ -197,18 +213,22 @@ public class Rn {
 	public Integer getVersion() {
 		return version;
 	}
-
-	public List<RnIznos> getRnIznos() {
-		return rnIznos;
+	
+	public List<RnStavke> getRnStavke() {
+		return rnStavke;
 	}
 
-	public List<RnPotrosnja> getRnPotrosnja() {
-		return rnPotrosnja;
-	}
-
-	public List<RnOstalo> getRnOstalo() {
-		return rnOstalo;
-	}
+//	public List<RnIznos> getRnIznos() {
+//		return rnIznos;
+//	}
+//
+//	public List<RnPotrosnja> getRnPotrosnja() {
+//		return rnPotrosnja;
+//	}
+//
+//	public List<RnOstalo> getRnOstalo() {
+//		return rnOstalo;
+//	}
 
 	public void setBrojilo(Brojilo brojilo) {
 		this.brojilo = brojilo;
@@ -265,18 +285,21 @@ public class Rn {
 	public void setStariId(Long stariId) {
 		this.stariId = stariId;
 	}
-
-	public void setRnIznos(List<RnIznos> rnIznos) {
-		this.rnIznos = rnIznos;
-		
+	
+	public void setRnStavke(List<RnStavke> rnStavke) {
+		this.rnStavke = rnStavke;
 	}
 
-	public void setRnPotrosnja(List<RnPotrosnja> rnPotrosnja) {
-		this.rnPotrosnja = rnPotrosnja;
-	}
-
-	public void setRnOstalo(List<RnOstalo> rnOstalo) {
-		this.rnOstalo = rnOstalo;
-	}	
+//	public void setRnIznos(List<RnIznos> rnIznos) {
+//		this.rnIznos = rnIznos;		
+//	}
+//
+//	public void setRnPotrosnja(List<RnPotrosnja> rnPotrosnja) {
+//		this.rnPotrosnja = rnPotrosnja;
+//	}
+//
+//	public void setRnOstalo(List<RnOstalo> rnOstalo) {
+//		this.rnOstalo = rnOstalo;
+//	}	
 	
 }
