@@ -89,7 +89,7 @@ public class Rn {
 	@OneToMany(mappedBy="rn", orphanRemoval=true, cascade = CascadeType.ALL)
 	private List<RnStavke> rnStavke;
 	
-	public void addRnIznos(RnStavke rnStav) {
+	public void addRnStavke(RnStavke rnStav) {
        if (rnStav == null) {
            return;
        }

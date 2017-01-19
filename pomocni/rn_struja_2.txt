@@ -1,4 +1,4 @@
-/* struja sa jednotarifnim merenjem energent_id = 13; brojilo_vrsta_id = 2; 
+/* struja sa jednotarifnim merenjem energent_id = 16; brojilo_vrsta_id = 2; model_placanja_id = 4
 kolone  17	NAKNADA	1
 		18	OBRACUNSKA_SNAGA	2
 		19	IZNOS	1
@@ -32,7 +32,7 @@ begin
             rn_struja.DATUMU,
             rn_struja.MENJAO,
             rn_struja.DATUMM,
-            13 energent_id, 
+            16 energent_id, 
             1 rn_tip_id,
             JEDINSTVNA_TARIFA
             OBRACUNSKA_SNAGA,
@@ -76,16 +76,16 @@ begin
         
         
                         
-        insert into rn_potrosnja(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
         values (p_id, 18, i.OBRACUNSKA_SNAGA);
 		
-		insert into rn_potrosnja(rn_id, brojilo_vrsta_kolone_id, vrednost)
+		insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
         values (p_id, 21, i.JEDINSTVNA_TARIFA);        
                 
-        insert into rn_iznos(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
         values (p_id, 19, i.iznos);
 		
-		insert into rn_iznos(rn_id, brojilo_vrsta_kolone_id, vrednost)
+		insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
         values (p_id, 17, i.NAKNADA);
 
     
@@ -112,22 +112,11 @@ SELECT ID,
   MESEC_ID,
   RN_TIP_ID
 FROM RN
-where energent_id = 13;
+where energent_id = 16;
 
 select *
-from rn_iznos
+from rn_stavke
 where rn_id in (select id
                 from rn
-                where energent_id = 13);
+                where energent_id = 16);
                 
-select *
-from rn_potrosnja
-where rn_id in (select id
-                from rn
-                where energent_id = 13);
-                
-select *
-from rn_ostalo
-where rn_id in (select id
-                from rn
-                where energent_id = 13);

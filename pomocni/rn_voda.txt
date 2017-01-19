@@ -1,7 +1,13 @@
-﻿/* gas energent_id = 14; brojilo_vrsta_id = 5; 
-kolone  31	KOLICINA	Količina
-		32	CENA	Cena
-		33	IZNOS	Iznos [din]
+/* gas energent_id = 20; brojilo_vrsta_id = 9; 
+kolone  43	VO_KOLICINA
+44	VO_CENA
+45	VO_IZNOS
+46	KA_KOLICINA
+47	KA_CENA
+48	KA_IZNOS
+49	NAKNADA_KORISCENJE
+50	NAKNADA_ZASTITA
+51	NAKNADA_RAZVOJ
 */
 
 alter session set  nls_date_format="yyyy-mm-dd hh24:mi:ss";
@@ -11,7 +17,7 @@ declare p_id number;
 begin
 
   for i in (SELECT id stari_id, 
-            rn_gas.BROJILO_ID,
+            BROJILO_ID,
              case 
              when GODINA_ID = 1 then 1
              when GODINA_ID = 2 then 2
@@ -22,21 +28,27 @@ begin
              when GODINA_ID = 101 then 7
              when GODINA_ID = 121 then 8
              end as GODINA_ID,
-            rn_gas.MESEC_ID,    
-            rn_gas.DOBAVLJAC_ID,
-            rn_gas.BROJ_RN,
+            MESEC_ID,    
+            DOBAVLJAC_ID,
+            BROJ_RN,
             null DATUMR,
-            rn_gas.NAPOMENA,
-            rn_gas.UNEO,
-            rn_gas.DATUMU,
-            rn_gas.MENJAO,
-            rn_gas.DATUMM,
-            14 energent_id, 
+            NAPOMENA,
+            UNEO,
+            DATUMU,
+            MENJAO,
+            DATUMM,
+            20 energent_id, 
             1 rn_tip_id,
-            kolicina,
-            cena, 
-            iznos
-            FROM isem_vr.rn_gas)
+            VO_KOLICINA,
+            VO_CENA,
+            VO_IZNOS,
+            KA_KOLICINA,
+            KA_CENA,
+            KA_IZNOS,
+            NAKNADA_KORISCENJE,
+            NAKNADA_ZASTITA,
+            NAKNADA_RAZVOJ
+            FROM isem_vr.rn_voda)
   loop
 
     select rn_seq.nextval into p_id from dual;
@@ -74,13 +86,31 @@ begin
         
                         
         insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
-        values (p_id, 31, i.kolicina);
+        values (p_id, 43, i.VO_KOLICINA);
         
         insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
-        values (p_id, 32, i.cena);
+        values (p_id, 44, i.VO_CENA);
         
         insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
-        values (p_id, 33, i.iznos);
+        values (p_id, 45, i.VO_IZNOS);
+        
+        insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        values (p_id, 46, i.KA_KOLICINA);
+        
+        insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        values (p_id, 47, i.KA_CENA);
+        
+        insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        values (p_id, 48, i.KA_IZNOS);
+        
+        insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        values (p_id, 49, i.NAKNADA_KORISCENJE);
+        
+        insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        values (p_id, 50, i.NAKNADA_ZASTITA);
+        
+        insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        values (p_id, 51, i.NAKNADA_RAZVOJ);
 
     
   end loop;  
@@ -106,11 +136,11 @@ SELECT ID,
   MESEC_ID,
   RN_TIP_ID
 FROM RN
-where energent_id = 14;
+where energent_id = 20;
 
 select *
 from rn_stavke
 where rn_id in (select id
                 from rn
-                where energent_id = 14);
+                where energent_id = 20);
                 

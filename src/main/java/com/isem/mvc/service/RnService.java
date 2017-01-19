@@ -51,7 +51,7 @@ public class RnService {
 		
 		for (RnStavke r : rnStavkeList) {
 			r.setRn(obj);
-		    obj.addRnIznos(r);
+		    obj.addRnStavke(r);
 		}
 		
 //		List<RnIznos> rnIznosList = obj.getRnIznos();		

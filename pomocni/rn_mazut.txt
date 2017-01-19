@@ -1,4 +1,4 @@
-/* mazut energent_id = 11; brojilo_vrsta_id = 7; 
+﻿/* mazut energent_id = 11; brojilo_vrsta_id = 7; 
 kolone  37	KOLICINA	Količina
 		38	CENA	Cena
 		39	IZNOS	Iznos [din]
@@ -73,13 +73,13 @@ begin
         
         
                         
-        insert into rn_potrosnja(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
         values (p_id, 37, i.kolicina);
         
-        insert into rn_ostalo(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
         values (p_id, 38, i.cena);
         
-        insert into rn_iznos(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
         values (p_id, 39, i.iznos);
 
     
@@ -110,19 +110,10 @@ where energent_id = 11;
 
 
 select *
-from rn_iznos
+from rn_stavke
 where rn_id in (select id
                 from rn
                 where energent_id = 11);
                 
-select *
-from rn_potrosnja
-where rn_id in (select id
-                from rn
-                where energent_id = 11);
+
                 
-select *
-from rn_ostalo
-where rn_id in (select id
-                from rn
-                where energent_id = 11);

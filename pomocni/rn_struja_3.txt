@@ -1,4 +1,4 @@
-/* struja sa dvotarifnim merenjem energent_id = 13; brojilo_vrsta_id = 1; 
+/* struja sa dvotarifnim merenjem energent_id = 16; brojilo_vrsta_id = 3; model_placanja_id = 5
 kolone  23	VISA_TARIFA	2
 		24	NIZA_TARIFA	2
 		25	OBRACUNSKA_SNAGA	2
@@ -33,7 +33,7 @@ begin
             rn_struja.DATUMU,
             rn_struja.MENJAO,
             rn_struja.DATUMM,
-            13 energent_id, 
+            16 energent_id, 
             1 rn_tip_id,
             VISA_TARIFA,
 			NIZA_TARIFA,
@@ -41,7 +41,7 @@ begin
 			IZNOS,
 			NAKNADA
             FROM isem_vr.rn_struja
-            where brojilo_id in (select id from brojilo where model_placanja_id = 3))
+            where brojilo_id in (select id from brojilo where model_placanja_id = 5))
   loop
 
     select rn_seq.nextval into p_id from dual;
@@ -78,19 +78,19 @@ begin
         
         
                         
-        insert into rn_potrosnja(rn_id, brojilo_vrsta_kolone_id, vrednost)
+         insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
         values (p_id, 23, i.VISA_TARIFA);
 		
-		insert into rn_potrosnja(rn_id, brojilo_vrsta_kolone_id, vrednost)
+		insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
         values (p_id, 24, i.NIZA_TARIFA);
 		
-		insert into rn_ostalo(rn_id, brojilo_vrsta_kolone_id, vrednost)
+		insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
         values (p_id, 25, i.OBRACUNSKA_SNAGA);
 
-        insert into rn_iznos(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
         values (p_id, 26, i.iznos);
 		
-		insert into rn_iznos(rn_id, brojilo_vrsta_kolone_id, vrednost)
+		insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
         values (p_id, 27, i.NAKNADA);
 
     
@@ -117,22 +117,11 @@ SELECT ID,
   MESEC_ID,
   RN_TIP_ID
 FROM RN
-where energent_id = 13;
+where energent_id = 16;
 
 select *
-from rn_iznos
+from rn_stavke
 where rn_id in (select id
                 from rn
-                where energent_id = 13);
+                where energent_id = 16);
                 
-select *
-from rn_potrosnja
-where rn_id in (select id
-                from rn
-                where energent_id = 13);
-                
-select *
-from rn_ostalo
-where rn_id in (select id
-                from rn
-                where energent_id = 13);

@@ -1,4 +1,4 @@
-/* struja na niskom naponu energent_id = 13; brojilo_vrsta_id = 1; 
+/* struja na niskom naponu energent_id = 16; brojilo_vrsta_id = 1; model_placanja_id = 3
 kolone  8	VISA_TARIFA	2
 		16	NIZA_TARIFA	2
 		10	REAKTIVNA_ENERGIJA	
@@ -36,7 +36,7 @@ begin
             rn_struja.DATUMU,
             rn_struja.MENJAO,
             rn_struja.DATUMM,
-            13 energent_id, 
+            16 energent_id, 
             1 rn_tip_id,
             VISA_TARIFA,
             NIZA_TARIFA,
@@ -84,29 +84,29 @@ begin
         
         
                         
-        insert into rn_potrosnja(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
         values (p_id, 8, i.VISA_TARIFA);
 		
-		insert into rn_potrosnja(rn_id, brojilo_vrsta_kolone_id, vrednost)
-        values (p_id, 16, i.NIZA_TARIFA);
+      insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        values (p_id, 9, i.NAKNADA);		
         
-        insert into rn_ostalo(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
         values (p_id, 10, i.REAKTIVNA_ENERGIJA);
 		
-		insert into rn_ostalo(rn_id, brojilo_vrsta_kolone_id, vrednost)
+		insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
         values (p_id, 11, i.PREKOMERNA_RE);
 		
-		insert into rn_ostalo(rn_id, brojilo_vrsta_kolone_id, vrednost)
+		insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
         values (p_id, 12, i.OBRACUNSKA_SNAGA);
 		
-		insert into rn_ostalo(rn_id, brojilo_vrsta_kolone_id, vrednost)
+		insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
         values (p_id, 13, i.PREKOMERNA_SNAGA);
         
-        insert into rn_iznos(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
         values (p_id, 14, i.iznos);
 		
-		insert into rn_iznos(rn_id, brojilo_vrsta_kolone_id, vrednost)
-        values (p_id, 9, i.NAKNADA);
+		insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        values (p_id, 16, i.NIZA_TARIFA);
 
     
   end loop;  
@@ -132,26 +132,15 @@ SELECT ID,
   MESEC_ID,
   RN_TIP_ID
 FROM RN
-where energent_id = 13;
+where energent_id = 16;
 
 select *
-from rn_iznos
+from rn_stavke
 where rn_id in (select id
                 from rn
-                where energent_id = 13);
+                where energent_id = 16);
                 
-select *
-from rn_potrosnja
-where rn_id in (select id
-                from rn
-                where energent_id = 13);
-                
-select *
-from rn_ostalo
-where rn_id in (select id
-                from rn
-                where energent_id = 13);
-				
+
 				
 				
 SELECT ID,
@@ -171,5 +160,5 @@ SELECT ID,
   MESEC_ID,
   RN_TIP_ID
 FROM RN
-where energent_id = 13 
-and brojilo_id in (861,824,822, 319, 841);
+where energent_id = 16
+and brojilo_id in (485);
