@@ -34,17 +34,17 @@ public class Rn {
     )
 	private Energent energent;
 	
-	@ManyToOne
-    @JoinColumn(name = "GODINA_ID",
-            foreignKey = @ForeignKey(name = "RN_FK3")
-    )
-	private Godina godina;
-	
-	@ManyToOne
-    @JoinColumn(name = "MESEC_ID",
-            foreignKey = @ForeignKey(name = "RN_FK4")
-    )
-	private Mesec mesec;
+//	@ManyToOne
+//    @JoinColumn(name = "GODINA_ID",
+//            foreignKey = @ForeignKey(name = "RN_FK3")
+//    )
+//	private Godina godina;
+//	
+//	@ManyToOne
+//    @JoinColumn(name = "MESEC_ID",
+//            foreignKey = @ForeignKey(name = "RN_FK4")
+//    )
+//	private Mesec mesec;
 	
 	@ManyToOne
     @JoinColumn(name = "DOBAVLJAC_ID",
@@ -162,13 +162,13 @@ public class Rn {
 		return energent;
 	}
 
-	public Godina getGodina() {
-		return godina;
-	}
-
-	public Mesec getMesec() {
-		return mesec;
-	}
+//	public Godina getGodina() {
+//		return godina;
+//	}
+//
+//	public Mesec getMesec() {
+//		return mesec;
+//	}
 
 	public Dobavljac getDobavljac() {
 		return dobavljac;
@@ -238,13 +238,13 @@ public class Rn {
 		this.energent = energent;
 	}
 
-	public void setGodina(Godina godina) {
-		this.godina = godina;
-	}
-
-	public void setMesec(Mesec mesec) {
-		this.mesec = mesec;
-	}
+//	public void setGodina(Godina godina) {
+//		this.godina = godina;
+//	}
+//
+//	public void setMesec(Mesec mesec) {
+//		this.mesec = mesec;
+//	}
 
 	public void setDobavljac(Dobavljac dobavljac) {
 		this.dobavljac = dobavljac;
