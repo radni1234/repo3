@@ -79,6 +79,18 @@ public class Rn {
 	@Column(name = "DATUMM")
 	private Date datumm;
 	
+	@Column(name = "IZNOS", columnDefinition = "numeric(18,2)")
+	private Double iznos;
+	
+	@Column(name = "KOLICINA", columnDefinition = "numeric(18,2)")
+	private Double kolicina;
+	
+	@Column(name = "KOLICINA_KWH", columnDefinition = "numeric(18,2)")
+	private Double kolicinaKwh;
+	
+	@Column(name = "EMISIJA_CO2", columnDefinition = "numeric(18,2)")
+	private Double emisijaCo2;
+	
 	@Column(name = "STARI_ID")
 	private Long stariId;
 	
@@ -204,12 +216,28 @@ public class Rn {
 
 	public Date getDatumm() {
 		return datumm;
+	}	
+	
+	public Double getIznos() {
+		return iznos;
+	}
+
+	public Double getKolicina() {
+		return kolicina;
+	}
+
+	public Double getKolicinaKwh() {
+		return kolicinaKwh;
+	}
+
+	public Double getEmisijaCo2() {
+		return emisijaCo2;
 	}
 
 	public Long getStariId() {
 		return stariId;
 	}
-
+	
 	public Integer getVersion() {
 		return version;
 	}
@@ -280,6 +308,23 @@ public class Rn {
 
 	public void setDatumm(Date datumm) {
 		this.datumm = datumm;
+	}
+		
+
+	public void setIznos(Double iznos) {
+		this.iznos = iznos;
+	}
+
+	public void setKolicina(Double kolicina) {
+		this.kolicina = kolicina;
+	}
+
+	public void setKolicinaKwh(Double kolicinaKwh) {
+		this.kolicinaKwh = kolicinaKwh;
+	}
+
+	public void setEmisijaCo2(Double emisijaCo2) {
+		this.emisijaCo2 = emisijaCo2;
 	}
 
 	public void setStariId(Long stariId) {

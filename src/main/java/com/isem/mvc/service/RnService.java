@@ -46,37 +46,31 @@ public class RnService {
 	}
 
 	public Rn save(Rn obj) {
+		Double sumIznos = 0.0;
+		Double sumKolicina = 0.0;
+		Double sumkolicinaKwh = 0.0;
+		Double sumEmisija = 0.0;
+		
 		
 		List<RnStavke> rnStavkeList = obj.getRnStavke();		
 		
 		for (RnStavke r : rnStavkeList) {
 			r.setRn(obj);
 		    obj.addRnStavke(r);
+		    
+		    if (r.getBrojiloVrstaKolone().getKolonaTip().getId() == 1){
+		    	sumIznos = sumIznos + r.getVrednost();
+		    } else if (r.getBrojiloVrstaKolone().getKolonaTip().getId() == 2){
+		    	sumKolicina = sumKolicina + r.getVrednost();
+		    	sumkolicinaKwh = sumkolicinaKwh + (r.getVrednost() * obj.getEnergent().getKwhJm());
+		    	sumEmisija = sumEmisija + (r.getVrednost() * obj.getEnergent().getEmisija());
+		    } 
 		}
-		
-//		List<RnIznos> rnIznosList = obj.getRnIznos();		
-//		
-//		for (RnIznos r : rnIznosList) {
-//			r.setRn(obj);
-//		    obj.addRnIznos(r);
-//		}
-//		
-//		
-//		List<RnPotrosnja> rnPotrosnjaList = obj.getRnPotrosnja();		
-//		
-//		for (RnPotrosnja r : rnPotrosnjaList) {
-//			r.setRn(obj);
-//		    obj.addRnPotrosnja(r);
-//		}
-//		
-//		
-//		List<RnOstalo> rnOstaloList = obj.getRnOstalo();				
-//			
-//		for (RnOstalo r : rnOstaloList) {
-//			r.setRn(obj);
-//		    obj.addRnOstalo(r);
-//		}
-			
+				
+		obj.setIznos(sumIznos);
+		obj.setKolicina(sumKolicina);
+		obj.setKolicinaKwh(sumkolicinaKwh);
+		obj.setEmisijaCo2(sumEmisija);
 		
 		return dao.save(obj);
 	}
