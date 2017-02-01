@@ -77,3 +77,6 @@ OBJEKAT_TOPLA_VODA - /objekat/topla_voda
 OBJEKAT_VENTILACIJA - /objekat/ventilacija
 OBJEKAT_VODA - /objekat/voda
 OBJEKAT_OSTALO - /objekat/ostalo
+
+IZVESTAJI
+izvestaj/aps_mes_pot?params = {"obj_id"}

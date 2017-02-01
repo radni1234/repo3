@@ -1,0 +1,123 @@
+delimiter //
+drop procedure izv_aps_mes_pot//
+
+create procedure izv_aps_mes_pot(obj_id bigint(20))
+begin
+
+	DECLARE done BOOLEAN DEFAULT FALSE;
+
+	DECLARE p_energent VARCHAR(255);
+    DECLARE p_godina VARCHAR(255);
+    DECLARE p_mesec VARCHAR(255);
+    DECLARE p_kolicina DOUBLE;
+    DECLARE p_kolicina_kwh DOUBLE;
+    DECLARE p_emisija_co2 DOUBLE;
+    DECLARE p_iznos DOUBLE;
+    
+    DECLARE p_brojac INT;
+
+	DECLARE god_mes_cur CURSOR FOR                            
+       select g.god godina, m.naziv mesec, 
+				sum(kolicina) kolicina, sum(kolicina_kwh) kolicina_kwh, 
+				sum(emisija_co2) emisija_co2, sum(iznos) iznos                        
+		from rn, energent e, godina g, mesec m		
+		where rn.energent_id = e.id
+			  and YEAR(rn.datumr) = g.god
+			  and MONTH(rn.datumr) = m.id
+			  and brojilo_id in (select id from brojilo where objekat_id = obj_id) 
+              and e.naziv = p_energent
+		group by e.naziv, g.god, m.naziv
+        order by e.naziv, g.god, m.id; 
+        
+    DECLARE sum_ene_cur CURSOR FOR                            
+       select e.naziv energent,
+				sum(kolicina) kolicina, sum(kolicina_kwh) kolicina_kwh, 
+				sum(emisija_co2) emisija_co2, sum(iznos) iznos                        
+		from rn, energent e		
+		where rn.energent_id = e.id			
+			  and brojilo_id in (select id from brojilo where objekat_id = obj_id)              
+		group by e.naziv;   
+        
+       
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done := TRUE;
+	
+	DROP TEMPORARY TABLE IF EXISTS temp;
+	CREATE TEMPORARY TABLE temp(id int,
+								energent varchar(100),
+                                godina varchar(4),
+                                mesec varchar(20),
+                                kolicina double,
+                                kolicina_kwh double,
+                                emisija_co2 double,
+                                iznos double,
+                                tip int);
+
+    SET p_brojac = 0;
+	 
+	OPEN sum_ene_cur;
+	sumEneLoop: LOOP
+	
+		FETCH sum_ene_cur INTO p_energent, p_kolicina, p_kolicina_kwh, p_emisija_co2, p_iznos;
+	
+		IF done THEN	
+		  SET done := FALSE; 
+		  LEAVE sumEneLoop;          
+		END IF;
+		
+		SET p_brojac = p_brojac + 1;        
+        
+        insert into temp(id, energent, tip) 
+		values(p_brojac, p_energent, 2);
+        
+        
+        OPEN god_mes_cur;
+		godMesLoop: LOOP
+		
+			FETCH god_mes_cur INTO p_godina, p_mesec, p_kolicina, p_kolicina_kwh, p_emisija_co2, p_iznos;
+			insert into t values(p_godina);
+            
+			IF done THEN
+			  SET done := FALSE;           
+			  LEAVE godMesLoop;
+			END IF;
+			
+			SET p_brojac = p_brojac + 1;   
+            
+            insert into temp(id, energent, godina, mesec, kolicina, kolicina_kwh, emisija_co2, iznos, tip) 
+			values(p_brojac, p_energent, p_godina, p_mesec, p_kolicina, p_kolicina_kwh, p_emisija_co2, p_iznos, 1);
+        
+        END LOOP godMesLoop;
+		CLOSE god_mes_cur;
+        
+        
+        SET p_brojac = p_brojac + 1;   
+	   
+		insert into temp(id, energent, kolicina, kolicina_kwh, emisija_co2, iznos, tip) 
+		values(p_brojac, p_energent, p_kolicina, p_kolicina_kwh, p_emisija_co2, p_iznos, 2);
+    
+    
+    END LOOP sumEneLoop;
+	CLOSE sum_ene_cur;
+    
+    
+    SET p_brojac = p_brojac + 1; 
+    
+    insert into temp(id, kolicina, kolicina_kwh, emisija_co2, iznos, tip) 
+    select p_brojac, sum(kolicina), sum(kolicina_kwh), sum(emisija_co2), sum(iznos), 3                 
+	from rn
+	where brojilo_id in (select id from brojilo where objekat_id = obj_id)
+	;   
+	
+    commit; 
+  
+	SET @sql = 'select id, energent, godina, mesec, 
+				kolicina, kolicina_kwh, emisija_co2, iznos
+				from temp
+				order by id;'; 
+                    
+	PREPARE stmt FROM @sql;     
+    
+	EXECUTE stmt;
+	DEALLOCATE PREPARE stmt;
+end
+//
