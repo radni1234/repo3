@@ -13,6 +13,10 @@ begin
     DECLARE p_kolicina_kwh DOUBLE;
     DECLARE p_emisija_co2 DOUBLE;
     DECLARE p_iznos DOUBLE;
+    DECLARE p_kolicina_sum DOUBLE;
+    DECLARE p_kolicina_kwh_sum DOUBLE;
+    DECLARE p_emisija_co2_sum DOUBLE;
+    DECLARE p_iznos_sum DOUBLE;
     
     DECLARE p_brojac INT;
 
@@ -57,7 +61,7 @@ begin
 	OPEN sum_ene_cur;
 	sumEneLoop: LOOP
 	
-		FETCH sum_ene_cur INTO p_energent, p_kolicina, p_kolicina_kwh, p_emisija_co2, p_iznos;
+		FETCH sum_ene_cur INTO p_energent, p_kolicina_sum, p_kolicina_kwh_sum, p_emisija_co2_sum, p_iznos_sum;
 	
 		IF done THEN	
 		  SET done := FALSE; 
@@ -93,7 +97,7 @@ begin
         SET p_brojac = p_brojac + 1;   
 	   
 		insert into temp(id, energent, kolicina, kolicina_kwh, emisija_co2, iznos, tip) 
-		values(p_brojac, p_energent, p_kolicina, p_kolicina_kwh, p_emisija_co2, p_iznos, 2);
+		values(p_brojac, p_energent, p_kolicina_sum, p_kolicina_kwh_sum, p_emisija_co2_sum, p_iznos_sum, 2);
     
     
     END LOOP sumEneLoop;
