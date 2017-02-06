@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isem.mvc.model.BrojiloVrstaKolone;
 import com.isem.mvc.service.BrojiloVrstaKoloneService;
+import com.isem.mvc.tab.BrojiloVrstaKoloneView;
 
 @RestController
 @RequestMapping("/bro_vrs_kol")
@@ -38,6 +39,20 @@ public class BrojiloVrstaKoloneController {
 	@RequestMapping(value="/sve", params = {"bro_vrs_id"}, method=RequestMethod.GET)
 	public List<BrojiloVrstaKolone> findBrojiloVrstaKoloneByBrojiloVrsta(@RequestParam(value = "bro_vrs_id") Long bro_vrs_id) {
 		return service.findBrojiloVrstaKoloneByBrojiloVrsta(bro_vrs_id);
+	}
+	
+	@RequestMapping(value="/tab", method=RequestMethod.GET)
+	public List<BrojiloVrstaKoloneView> getAllView() {
+		return service.findAllView();
+	}
+
+	@RequestMapping(value="/tab", params = {"str", "vel"}, method=RequestMethod.GET)
+	public Page<BrojiloVrstaKoloneView> getAllView(@RequestParam(value = "str") int strana, 
+								@RequestParam(value = "vel") int velicina ) {
+		
+		Pageable pageable = new PageRequest(strana, velicina);
+		
+		return service.findAllView(pageable);
 	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)

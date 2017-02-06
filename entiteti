@@ -36,6 +36,8 @@ BROJILO_TIP - brojilo_tip
 
 BROJILO_VRSTA_KOLONE - bro_vrs_kol
 GET /sve?params = {"bro_vrs_id"}
+GET /tab
+GET /tab?params = {"str", "vel"}
 
 REZIM_MERENJA - rezim_merenja
 
