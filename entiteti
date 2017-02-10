@@ -38,6 +38,7 @@ BROJILO_VRSTA_KOLONE - bro_vrs_kol
 GET /sve?params = {"bro_vrs_id"}
 GET /tab
 GET /tab?params = {"str", "vel"}
+GET /tab?params = {"bro_vrs_id"}
 
 REZIM_MERENJA - rezim_merenja
 

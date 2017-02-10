@@ -128,3 +128,11 @@ CREATE VIEW `objekat_view` AS
 			;
 			
 			
+create view  brojilo_vrsta_kolone_view as       
+select bv.id, bv.naziv, bv.opis, bv.rbr,  b.naziv brojilo_vrsta, j.naziv jedinica_mere, k.naziv kolona_tip
+from brojilo_vrsta_kolone bv left join brojilo_vrsta b on bv.brojilo_vrsta_id = b.id
+		left join kolona_tip k on bv.kolona_tip_id = k.id
+        left join jed_mere j on  bv.jed_mere_id = j.id
+;
+
+			

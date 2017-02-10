@@ -47,6 +47,10 @@ public class BrojiloVrstaKoloneService {
 	public Page<BrojiloVrstaKoloneView> findAllView (Pageable pageRequest) {
 		return daoView.findAll(pageRequest);
 	}
+	
+	public List<BrojiloVrstaKoloneView> findBrojiloVrstaKoloneViewByBrojiloVrsta (Long id) {
+		return daoView.findBrojiloVrstaKoloneViewByBrojiloVrsta(id);
+	}
 
 	public BrojiloVrstaKolone save(BrojiloVrstaKolone obj) {
 		return dao.save(obj);
