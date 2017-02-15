@@ -10,6 +10,7 @@ public class BrojiloVrstaKoloneView {
 	private String naziv;
 	private String opis;
 	private Integer rbr;
+	private Long brojiloVrstaId;
 	private String brojiloVrsta;
 	private String jedinicaMere;
 	private String kolonaTip;
@@ -24,6 +25,9 @@ public class BrojiloVrstaKoloneView {
 	}
 	public Integer getRbr() {
 		return rbr;
+	}	
+	public Long getBrojiloVrstaId() {
+		return brojiloVrstaId;
 	}
 	public String getBrojiloVrsta() {
 		return brojiloVrsta;

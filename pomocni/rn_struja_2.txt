@@ -34,7 +34,7 @@ begin
             rn_struja.DATUMM,
             16 energent_id, 
             1 rn_tip_id,
-            JEDINSTVNA_TARIFA
+            JEDINSTVNA_TARIFA,
             OBRACUNSKA_SNAGA,
             IZNOS,
             NAKNADA

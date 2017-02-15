@@ -1,4 +1,4 @@
-/* mazut energent_id = 7 i 25; brojilo_vrsta_id = 4; 
+﻿/* mazut energent_id = 7 i 25; brojilo_vrsta_id = 4; 
 kolone  28	KOLICINA	Količina
 		29	CENA	Cena
 		30	IZNOS	Iznos [din]
@@ -11,7 +11,7 @@ declare p_id number;
 begin
 
   for i in (SELECT id stari_id, 
-            rn_mazut.BROJILO_ID,
+            rn_drvo.BROJILO_ID,
              case 
              when GODINA_ID = 1 then 1
              when GODINA_ID = 2 then 2
@@ -73,13 +73,13 @@ begin
         
         
                         
-        insert into rn_potrosnja(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
         values (p_id, 28, i.kolicina);
         
-        insert into rn_ostalo(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
         values (p_id, 29, i.cena);
         
-        insert into rn_iznos(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
         values (p_id, 30, i.iznos);
 
     
@@ -108,21 +108,8 @@ SELECT ID,
 FROM RN
 where energent_id in (7,25);
 
-
 select *
-from rn_iznos
-where rn_id in (select id
-                from rn
-                where energent_id in (7,25));
-                
-select *
-from rn_potrosnja
-where rn_id in (select id
-                from rn
-                where energent_id in (7,25));
-                
-select *
-from rn_ostalo
+from rn_stavke
 where rn_id in (select id
                 from rn
                 where energent_id in (7,25));

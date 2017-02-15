@@ -1,7 +1,7 @@
-﻿/* mazut energent_id in (3,4,5,6,22); brojilo_vrsta_id = 8; 
-kolone  40	KOLICINA	Količina
-		41	CENA	Cena
-		42	IZNOS	Iznos [din]
+/* pelet energent_id = 24; 
+kolone  52	KOLICINA	Količina
+		53	CENA	Cena
+		54	IZNOS	Iznos [din]
 */
 
 alter session set  nls_date_format="yyyy-mm-dd hh24:mi:ss";
@@ -11,7 +11,7 @@ declare p_id number;
 begin
 
   for i in (SELECT id stari_id, 
-            rn_ugalj_utovar.BROJILO_ID,
+            rn_pelet.BROJILO_ID,
              case 
              when GODINA_ID = 1 then 1
              when GODINA_ID = 2 then 2
@@ -22,21 +22,21 @@ begin
              when GODINA_ID = 101 then 7
              when GODINA_ID = 121 then 8
              end as GODINA_ID,
-            rn_ugalj_utovar.MESEC_ID,    
-            rn_ugalj_utovar.DOBAVLJAC_ID,
-            rn_ugalj_utovar.BROJ_RN,
-            rn_ugalj_utovar.DATUMR,
-            rn_ugalj_utovar.NAPOMENA,
-            rn_ugalj_utovar.UNEO,
-            rn_ugalj_utovar.DATUMU,
-            rn_ugalj_utovar.MENJAO,
-            rn_ugalj_utovar.DATUMM,
-            decode(ugalj_id, 3, 3, 4, 4, 5, 5, 6, 6, 22, 22, 4) energent_id, 
-            4 rn_tip_id,
+            rn_pelet.MESEC_ID,    
+            rn_pelet.DOBAVLJAC_ID,
+            rn_pelet.BROJ_RN,
+            rn_pelet.DATUMR,
+            rn_pelet.NAPOMENA,
+            rn_pelet.UNEO,
+            rn_pelet.DATUMU,
+            rn_pelet.MENJAO,
+            rn_pelet.DATUMM,
+            decode(drvo_id, 1, 7, 4, 25) energent_id, 
+            1 rn_tip_id,
             kolicina,
             cena, 
             iznos
-            FROM isem_vr.rn_ugalj_utovar)
+            FROM isem_vr.rn_pelet)
   loop
 
     select rn_seq.nextval into p_id from dual;
@@ -74,13 +74,13 @@ begin
         
                         
         insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
-        values (p_id, 40, i.kolicina);
+        values (p_id, 52, i.kolicina);
         
         insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
-        values (p_id, 41, i.cena);
+        values (p_id, 53, i.cena);
         
         insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
-        values (p_id, 42, i.iznos);
+        values (p_id, 54, i.iznos);
 
     
   end loop;  
@@ -106,12 +106,10 @@ SELECT ID,
   MESEC_ID,
   RN_TIP_ID
 FROM RN
-where energent_id in (3,4,5,6,22) and rn_tip_id = 4;
-
+where energent_id in (24);
 
 select *
 from rn_stavke
 where rn_id in (select id
                 from rn
-                where energent_id in (3,4,5,6,22) and rn_tip_id = 4);
-                
+                where energent_id in (24));

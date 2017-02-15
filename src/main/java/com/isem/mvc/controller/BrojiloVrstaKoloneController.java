@@ -50,6 +50,7 @@ public class BrojiloVrstaKoloneController {
 	@RequestMapping(value="/tab", params = {"bro_vrs_id"}, method=RequestMethod.GET)
 	public List<BrojiloVrstaKoloneView> getAllView(@RequestParam(value = "bro_vrs_id") Long bro_vrs_id) {		
 		return service.findBrojiloVrstaKoloneViewByBrojiloVrsta(bro_vrs_id);
+		
 	}
 	
 	@RequestMapping(value="/tab", params = {"str", "vel"}, method=RequestMethod.GET)
