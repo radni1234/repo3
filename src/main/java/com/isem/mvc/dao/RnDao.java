@@ -1,5 +1,6 @@
 package com.isem.mvc.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -23,4 +24,7 @@ public interface RnDao extends PagingAndSortingRepository<Rn, Long> {
 	
 	@Query("SELECT r FROM Rn r where r.brojilo in (select b from com.isem.mvc.model.Brojilo b where b.objekat.id = :id)")
 	List<Rn> findRnByObjekat(@Param("id") Long id);
+	
+	@Query("SELECT count(*) FROM Rn r where r.brojilo.id = :brojilo_id and r.datumr = :datumr")
+	Long proveriRacun(@Param("datumr") Date datumr, @Param("brojilo_id") Long brojilo_id);
 }

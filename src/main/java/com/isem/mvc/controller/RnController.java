@@ -1,11 +1,13 @@
 package com.isem.mvc.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -65,5 +67,12 @@ public class RnController {
 	@RequestMapping(value="/obrisi", params = {"id"}, method=RequestMethod.DELETE)
 	public void delete(@RequestParam("id") Long id) {
 		service.delete(id);
+	}
+	
+	@RequestMapping(value="/provera", params = {"datumr", "brojilo_id"}, method=RequestMethod.GET)
+	public Long proveriRacun(@RequestParam(value = "datumr") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datumr, 
+								@RequestParam(value = "brojilo_id") Long brojilo_id ) {
+
+		return service.proveriRacun(datumr, brojilo_id);
 	}
 }

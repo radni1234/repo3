@@ -1,5 +1,6 @@
 package com.isem.mvc.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,5 +78,9 @@ public class RnService {
 
 	public void delete (Long id) {
 		dao.delete(id);
+	}
+	
+	public Long proveriRacun(Date datumr, Long brojilo_id){
+		return dao.proveriRacun(datumr, brojilo_id);
 	}
 }
