@@ -1,5 +1,6 @@
 package com.isem.mvc.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ public class IzvestajService {
 	@Autowired
 	private IzvestajDaoCustomImpl dao;
 	
-	public List<Izvestaj> izvApsMesPot (Long obj_id) {
-		return dao.izvApsMesPot(obj_id);
+	public List<Izvestaj> izvApsMesPot (Long obj_id, Date datum_od, Date datum_do) {
+		return dao.izvApsMesPot(obj_id, datum_od, datum_do);
 	}
 }

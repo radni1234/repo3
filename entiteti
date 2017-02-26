@@ -70,6 +70,7 @@ GET /tab?params = {"str", "vel"}
 RN - rn
 GET /sve?params = {"obj_id"}
 GET /tab?params = {"obj_id"}
+GET /provera?params = {"datumr", "brojilo_id"}
 
 
 OBJEKAT_STRUJA - /objekat/struja
