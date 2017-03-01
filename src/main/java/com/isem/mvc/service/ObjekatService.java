@@ -7,8 +7,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.isem.mvc.dao.LovDao;
 import com.isem.mvc.dao.ObjekatDao;
 import com.isem.mvc.dao.ObjekatViewDao;
+import com.isem.mvc.lov.ObjekatLov;
 import com.isem.mvc.model.Objekat;
 import com.isem.mvc.tab.ObjekatView;
 
@@ -19,6 +21,9 @@ public class ObjekatService {
 	
 	@Autowired
 	private ObjekatViewDao viewDao;
+	
+	@Autowired
+	private LovDao lovDao;
 		
 	public Objekat findById (Long id) {
 		return dao.findById(id);
@@ -46,6 +51,10 @@ public class ObjekatService {
 
 	public void delete (Long id) {
 		dao.delete(id);
+	}
+	
+	public List<ObjekatLov> objekatLov (){
+		return lovDao.objekatLov();
 	}
 	
 }

@@ -66,6 +66,7 @@ GET /sve?params = {"obj_id"}
 OBJEKAT - objekat
 GET /tab
 GET /tab?params = {"str", "vel"}
+GET /lov
 
 RN - rn
 GET /sve?params = {"obj_id"}

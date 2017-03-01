@@ -10,7 +10,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.Version;
+
+@NamedNativeQueries({
+    @NamedNativeQuery(
+            name = "objekat_lov",
+            query = "select id, naziv as name from objekat",
+            resultClass = com.isem.mvc.lov.ObjekatLov.class
+    )
+ })
 
 @Entity
 public class Objekat {

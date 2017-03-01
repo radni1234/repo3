@@ -10,10 +10,12 @@ import org.springframework.stereotype.Repository;
 import com.isem.mvc.model.Objekat;
 
 @Repository
-public interface ObjekatDao extends PagingAndSortingRepository<Objekat, Long> {
+public interface ObjekatDao extends PagingAndSortingRepository<Objekat, Long>{
+	
 	Objekat findById(Long id);
 	
 	List<Objekat> findAll();
 
 	Page<Objekat> findAll(Pageable pageRequest);
+
 }
