@@ -8,7 +8,7 @@ import javax.persistence.NamedNativeQuery;
 @NamedNativeQueries({
     @NamedNativeQuery(
             name = "izv_aps_mes_pot",
-            query = "CALL izv_aps_mes_pot(?1, ?2, ?3)",
+            query = "CALL izv_aps_mes_pot(?1, ?2, ?3, ?4)",
             resultClass = Izvestaj.class
     )
  })

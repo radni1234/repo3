@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.isem.mvc.lov.ObjekatLov;
+import com.isem.mvc.lov.Lov;
 import com.isem.mvc.model.Objekat;
 import com.isem.mvc.service.ObjekatService;
 import com.isem.mvc.tab.ObjekatView;
@@ -68,7 +68,7 @@ public class ObjekatController {
 	}
 	
 	@RequestMapping(value="/lov", method=RequestMethod.GET)
-	public List<ObjekatLov> getObjekatLov() {
+	public List<Lov> getObjekatLov() {
 		return service.objekatLov();
 	}
 }

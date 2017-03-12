@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.isem.mvc.dao.LovDao;
 import com.isem.mvc.dao.ObjekatDao;
 import com.isem.mvc.dao.ObjekatViewDao;
-import com.isem.mvc.lov.ObjekatLov;
+import com.isem.mvc.lov.Lov;
 import com.isem.mvc.model.Objekat;
 import com.isem.mvc.tab.ObjekatView;
 
@@ -53,7 +53,7 @@ public class ObjekatService {
 		dao.delete(id);
 	}
 	
-	public List<ObjekatLov> objekatLov (){
+	public List<Lov> objekatLov (){
 		return lovDao.objekatLov();
 	}
 	

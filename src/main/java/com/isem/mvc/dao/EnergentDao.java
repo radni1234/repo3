@@ -2,6 +2,9 @@ package com.isem.mvc.dao;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +19,7 @@ import com.isem.mvc.model.Brojilo;
 @SuppressWarnings("unused")
 @Repository
 public interface EnergentDao extends PagingAndSortingRepository<Energent, Long> {
+
 	Energent findById(Long id);
 	
 	List<Energent> findAll();
@@ -29,4 +33,5 @@ public interface EnergentDao extends PagingAndSortingRepository<Energent, Long> 
 			+ "(select br.energentTip from BrojiloVrsta br where br in "
 			+ "(select b.brojiloVrsta from Brojilo b where b.objekat.id = :id))")
 	List<Energent> findEnergentByObjekat(@Param("id") Long id);
+	
 }

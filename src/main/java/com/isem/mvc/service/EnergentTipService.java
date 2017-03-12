@@ -8,12 +8,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.isem.mvc.dao.EnergentTipDao;
+import com.isem.mvc.dao.LovDao;
+import com.isem.mvc.lov.Lov;
 import com.isem.mvc.model.EnergentTip;
 
 @Service
 public class EnergentTipService {
 	@Autowired
 	private EnergentTipDao dao;
+	
+	@Autowired
+	private LovDao daoLov;
 		
 	public EnergentTip findById (Long id) {
 		return dao.findById(id);
@@ -29,6 +34,14 @@ public class EnergentTipService {
 	
 	public List<EnergentTip> findEnergentTipByBrojilo (Long id) {
 		return dao.findEnergentTipByBrojilo(id);
+	}
+	
+	public List<Lov> energentTipLov () {
+		return daoLov.energentTipLov();
+	}
+	
+	public List<Lov> energentTipLov (Long objId) {
+		return daoLov.energentTipLov(objId);
 	}
 
 	public EnergentTip save(EnergentTip obj) {

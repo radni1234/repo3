@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.isem.mvc.lov.Lov;
 import com.isem.mvc.model.EnergentTip;
 import com.isem.mvc.service.EnergentTipService;
 
@@ -45,6 +46,16 @@ public class EnergentTipController {
 	public EnergentTip findById(@RequestParam("id") Long id){
 		return service.findById(id);
 	}		
+	
+	@RequestMapping(value="/lov", method=RequestMethod.GET)
+	public List<Lov> energentTipLov() {
+		return service.energentTipLov();
+	}
+	
+	@RequestMapping(value="/lov", params = {"obj_id"}, method=RequestMethod.GET)
+	public List<Lov> energentTipLov(@RequestParam(value = "obj_id") Long objId) {
+		return service.energentTipLov(objId);
+	}
 
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
 	public EnergentTip add(@RequestBody EnergentTip obj) {

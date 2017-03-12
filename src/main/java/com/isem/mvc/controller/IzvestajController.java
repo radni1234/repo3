@@ -19,10 +19,11 @@ public class IzvestajController {
 	@Autowired
 	private IzvestajService service;
 	
-	@RequestMapping(value="/aps_mes_pot", params = {"obj_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
-	public List<Izvestaj> izvApsMesPot(@RequestParam("obj_id") Long obj_id,
+	@RequestMapping(value="/aps_mes_pot", params = {"obj_id", "ene_tip_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
+	public List<Izvestaj> izvApsMesPot(@RequestParam("obj_id") String obj_id,
+			@RequestParam("ene_tip_id") String ene_tip_id,
 			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
 			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
-		return service.izvApsMesPot(obj_id, datum_od, datum_do);
+		return service.izvApsMesPot(obj_id, ene_tip_id, datum_od, datum_do);
 	}
 }

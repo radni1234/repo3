@@ -7,6 +7,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Version;
 
+//@SqlResultSetMapping(name="EnergentTipLov",
+//classes = {
+// @ConstructorResult(targetClass = com.isem.mvc.lov.Lov.class,
+//   columns = {@ColumnResult(name="id"), @ColumnResult(name="name")}
+// )}
+//)
+
 @Entity
 public class EnergentTip {
 	@Id

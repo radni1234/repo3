@@ -84,4 +84,4 @@ OBJEKAT_VODA - /objekat/voda
 OBJEKAT_OSTALO - /objekat/ostalo
 
 IZVESTAJI
-izvestaj/aps_mes_pot?params = {"obj_id"}
+izvestaj/aps_mes_pot?params = {"obj_id, ene_tip_id, datum_od, datum_do"}

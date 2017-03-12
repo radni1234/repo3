@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.isem.mvc.lov.Lov;
 import com.isem.mvc.model.Energent;
 import com.isem.mvc.service.EnergentService;
 import com.isem.mvc.tab.EnergentView;
@@ -65,7 +66,17 @@ public class EnergentController {
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
 	public Energent findById(@RequestParam("id") Long id){
 		return service.findById(id);
-	}		
+	}
+	
+	@RequestMapping(value="/lov", method=RequestMethod.GET)
+	public List<Lov> energentLov() {
+		return service.energentLov();
+	}
+	
+	@RequestMapping(value="/lov", params = {"obj_id"}, method=RequestMethod.GET)
+	public List<Lov> energentLov(@RequestParam(value = "obj_id") Long objId) {
+		return service.energentLov(objId);
+	}
 
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
 	public Energent add(@RequestBody Energent obj) {

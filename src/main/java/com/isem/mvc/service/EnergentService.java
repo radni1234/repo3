@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.isem.mvc.dao.EnergentDao;
 import com.isem.mvc.dao.EnergentViewDao;
+import com.isem.mvc.dao.LovDao;
+import com.isem.mvc.lov.Lov;
 import com.isem.mvc.model.Energent;
 import com.isem.mvc.tab.EnergentView;
 
@@ -19,6 +21,9 @@ public class EnergentService {
 	
 	@Autowired
 	private EnergentViewDao daoView;
+	
+	@Autowired
+	private LovDao daoLov;
 		
 	public Energent findById (Long id) {
 		return dao.findById(id);
@@ -51,6 +56,14 @@ public class EnergentService {
 	public Page<EnergentView> findAllView (Pageable pageRequest) {
 		return daoView.findAll(pageRequest);
 	}
+	
+	public List<Lov> energentLov () {
+		return daoLov.energentLov();
+	}
+	
+	public List<Lov> energentLov (Long objId) {
+		return daoLov.energentLov(objId);
+	}
 
 	public Energent save(Energent obj) {
 		return dao.save(obj);
@@ -59,4 +72,6 @@ public class EnergentService {
 	public void delete (Long id) {
 		dao.delete(id);
 	}
+	
+	
 }

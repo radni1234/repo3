@@ -18,7 +18,7 @@ import javax.persistence.Version;
     @NamedNativeQuery(
             name = "objekat_lov",
             query = "select id, naziv as name from objekat",
-            resultClass = com.isem.mvc.lov.ObjekatLov.class
+            resultClass = com.isem.mvc.lov.Lov.class
     )
  })
 
