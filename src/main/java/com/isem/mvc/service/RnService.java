@@ -46,34 +46,40 @@ public class RnService {
 		return daoProc.vratiRnObj(obj_id);
 	}
 
-	public Rn save(Rn obj) {
+	public Rn save(Rn rn) {
 		Double sumIznos = 0.0;
 		Double sumKolicina = 0.0;
 		Double sumkolicinaKwh = 0.0;
+		Double sumkolicinaKwhPov = 0.0;
+		Double sumkolicinaKwhZap = 0.0;
+		Double sumkolicinaKwhKor = 0.0;
 		Double sumEmisija = 0.0;
 		
 		
-		List<RnStavke> rnStavkeList = obj.getRnStavke();		
+		List<RnStavke> rnStavkeList = rn.getRnStavke();		
 		
 		for (RnStavke r : rnStavkeList) {
-			r.setRn(obj);
-		    obj.addRnStavke(r);
+			r.setRn(rn);
+			rn.addRnStavke(r);
 		    
 		    if (r.getBrojiloVrstaKolone().getKolonaTip().getId() == 1){
 		    	sumIznos = sumIznos + r.getVrednost();
 		    } else if (r.getBrojiloVrstaKolone().getKolonaTip().getId() == 2){
 		    	sumKolicina = sumKolicina + r.getVrednost();
-		    	sumkolicinaKwh = sumkolicinaKwh + (r.getVrednost() * obj.getEnergent().getKwhJm());
-		    	sumEmisija = sumEmisija + (r.getVrednost() * obj.getEnergent().getEmisija());
+		    	sumkolicinaKwh = sumkolicinaKwh + (r.getVrednost() * rn.getEnergent().getKwhJm());		    	
+		    	sumEmisija = sumEmisija + (r.getVrednost() * rn.getEnergent().getEmisija());
 		    } 
 		}
 				
-		obj.setIznos(sumIznos);
-		obj.setKolicina(sumKolicina);
-		obj.setKolicinaKwh(sumkolicinaKwh);
-		obj.setEmisijaCo2(sumEmisija);
+		rn.setIznos(sumIznos);
+		rn.setKolicina(sumKolicina);
+		rn.setKolicinaKwh(sumkolicinaKwh);
+		rn.setKolicinaKwhPov(sumkolicinaKwhPov / rn.getBrojilo().getObjekat().getGrejPoKorisna());
+		rn.setKolicinaKwhZap(sumkolicinaKwhZap / rn.getBrojilo().getObjekat().getGrejZa());
+		rn.setKolicinaKwhKor(sumkolicinaKwhKor / rn.getBrojilo().getObjekat().getOpBrKor());
+		rn.setEmisijaCo2(sumEmisija);
 		
-		return dao.save(obj);
+		return dao.save(rn);
 	}
 
 	public void delete (Long id) {

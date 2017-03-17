@@ -83,5 +83,11 @@ OBJEKAT_VENTILACIJA - /objekat/ventilacija
 OBJEKAT_VODA - /objekat/voda
 OBJEKAT_OSTALO - /objekat/ostalo
 
+OBJEKAT_MERE - /obj_mere
+GET /sve?params = {"obj_id"}
+
 IZVESTAJI
 izvestaj/aps_mes_pot?params = {"obj_id, ene_tip_id, datum_od, datum_do"}
+
+GRAFICI
+grafik/efik_obj_kws_pov?params = {"obj_id, datum_od, datum_do"}

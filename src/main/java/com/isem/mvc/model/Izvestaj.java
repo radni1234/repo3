@@ -12,7 +12,8 @@ import javax.persistence.NamedNativeQuery;
             resultClass = Izvestaj.class
     )
  })
- @Entity
+
+@Entity
 public class Izvestaj {	
 	@Id	
 	private Long id;

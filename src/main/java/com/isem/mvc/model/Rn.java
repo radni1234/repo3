@@ -88,6 +88,15 @@ public class Rn {
 	@Column(name = "KOLICINA_KWH", columnDefinition = "numeric(18,2)")
 	private Double kolicinaKwh;
 	
+	@Column(name = "KOLICINA_KWH_POV", columnDefinition = "numeric(18,2)")
+	private Double kolicinaKwhPov;
+	
+	@Column(name = "KOLICINA_KWH_ZAP", columnDefinition = "numeric(18,2)")
+	private Double kolicinaKwhZap;
+	
+	@Column(name = "KOLICINA_KWH_KOR", columnDefinition = "numeric(18,2)")
+	private Double kolicinaKwhKor;	
+
 	@Column(name = "EMISIJA_CO2", columnDefinition = "numeric(18,2)")
 	private Double emisijaCo2;
 	
@@ -228,6 +237,18 @@ public class Rn {
 
 	public Double getKolicinaKwh() {
 		return kolicinaKwh;
+	}	
+
+	public Double getKolicinaKwhPov() {
+		return kolicinaKwhPov;
+	}
+
+	public Double getKolicinaKwhZap() {
+		return kolicinaKwhZap;
+	}
+
+	public Double getKolicinaKwhKor() {
+		return kolicinaKwhKor;
 	}
 
 	public Double getEmisijaCo2() {
@@ -321,6 +342,18 @@ public class Rn {
 
 	public void setKolicinaKwh(Double kolicinaKwh) {
 		this.kolicinaKwh = kolicinaKwh;
+	}
+	
+	public void setKolicinaKwhPov(Double kolicinaKwhPov) {
+		this.kolicinaKwhPov = kolicinaKwhPov;
+	}
+
+	public void setKolicinaKwhZap(Double kolicinaKwhZap) {
+		this.kolicinaKwhZap = kolicinaKwhZap;
+	}
+
+	public void setKolicinaKwhKor(Double kolicinaKwhKor) {
+		this.kolicinaKwhKor = kolicinaKwhKor;
 	}
 
 	public void setEmisijaCo2(Double emisijaCo2) {

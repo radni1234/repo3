@@ -16,5 +16,6 @@ public class IzvestajService {
 	
 	public List<Izvestaj> izvApsMesPot (String obj_id, String ene_tip_id, Date datum_od, Date datum_do) {
 		return dao.izvApsMesPot(obj_id, ene_tip_id, datum_od, datum_do);
-	}
+	}	
+
 }

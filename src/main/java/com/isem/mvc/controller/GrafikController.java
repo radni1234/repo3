@@ -10,22 +10,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.isem.mvc.model.Izvestaj;
-import com.isem.mvc.service.IzvestajService;
+import com.isem.mvc.service.GrafikService;
+import com.isem.mvc.tab.Grafik;
 
 @RestController
-@RequestMapping("/izvestaj")
-public class IzvestajController {
+@RequestMapping("/grafik")
+public class GrafikController {
 	@Autowired
-	private IzvestajService service;
+	private GrafikService service;
 	
-	@RequestMapping(value="/aps_mes_pot", params = {"obj_id", "ene_tip_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
-	public List<Izvestaj> izvApsMesPot(@RequestParam("obj_id") String obj_id,
-			@RequestParam("ene_tip_id") String ene_tip_id,
+	@RequestMapping(value="/efik_obj_kws_pov", params = {"obj_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
+	public List<Grafik> grafEfikObjKwhPov(@RequestParam("obj_id") String obj_id,		
 			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
 			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
-		return service.izvApsMesPot(obj_id, ene_tip_id, datum_od, datum_do);
+		return service.grafEfikObjKwhPov(obj_id, datum_od, datum_do);
 	}
-	
-
 }
