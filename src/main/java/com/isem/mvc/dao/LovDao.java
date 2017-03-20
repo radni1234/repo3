@@ -69,4 +69,20 @@ public class LovDao {
 	
 		return query.getResultList();
 	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<Lov> objekatIzvestajLov(Long opsId, Long mesId, Long gruId, Long podgruId) {
+		Query query = entityManager.createNativeQuery(
+				"select o.id, o.naziv as name " + 
+				 "FROM ((((`objekat` `o` JOIN `mesto` `m`)	JOIN `podgrupa` `p`) JOIN `opstina` `op`) JOIN `grupa` `g`) " + 
+				 "WHERE ((`o`.`mesto_id` = `m`.`id`) AND (`o`.`podgrupa_id` = `p`.`id`) AND (`m`.`opstina_id` = `op`.`id`)	AND (`p`.`grupa_id` = `g`.`id`)) " +
+				 "			and (`m`.`opstina_id` = " + opsId + " or " + opsId + " = 0) " +
+				 "			and (`o`.`mesto_id` = " + mesId + " or " + mesId + " = 0) " +
+				 "			and (`p`.`grupa_id` = " + gruId + " or " + gruId + " = 0) " +	
+				 "			and (`o`.`podgrupa_id` = " + podgruId + " or " + podgruId + " = 0) " ,								
+				"Lov");
+	
+		return query.getResultList();
+	}
 }

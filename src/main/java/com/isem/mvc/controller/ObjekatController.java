@@ -71,4 +71,12 @@ public class ObjekatController {
 	public List<Lov> getObjekatLov() {
 		return service.objekatLov();
 	}
+	
+	@RequestMapping(value="/lov", params = {"ops_id", "mes_id", "gru_id", "podgru_id"}, method=RequestMethod.GET)
+	public List<Lov> getObjekatLov(@RequestParam(value = "ops_id") Long opsId, 
+								   @RequestParam(value = "mes_id") Long mesId,
+								   @RequestParam(value = "gru_id") Long gruId, 
+								   @RequestParam(value = "podgru_id") Long podgruId) {
+		return service.objekatIzvestajLov(opsId, mesId, gruId, podgruId);
+	}
 }

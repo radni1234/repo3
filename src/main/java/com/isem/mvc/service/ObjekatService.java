@@ -57,4 +57,8 @@ public class ObjekatService {
 		return lovDao.objekatLov();
 	}
 	
+	public List<Lov> objekatIzvestajLov (Long opsId, Long mesId, Long gruId, Long podgruId){
+		return lovDao.objekatIzvestajLov(opsId, mesId, gruId, podgruId);
+	}
+	
 }
