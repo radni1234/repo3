@@ -1,0 +1,12 @@
+CREATE DEFINER=`isem`@`%` PROCEDURE `graf_efik_obj_kwh_pov`(i_obj_id varchar(4000), i_datum_od date, i_datum_do date)
+begin
+	CALL upisi_id_u_temp(i_obj_id);
+
+	select o.naziv objekat, sum(r.kolicina_kwh_pov) x_value, sum(r.kolicina_kwh) y_value
+	from objekat o, brojilo b, rn r
+	where b.objekat_id = o.id
+		  and r.brojilo_id = b.id
+		  and r.brojilo_id in (select id from brojilo where objekat_id in (select c1 from t1))  
+		  and r.datumr between i_datum_od and i_datum_do
+	group by o.naziv;
+end
