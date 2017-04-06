@@ -91,3 +91,5 @@ izvestaj/aps_mes_pot?params = {"obj_id, ene_tip_id, datum_od, datum_do"}
 
 GRAFICI
 grafik/efik_obj_kws_pov?params = {"obj_id, datum_od, datum_do"}
+grafik/cusum_pre?params = {"mera_id}
+grafik/cusum_posle?params = {"mera_id}
