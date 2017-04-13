@@ -10,6 +10,7 @@ public class ObjekatView {
 	@Id
 	private Long id;
 	private String naziv;
+	private Long opstinaId;
 	private String opstina;
 	private String mesto;
 	private String adresa;
@@ -144,6 +145,8 @@ public class ObjekatView {
 	public Date getAlarmTrendStart() {
 		return alarmTrendStart;
 	}
-	
+	public Long getOpstinaId() {
+		return opstinaId;
+	}	
 	
 }

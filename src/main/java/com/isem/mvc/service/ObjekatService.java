@@ -2,6 +2,8 @@ package com.isem.mvc.service;
 
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,8 @@ import com.isem.mvc.tab.ObjekatView;
 
 @Service
 public class ObjekatService {
+	private final Log logger = LogFactory.getLog(this.getClass());
+	
 	@Autowired
 	private ObjekatDao dao;
 	
@@ -29,16 +33,18 @@ public class ObjekatService {
 		return dao.findById(id);
 	}
 
-	public List<Objekat> findAll () {
-		return dao.findAll();
+	public List<Objekat> findAll (String user) {
+		logger.info("korisnik " + user);
+		return dao.findAll(user);
 	}
 
 	public Page<Objekat> findAll (Pageable pageRequest) {
 		return dao.findAll(pageRequest);
 	}
 	
-	public List<ObjekatView> findAllView () {
-		return viewDao.findAll();
+	public List<ObjekatView> findAllView (String user) {
+		logger.info("korisnik " + user);
+		return viewDao.findAll(user);
 	}
 
 	public Page<ObjekatView> findAllView (Pageable pageRequest) {
