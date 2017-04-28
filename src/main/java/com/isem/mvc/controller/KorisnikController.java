@@ -6,13 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.isem.mvc.model.Korisnik;
+import com.isem.mvc.model.security.User;
 import com.isem.mvc.service.KorisnikService;
 import com.isem.mvc.tab.KorisnikView;
 
@@ -23,14 +24,17 @@ public class KorisnikController {
 
 	@Autowired
 	private KorisnikService service;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@RequestMapping(value="/sve", method=RequestMethod.GET)
-	public List<Korisnik> getAll() {
+	public List<User> getAll() {
 		return service.findAll();
 	}
 
 	@RequestMapping(value="/sve", params = {"str", "vel"}, method=RequestMethod.GET)
-	public Page<Korisnik> getAll(@RequestParam(value = "str") int strana, 
+	public Page<User> getAll(@RequestParam(value = "str") int strana, 
 								@RequestParam(value = "vel") int velicina ) {
 		
 		Pageable pageable = new PageRequest(strana, velicina);
@@ -53,17 +57,20 @@ public class KorisnikController {
 	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
-	public Korisnik findById(@RequestParam("id") Long id){
+	public User findById(@RequestParam("id") Long id){
 		return service.findById(id);
 	}		
 	
 	@RequestMapping(value="/jedan", params = {"username"}, method=RequestMethod.GET)
-	public Korisnik findByUsername(@RequestParam("username") String username){
+	public User findByUsername(@RequestParam("username") String username){
 		return service.findByUsername(username);
 	}
 
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
-	public Korisnik add(@RequestBody Korisnik obj) {
+	public User add(@RequestBody User obj) {
+		if(obj.getId() == null){
+			obj.setPassword(passwordEncoder.encode(obj.getPassword()));
+		}
 		
 		return service.save(obj);
 	}

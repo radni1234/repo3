@@ -2,6 +2,9 @@ package com.isem.mvc.model.security;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 @Entity
@@ -17,9 +20,17 @@ public class Authority {
     @NotNull
     @Enumerated(EnumType.STRING)
     private AuthorityName name;
+    
+    @Column(name = "KRACI_NAZ", length = 5)
+    private String kraciNaz;
 
     @ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY)
-    private List<User> users;
+    private List<User> users;   
+    
+	
+	@Version
+    @Column(name = "VERSION", columnDefinition = "int(11) default 0")
+    private Integer version;
 
     public Long getId() {
         return id;
@@ -36,7 +47,8 @@ public class Authority {
     public void setName(AuthorityName name) {
         this.name = name;
     }    
-
+    
+    @JsonIgnore
     public List<User> getUsers() {
         return users;
     }
@@ -44,4 +56,18 @@ public class Authority {
     public void setUsers(List<User> users) {
         this.users = users;
     }
+
+	public String getKraciNaz() {
+		return kraciNaz;
+	}
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setKraciNaz(String kraciNaz) {
+		this.kraciNaz = kraciNaz;
+	}
+    
+    
 }

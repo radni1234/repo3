@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.isem.mvc.model.Uloga;
+import com.isem.mvc.model.security.Authority;
 import com.isem.mvc.service.UlogaService;
 
 @RestController
@@ -23,26 +23,31 @@ public class UlogaController {
 	private UlogaService service;
 
 	@RequestMapping(value="/sve", method=RequestMethod.GET)
-	public List<Uloga> getAll() {
+	public List<Authority> getAll() {
 		return service.findAll();
 	}
 
 	@RequestMapping(value="/sve", params = {"str", "vel"}, method=RequestMethod.GET)
-	public Page<Uloga> getAll(@RequestParam(value = "str") int strana, 
+	public Page<Authority> getAll(@RequestParam(value = "str") int strana, 
 								@RequestParam(value = "vel") int velicina ) {
 		
 		Pageable pageable = new PageRequest(strana, velicina);
 		
 		return service.findAll(pageable);
 	}
+	
+	@RequestMapping(value="/sve", params = {"user"}, method=RequestMethod.GET)
+	public List<Authority> findByUser(@RequestParam("user") String user){
+		return service.findByUser(user);
+	}	
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
-	public Uloga findById(@RequestParam("id") Long id){
+	public Authority findById(@RequestParam("id") Long id){
 		return service.findById(id);
 	}		
 
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
-	public Uloga add(@RequestBody Uloga obj) {
+	public Authority add(@RequestBody Authority obj) {
 		
 		return service.save(obj);
 	}

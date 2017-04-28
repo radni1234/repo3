@@ -22,7 +22,7 @@ public interface ObjekatDao extends PagingAndSortingRepository<Objekat, Long>{
 	@Query("select o from Objekat o where o.mesto.id in "
 			 + "(select m from Mesto m where m.opstina in "				 
 			 + "(select m2.opstina from Mesto m2 where m2 in "
-			 + "(select k.mesto from Korisnik k where username like :user)))"
+			 + "(select k.mesto from User k where username like :user)))"
 		  )
 	List<Objekat> findAll(@Param("user") String user);
 

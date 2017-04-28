@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.isem.mvc.dao.KorisnikDao;
 import com.isem.mvc.dao.KorisnikViewDao;
-import com.isem.mvc.model.Korisnik;
+import com.isem.mvc.model.security.User;
 import com.isem.mvc.tab.KorisnikView;
 
 @Service
@@ -20,19 +20,19 @@ public class KorisnikService {
 	@Autowired
 	private KorisnikViewDao korisnikViewDao;
 	
-	public Korisnik findById (Long id) {
+	public User findById (Long id) {
 		return korisnikDao.findById(id);
 	}
 	
-	public Korisnik findByUsername (String userName) {	
+	public User findByUsername (String userName) {	
 		return korisnikDao.findByUsername(userName);
 	}
 	
-	public List<Korisnik> findAll () {
+	public List<User> findAll () {
 		return korisnikDao.findAll();
 	}
 	
-	public Page<Korisnik> findAll (Pageable pageRequest) {
+	public Page<User> findAll (Pageable pageRequest) {
 		return korisnikDao.findAll(pageRequest);
 	}
 	
@@ -44,7 +44,7 @@ public class KorisnikService {
 		return korisnikViewDao.findAll(pageRequest);
 	}
 				
-	public Korisnik save(Korisnik korisnik) {
+	public User save(User korisnik) {
 		return korisnikDao.save(korisnik);
 	}	
 	

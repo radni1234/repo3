@@ -7,18 +7,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
-import com.isem.mvc.model.Korisnik;
+import com.isem.mvc.model.security.User;
 
 @Repository
-public interface KorisnikDao extends PagingAndSortingRepository<Korisnik, Long>{
+public interface KorisnikDao extends PagingAndSortingRepository<User, Long>{
 	
-	Korisnik findByUsername (String userName);
+	User findByUsername (String userName);
 	
-	Korisnik findById(Long id);
+	User findById(Long id);
 	
-	List<Korisnik> findAll();
+	List<User> findAll();
 	
-	Page<Korisnik> findAll(Pageable pageRequest);	
+	Page<User> findAll(Pageable pageRequest);	
 
 }
 

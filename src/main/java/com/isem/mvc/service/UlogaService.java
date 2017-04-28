@@ -8,26 +8,30 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.isem.mvc.dao.UlogaDao;
-import com.isem.mvc.model.Uloga;
+import com.isem.mvc.model.security.Authority;
 
 @Service
 public class UlogaService {
 	@Autowired
 	private UlogaDao dao;
 		
-	public Uloga findById (Long id) {
+	public Authority findById (Long id) {
 		return dao.findById(id);
 	}
 	
-	public List<Uloga> findAll () {
+	public List<Authority> findByUser(String user) {
+		return dao.findByUser(user);
+	}
+	
+	public List<Authority> findAll () {
 		return dao.findAll();
 	}
 	
-	public Page<Uloga> findAll (Pageable pageRequest) {
+	public Page<Authority> findAll (Pageable pageRequest) {
 		return dao.findAll(pageRequest);
 	}
 	
-	public Uloga save(Uloga obj) {
+	public Authority save(Authority obj) {
 		return dao.save(obj);
 	}
 	
