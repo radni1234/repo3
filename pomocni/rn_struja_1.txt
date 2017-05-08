@@ -11,41 +11,21 @@ kolone  8	VISA_TARIFA	2
 
 alter session set  nls_date_format="yyyy-mm-dd hh24:mi:ss";
 
-
-61	2009
-41	2010
-1	2011
-2	2012
-21	2013
-81	2014
-101	2015
-121	2016
-141	2017
-
-1	2009
-2	2010
-3	2011
-4	2012
-5	2013
-6	2014
-7	2015
-8	2016
-
-
 declare p_id number;
 begin
 
   for i in (SELECT id stari_id, 
             rn_struja.BROJILO_ID,
              case 
-             when GODINA_ID = 1 then 1
-             when GODINA_ID = 2 then 2
-             when GODINA_ID = 21 then 3
-             when GODINA_ID = 41 then 4
-             when GODINA_ID = 61 then 5
+             when GODINA_ID = 61 then 1
+             when GODINA_ID = 41 then 2
+             when GODINA_ID = 1 then 3
+             when GODINA_ID = 2 then 4
+             when GODINA_ID = 21 then 5
              when GODINA_ID = 81 then 6
              when GODINA_ID = 101 then 7
              when GODINA_ID = 121 then 8
+			 when GODINA_ID = 141 then 9
              end as GODINA_ID,
             rn_struja.MESEC_ID,    
             rn_struja.DOBAVLJAC_ID,
@@ -66,7 +46,7 @@ begin
             PREKOMERNA_SNAGA,
             IZNOS,
             NAKNADA
-            FROM isem_vr.rn_struja
+            FROM rn_struja
             where brojilo_id in (select id from brojilo where model_placanja_id = 3))
   loop
 

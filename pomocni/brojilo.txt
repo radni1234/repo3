@@ -1,3 +1,33 @@
+SELECT brojilo.id,
+    brojilo.automatski,
+    brojilo.sifra_brojila,
+    brojilo.obracunski_period,
+    brojilo.opis,
+    brojilo.procenat,
+    brojilo.brojilo_tip_id,
+    brojilo.objekat_id,
+    brojilo.rezim_merenja_id,
+    brojilo.vodece_brojilo_id,
+    (select case energent_id
+						when 7 then 4
+						when 10 then 6
+						when 11 then 7
+						when 14 then 5
+						when 20 then 9
+						when 23 then 8
+						when 16 then 
+							case model_placanja_id
+								when 3 then 1
+								when 4 then 2
+								when 5 then 3
+							end
+						end
+					from brojilo b2
+          where brojilo.id = b2.id) brojilo_vrsta_id
+FROM brojilo;
+
+
+
 update brojilo b
 set brojilo_vrsta_id = (select case energent_id
 						when 7 then 4
