@@ -37,13 +37,18 @@ public class BrojiloController {
 	}
 	
 	@RequestMapping(value = "/sve", params = {"obj_id"}, method=RequestMethod.GET)
-	public List<Brojilo> getAllBrojiloByObjekat(@RequestParam(value = "obj_id") Long id) {	
-		return service.findBrojiloByObjekat(id);
+	public List<Brojilo> getAllBrojiloByObjekat(@RequestParam(value = "obj_id") Long obj_id) {	
+		return service.findBrojiloByObjekat(obj_id);
 	}
 	
 	@RequestMapping(value="/tab", method=RequestMethod.GET)
 	public List<BrojiloView> getAllView() {
 		return service.findAllView();
+	}
+	
+	@RequestMapping(value="/tab", params = {"obj_id"}, method=RequestMethod.GET)
+	public List<BrojiloView> findBrojiloViewByObjekat(@RequestParam(value = "obj_id") Long obj_id) {		
+		return service.findBrojiloViewByObjekat(obj_id);
 	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)

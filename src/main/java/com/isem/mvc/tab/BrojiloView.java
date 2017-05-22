@@ -9,6 +9,7 @@ public class BrojiloView {
 	private Long id;
 	private String sifra_brojila;
 	private String opis;
+	private Long objekatId;
 	private String objekat;
 	private String brojilo_tip;
 	private String brojilo_vrsta;	
@@ -50,6 +51,10 @@ public class BrojiloView {
 	public String getAutomatski() {
 		return automatski;
 	}
+	public Long getObjekatId() {
+		return objekatId;
+	}
+	
 	
 	
 }

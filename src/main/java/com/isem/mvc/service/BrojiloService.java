@@ -47,6 +47,10 @@ public class BrojiloService {
 	public Page<BrojiloView> findAllView (Pageable pageRequest) {
 		return daoView.findAll(pageRequest);
 	}
+		
+	public List<BrojiloView> findBrojiloViewByObjekat(Long obj_id) {		
+		return daoView.findBrojiloViewByObjekat(obj_id);
+	}
 
 	public Brojilo save(Brojilo obj) {
 		return dao.save(obj);
