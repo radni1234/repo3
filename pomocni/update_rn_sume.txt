@@ -32,6 +32,10 @@ set emisija_co2 = (select sum(vrednost)
 							and s.brojilo_vrsta_kolone_id = b.id
 							and b.kolona_tip_id = 2) 
 					*
+                    (select kwh_jm
+                    from energent
+                    where id = rn.energent_id)
+					*
                     (select emisija
                     from energent
                     where id = rn.energent_id);

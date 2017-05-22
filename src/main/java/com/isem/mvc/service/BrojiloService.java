@@ -8,12 +8,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.isem.mvc.dao.BrojiloDao;
+import com.isem.mvc.dao.BrojiloViewDao;
 import com.isem.mvc.model.Brojilo;
+import com.isem.mvc.tab.BrojiloView;
 
 @Service
 public class BrojiloService {
 	@Autowired
 	private BrojiloDao dao;
+	
+	@Autowired
+	private BrojiloViewDao daoView;
 		
 	public Brojilo findById (Long id) {
 		return dao.findById(id);
@@ -29,6 +34,18 @@ public class BrojiloService {
 
 	public Page<Brojilo> findAll (Pageable pageRequest) {
 		return dao.findAll(pageRequest);
+	}
+	
+	public BrojiloView findByIdView (Long id) {
+		return daoView.findById(id);
+	}
+
+	public List<BrojiloView> findAllView () {
+		return daoView.findAll();
+	}
+
+	public Page<BrojiloView> findAllView (Pageable pageRequest) {
+		return daoView.findAll(pageRequest);
 	}
 
 	public Brojilo save(Brojilo obj) {

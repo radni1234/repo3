@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isem.mvc.model.Brojilo;
 import com.isem.mvc.service.BrojiloService;
+import com.isem.mvc.tab.BrojiloView;
 
 @RestController
 @RequestMapping("/brojilo")
@@ -38,6 +39,11 @@ public class BrojiloController {
 	@RequestMapping(value = "/sve", params = {"obj_id"}, method=RequestMethod.GET)
 	public List<Brojilo> getAllBrojiloByObjekat(@RequestParam(value = "obj_id") Long id) {	
 		return service.findBrojiloByObjekat(id);
+	}
+	
+	@RequestMapping(value="/tab", method=RequestMethod.GET)
+	public List<BrojiloView> getAllView() {
+		return service.findAllView();
 	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)

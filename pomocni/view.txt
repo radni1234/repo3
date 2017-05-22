@@ -135,4 +135,23 @@ from brojilo_vrsta_kolone bv left join brojilo_vrsta b on bv.brojilo_vrsta_id = 
         left join jed_mere j on  bv.jed_mere_id = j.id
 ;
 
+create view brojilo_view as 
+select `brojilo`.`id`,
+	`brojilo`.`sifra_brojila`,
+	`brojilo`.`opis`,
+    `objekat`.`naziv` objekat,
+    `brojilo_tip`.`naziv` brojilo_tip,
+    `brojilo_vrsta`.`naziv` brojilo_vrsta,
+    `rezim_merenja`.`naziv` rezim_merenja,       
+    `brojilo_2`.`sifra_brojila` vodece_brojilo,
+    `brojilo`.`procenat`,
+    `brojilo`.`obracunski_period`,
+    `brojilo`.`automatski`     
+from ((((`brojilo` left outer join `objekat` on `brojilo`.objekat_id = `objekat`.id)
+		left outer join `brojilo_tip` on `brojilo`.brojilo_tip_id = `brojilo_tip`.id)
+        left outer join `brojilo_vrsta` on `brojilo`.brojilo_vrsta_id = `brojilo_vrsta`.id)
+		left outer join `rezim_merenja` on `brojilo`.rezim_merenja_id = `rezim_merenja`.id)
+        left outer join `brojilo` as brojilo_2 on `brojilo`.vodece_brojilo_id = `brojilo_2`.id
+        ;
+
 			

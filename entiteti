@@ -62,6 +62,7 @@ GET /sve?params = {"ops_id"}
 
 BROJILO - brojilo
 GET /sve?params = {"obj_id"}
+GET /tab
 
 OBJEKAT - objekat
 GET /tab
