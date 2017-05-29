@@ -139,6 +139,7 @@ create view brojilo_view as
 select `brojilo`.`id`,
 	`brojilo`.`sifra_brojila`,
 	`brojilo`.`opis`,
+    `objekat`.`id` objekat_id,
     `objekat`.`naziv` objekat,
     `brojilo_tip`.`naziv` brojilo_tip,
     `brojilo_vrsta`.`naziv` brojilo_vrsta,
@@ -153,5 +154,4 @@ from ((((`brojilo` left outer join `objekat` on `brojilo`.objekat_id = `objekat`
 		left outer join `rezim_merenja` on `brojilo`.rezim_merenja_id = `rezim_merenja`.id)
         left outer join `brojilo` as brojilo_2 on `brojilo`.vodece_brojilo_id = `brojilo_2`.id
         ;
-
 			

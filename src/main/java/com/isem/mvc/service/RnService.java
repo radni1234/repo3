@@ -49,12 +49,7 @@ public class RnService {
 	public Rn save(Rn rn) {
 		Double sumIznos = 0.0;
 		Double sumKolicina = 0.0;
-		Double sumkolicinaKwh = 0.0;
-		Double sumkolicinaKwhPov = 0.0;
-		Double sumkolicinaKwhZap = 0.0;
-		Double sumkolicinaKwhKor = 0.0;
-		Double sumEmisija = 0.0;
-		
+
 		
 		List<RnStavke> rnStavkeList = rn.getRnStavke();		
 		
@@ -66,18 +61,39 @@ public class RnService {
 		    	sumIznos = sumIznos + r.getVrednost();
 		    } else if (r.getBrojiloVrstaKolone().getKolonaTip().getId() == 2){
 		    	sumKolicina = sumKolicina + r.getVrednost();
-		    	sumkolicinaKwh = sumkolicinaKwh + (r.getVrednost() * rn.getEnergent().getKwhJm());		    	
-		    	sumEmisija = sumEmisija + (r.getVrednost() * rn.getEnergent().getEmisija());
 		    } 
 		}
 				
 		rn.setIznos(sumIznos);
 		rn.setKolicina(sumKolicina);
-		rn.setKolicinaKwh(sumkolicinaKwh);
-		rn.setKolicinaKwhPov(sumkolicinaKwhPov / rn.getBrojilo().getObjekat().getGrejPoKorisna());
-		rn.setKolicinaKwhZap(sumkolicinaKwhZap / rn.getBrojilo().getObjekat().getGrejZa());
-		rn.setKolicinaKwhKor(sumkolicinaKwhKor / rn.getBrojilo().getObjekat().getOpBrKor());
-		rn.setEmisijaCo2(sumEmisija);
+		
+		if (rn.getEnergent().getKwhJm() != null) {
+			rn.setKolicinaKwh(sumKolicina * rn.getEnergent().getKwhJm());
+		}
+		
+		if (rn.getEnergent().getPrimarnaEnergija() != null) {
+			rn.setKolicinaPrimEne(sumKolicina * rn.getEnergent().getPrimarnaEnergija());
+		}
+		
+		if (rn.getEnergent().getFinalnaEnergija() != null) {
+			rn.setKolicinaFinEne(sumKolicina * rn.getEnergent().getFinalnaEnergija());
+		}
+		
+		if (rn.getEnergent().getEmisija() != null) {
+			rn.setEmisijaCo2(sumKolicina * rn.getEnergent().getEmisija());
+		}
+		
+		if (rn.getBrojilo().getObjekat().getGrejPoKorisna() != null) {
+			rn.setKolicinaKwhPov(rn.getKolicinaKwh() / rn.getBrojilo().getObjekat().getGrejPoKorisna());
+		}
+		
+		if (rn.getBrojilo().getObjekat().getGrejZa() != null) {
+		rn.setKolicinaKwhZap(rn.getKolicinaKwh() / rn.getBrojilo().getObjekat().getGrejZa());
+		}
+		
+		if (rn.getBrojilo().getObjekat().getOpBrKor() != null) {
+			rn.setKolicinaKwhKor(rn.getKolicinaKwh() / rn.getBrojilo().getObjekat().getOpBrKor());
+		}
 		
 		return dao.save(rn);
 	}

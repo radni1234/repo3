@@ -47,6 +47,12 @@ public class Energent {
 	@Column(name = "EMISIJA")
 	private Double emisija;
 	
+	@Column(name = "PRIMARNA_ENERGIJA")
+	private Double primarnaEnergija;
+	
+	@Column(name = "FINALNA_ENERGIJA")
+	private Double finalnaEnergija;
+	
 	@Column(name = "SIFRA")
 	private Double sifra;
 	
@@ -80,6 +86,15 @@ public class Energent {
 	public Double getEmisija() {
 		return emisija;
 	}
+	
+
+	public Double getPrimarnaEnergija() {
+		return primarnaEnergija;
+	}
+
+	public Double getFinalnaEnergija() {
+		return finalnaEnergija;
+	}
 
 	public Double getSifra() {
 		return sifra;
@@ -111,6 +126,14 @@ public class Energent {
 
 	public void setEmisija(Double emisija) {
 		this.emisija = emisija;
+	}	
+
+	public void setPrimarnaEnergija(Double primarnaEnergija) {
+		this.primarnaEnergija = primarnaEnergija;
+	}
+
+	public void setFinalnaEnergija(Double finalnaEnergija) {
+		this.finalnaEnergija = finalnaEnergija;
 	}
 
 	public void setSifra(Double sifra) {
