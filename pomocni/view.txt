@@ -1,8 +1,17 @@
-create view energent_view as
-select e.id, e.naziv, emisija, kwh_jm, sifra, racun, t.naziv energent_tip, j.naziv jed_mere
-from energent e, energent_tip t, jed_mere j
-where e.energent_tip_id = t.id
-	  and e.jed_mere_id = j.id;
+  CREATE VIEW `energent_view` AS
+    SELECT 
+        `e`.`id` AS `id`,
+        `e`.`naziv` AS `naziv`,
+        `e`.`emisija` AS `emisija`,
+        `e`.`kwh_jm` AS `kwh_jm`,
+        `e`.`sifra` AS `sifra`,
+        `e`.`racun` AS `racun`,
+        `t`.`naziv` AS `energent_tip`,
+        `j`.`naziv` AS `jed_mere`,
+        `e`.`primarna_energija` AS `primarna_energija`,
+        `e`.`finalna_energija` AS `finalna_energija`
+    FROM ((`energent` `e` LEFT OUTER JOIN  `energent_tip` `t` ON `e`.`energent_tip_id` = `t`.`id`)
+        LEFT OUTER JOIN `jed_mere` `j` ON `e`.`jed_mere_id` = `j`.`id`);
       
 create view dobavljac_view as
 select d.id, d.naziv, tel, mail, web, m.naziv mesto

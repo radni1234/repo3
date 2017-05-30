@@ -14,6 +14,9 @@ public class EnergentView {
 	private Double emisija;
 	private Double sifra;
 	private String racun;
+	private Double primarnaEnergija;
+	private Double finalnaEnergija;
+	
 	public Long getId() {
 		return id;
 	}
@@ -37,6 +40,12 @@ public class EnergentView {
 	}
 	public String getRacun() {
 		return racun;
+	}
+	public Double getPrimarnaEnergija() {
+		return primarnaEnergija;
+	}
+	public Double getFinalnaEnergija() {
+		return finalnaEnergija;
 	}
 	
 	
