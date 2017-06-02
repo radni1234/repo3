@@ -164,3 +164,87 @@ from ((((`brojilo` left outer join `objekat` on `brojilo`.objekat_id = `objekat`
         left outer join `brojilo` as brojilo_2 on `brojilo`.vodece_brojilo_id = `brojilo_2`.id
         ;
 			
+			
+CREATE VIEW BROJILO_KOEF_V AS  
+ select id, vodece_brojilo_id, 1 koef, objekat_id, brojilo_tip_id
+from brojilo b1
+where not exists (select 1 from brojilo b2
+                  where b1.id = b2.vodece_brojilo_id)
+      and brojilo_tip_id in (1,2)
+union
+select id, vodece_brojilo_id, 1-(select sum(ifnull(procenat,0))/100 from brojilo bb where bb.vodece_brojilo_id = b1.id) koef, objekat_id, brojilo_tip_id
+from brojilo b1
+where exists (select 1 from brojilo b2
+              where b1.id = b2.vodece_brojilo_id)
+      and brojilo_tip_id in (1,2)
+union
+select id, vodece_brojilo_id, ifnull(procenat,0)/100 koef, objekat_id, brojilo_tip_id
+from brojilo b1
+where brojilo_tip_id in (3);
+
+
+CREATE VIEW RN_VIEW AS  
+
+SELECT rn.id,
+    rn.broj_rn,
+    rn.datumm,
+    rn.datumr,
+    rn.datumu,
+    rn.menjao,
+    rn.napomena,
+    rn.stari_id,
+    rn.uneo,
+    rn.version,
+    rn.brojilo_id,
+    rn.dobavljac_id,
+    rn.energent_id,
+    rn.godina_id,
+    rn.mesec_id,
+    rn.rn_tip_id,
+    rn.emisija_co2,
+    rn.iznos * b.koef iznos,
+    rn.kolicina * b.koef kolicina,
+    rn.kolicina_kwh * b.koef kolicina_kwh,
+    rn.kolicina_kwh_pov * b.koef kolicina_kwh_pov,
+    rn.kolicina_kwh_zap * b.koef kolicina_kwh_zap,
+    rn.kolicina_kwh_kor * b.koef kolicina_kwh_kor,
+    rn.kolicina_fin_ene * b.koef kolicina_fin_ene,
+    rn.kolicina_prim_ene * b.koef kolicina_prim_ene,
+    'G' tip
+FROM rn, brojilo_koef_v b
+WHERE rn.brojilo_id = b.id
+
+union all
+
+-- racuni glavnog brojila preneti na virtuelno (dato) brojilo, jer se na virtuelno brojilo ne vezuju direktno racuni, vec se
+-- preuzima srazmerni deo racuna glavnog brojila
+SELECT rn.id,
+    rn.broj_rn,
+    rn.datumm,
+    rn.datumr,
+    rn.datumu,
+    rn.menjao,
+    rn.napomena,
+    rn.stari_id,
+    rn.uneo,
+    rn.version,
+    rn.brojilo_id,
+    rn.dobavljac_id,
+    rn.energent_id,
+    rn.godina_id,
+    rn.mesec_id,
+    rn.rn_tip_id,
+    rn.emisija_co2,
+    rn.iznos * b.koef iznos,
+    rn.kolicina * b.koef kolicina,
+    rn.kolicina_kwh * b.koef kolicina_kwh,
+    rn.kolicina_kwh_pov * b.koef kolicina_kwh_pov,
+    rn.kolicina_kwh_zap * b.koef kolicina_kwh_zap,
+    rn.kolicina_kwh_kor * b.koef kolicina_kwh_kor,
+    rn.kolicina_fin_ene * b.koef kolicina_fin_ene,
+    rn.kolicina_prim_ene * b.koef kolicina_prim_ene,
+    'V' tip
+FROM rn, brojilo_koef_v b
+WHERE rn.brojilo_id = b.id
+	  AND b.brojilo_tip_id = 3
+;

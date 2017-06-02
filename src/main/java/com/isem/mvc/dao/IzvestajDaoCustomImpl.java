@@ -27,4 +27,6 @@ public class IzvestajDaoCustomImpl implements IzvestajDaoCustom {
 	    return query.getResultList();
 	}	
 	
+
+	
 }
