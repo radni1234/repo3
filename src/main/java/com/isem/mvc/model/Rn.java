@@ -85,26 +85,26 @@ public class Rn {
 	@Column(name = "KOLICINA", columnDefinition = "numeric(18,2)")
 	private Double kolicina;
 	
-	@Column(name = "KOLICINA_KWH", columnDefinition = "numeric(18,2)")
-	private Double kolicinaKwh;
-	
-	@Column(name = "KOLICINA_KWH_POV", columnDefinition = "numeric(18,2)")
-	private Double kolicinaKwhPov;
-	
-	@Column(name = "KOLICINA_KWH_ZAP", columnDefinition = "numeric(18,2)")
-	private Double kolicinaKwhZap;
-	
-	@Column(name = "KOLICINA_KWH_KOR", columnDefinition = "numeric(18,2)")
-	private Double kolicinaKwhKor;	
-	
-	@Column(name = "KOLICINA_PRIM_ENE", columnDefinition = "numeric(18,2)")
-	private Double kolicinaPrimEne;	
-	
-	@Column(name = "KOLICINA_FIN_ENE", columnDefinition = "numeric(18,2)")
-	private Double kolicinaFinEne;	
-
-	@Column(name = "EMISIJA_CO2", columnDefinition = "numeric(18,2)")
-	private Double emisijaCo2;
+//	@Column(name = "KOLICINA_KWH", columnDefinition = "numeric(18,2)")
+//	private Double kolicinaKwh;
+//	
+//	@Column(name = "KOLICINA_KWH_POV", columnDefinition = "numeric(18,2)")
+//	private Double kolicinaKwhPov;
+//	
+//	@Column(name = "KOLICINA_KWH_ZAP", columnDefinition = "numeric(18,2)")
+//	private Double kolicinaKwhZap;
+//	
+//	@Column(name = "KOLICINA_KWH_KOR", columnDefinition = "numeric(18,2)")
+//	private Double kolicinaKwhKor;	
+//	
+//	@Column(name = "KOLICINA_PRIM_ENE", columnDefinition = "numeric(18,2)")
+//	private Double kolicinaPrimEne;	
+//	
+//	@Column(name = "KOLICINA_FIN_ENE", columnDefinition = "numeric(18,2)")
+//	private Double kolicinaFinEne;	
+//
+//	@Column(name = "EMISIJA_CO2", columnDefinition = "numeric(18,2)")
+//	private Double emisijaCo2;
 	
 	@Column(name = "STARI_ID")
 	private Long stariId;
@@ -241,33 +241,33 @@ public class Rn {
 		return kolicina;
 	}
 
-	public Double getKolicinaKwh() {
-		return kolicinaKwh;
-	}	
-
-	public Double getKolicinaKwhPov() {
-		return kolicinaKwhPov;
-	}
-
-	public Double getKolicinaKwhZap() {
-		return kolicinaKwhZap;
-	}
-
-	public Double getKolicinaKwhKor() {
-		return kolicinaKwhKor;
-	}	
-
-	public Double getKolicinaPrimEne() {
-		return kolicinaPrimEne;
-	}
-
-	public Double getKolicinaFinEne() {
-		return kolicinaFinEne;
-	}
-
-	public Double getEmisijaCo2() {
-		return emisijaCo2;
-	}
+//	public Double getKolicinaKwh() {
+//		return kolicinaKwh;
+//	}	
+//
+//	public Double getKolicinaKwhPov() {
+//		return kolicinaKwhPov;
+//	}
+//
+//	public Double getKolicinaKwhZap() {
+//		return kolicinaKwhZap;
+//	}
+//
+//	public Double getKolicinaKwhKor() {
+//		return kolicinaKwhKor;
+//	}	
+//
+//	public Double getKolicinaPrimEne() {
+//		return kolicinaPrimEne;
+//	}
+//
+//	public Double getKolicinaFinEne() {
+//		return kolicinaFinEne;
+//	}
+//
+//	public Double getEmisijaCo2() {
+//		return emisijaCo2;
+//	}
 
 	public Long getStariId() {
 		return stariId;
@@ -354,34 +354,34 @@ public class Rn {
 		this.kolicina = kolicina;
 	}
 
-	public void setKolicinaKwh(Double kolicinaKwh) {
-		this.kolicinaKwh = kolicinaKwh;
-	}
-	
-	public void setKolicinaKwhPov(Double kolicinaKwhPov) {
-		this.kolicinaKwhPov = kolicinaKwhPov;
-	}
-
-	public void setKolicinaKwhZap(Double kolicinaKwhZap) {
-		this.kolicinaKwhZap = kolicinaKwhZap;
-	}
-
-	public void setKolicinaKwhKor(Double kolicinaKwhKor) {
-		this.kolicinaKwhKor = kolicinaKwhKor;
-	}	
-	
-
-	public void setKolicinaPrimEne(Double kolicinaPrimEne) {
-		this.kolicinaPrimEne = kolicinaPrimEne;
-	}
-
-	public void setKolicinaFinEne(Double kolicinaFinEne) {
-		this.kolicinaFinEne = kolicinaFinEne;
-	}
-
-	public void setEmisijaCo2(Double emisijaCo2) {
-		this.emisijaCo2 = emisijaCo2;
-	}
+//	public void setKolicinaKwh(Double kolicinaKwh) {
+//		this.kolicinaKwh = kolicinaKwh;
+//	}
+//	
+//	public void setKolicinaKwhPov(Double kolicinaKwhPov) {
+//		this.kolicinaKwhPov = kolicinaKwhPov;
+//	}
+//
+//	public void setKolicinaKwhZap(Double kolicinaKwhZap) {
+//		this.kolicinaKwhZap = kolicinaKwhZap;
+//	}
+//
+//	public void setKolicinaKwhKor(Double kolicinaKwhKor) {
+//		this.kolicinaKwhKor = kolicinaKwhKor;
+//	}	
+//	
+//
+//	public void setKolicinaPrimEne(Double kolicinaPrimEne) {
+//		this.kolicinaPrimEne = kolicinaPrimEne;
+//	}
+//
+//	public void setKolicinaFinEne(Double kolicinaFinEne) {
+//		this.kolicinaFinEne = kolicinaFinEne;
+//	}
+//
+//	public void setEmisijaCo2(Double emisijaCo2) {
+//		this.emisijaCo2 = emisijaCo2;
+//	}
 
 	public void setStariId(Long stariId) {
 		this.stariId = stariId;
