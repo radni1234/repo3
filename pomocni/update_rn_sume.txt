@@ -46,4 +46,11 @@ set kolicina_kwh_pov = kolicina_kwh / (select grej_po_korisna from objekat where
 	kolicina_kwh_zap = kolicina_kwh / (select grej_za from objekat where id in 
 										(select objekat_id from brojilo where id = rn.brojilo_id)),
 	kolicina_kwh_kor = kolicina_kwh / (select op_br_kor from objekat where id in 
-										(select objekat_id from brojilo where id = rn.brojilo_id)
+										(select objekat_id from brojilo where id = rn.brojilo_id));
+										
+									
+update rn
+set kolicina_fin_ene = kolicina * (select finalna_energija from energent where id = rn.energent_id),
+	kolicina_prim_ene = kolicina * (select primarna_energija from energent where id = rn.energent_id);
+										
+										

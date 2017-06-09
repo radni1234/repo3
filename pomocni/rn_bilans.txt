@@ -1,0 +1,223 @@
+CREATE TABLE `rn_bilans` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT, 
+  `datumr` datetime DEFAULT NULL,  
+  `brojilo_id` bigint(20) DEFAULT NULL,
+  `dobavljac_id` bigint(20) DEFAULT NULL,
+  `energent_id` bigint(20) DEFAULT NULL,  
+  `rn_tip_id` bigint(20) DEFAULT NULL,  
+  `iznos` decimal(18,2) DEFAULT NULL,
+  `kolicina` decimal(18,2) DEFAULT NULL,
+  `kolicina_kwh` decimal(18,2) DEFAULT NULL,
+  `kolicina_kwh_pov` decimal(18,2) DEFAULT NULL,
+  `kolicina_kwh_zap` decimal(18,2) DEFAULT NULL,
+  `kolicina_kwh_kor` decimal(18,2) DEFAULT NULL,
+  `kolicina_fin_ene` decimal(18,2) DEFAULT NULL,
+  `kolicina_prim_ene` decimal(18,2) DEFAULT NULL,
+  `emisija_co2` decimal(18,2) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `RN_BILANS_FK1` (`brojilo_id`),  
+  KEY `RN_BILANS_FK2` (`energent_id`),
+  KEY `RN_BILANS_FK3` (`dobavljac_id`),
+  KEY `RN_BILANS_FK4` (`rn_tip_id`),
+  CONSTRAINT `RN_BILANS_FK1` FOREIGN KEY (`brojilo_id`) REFERENCES `brojilo` (`id`),
+  CONSTRAINT `RN_BILANS_FK2` FOREIGN KEY (`energent_id`) REFERENCES `energent` (`id`),
+  CONSTRAINT `RN_BILANS_FK3` FOREIGN KEY (`dobavljac_id`) REFERENCES `dobavljac` (`id`),
+  CONSTRAINT `RN_BILANS_FK4` FOREIGN KEY (`rn_tip_id`) REFERENCES `rn_tip` (`id`)
+);
+
+
+insert into rn_bilans(`id`,
+  `datumr`,
+  `brojilo_id`,
+  `dobavljac_id`,
+  `energent_id`, 
+  `rn_tip_id`,
+  `iznos`,
+  `kolicina`,
+  `kolicina_kwh`,
+  `kolicina_kwh_pov`,
+  `kolicina_kwh_zap`,
+  `kolicina_kwh_kor`,
+  `kolicina_fin_ene`,
+  `kolicina_prim_ene`,
+  `emisija_co2`)
+select `id`,
+  `datumr`,
+  `brojilo_id`,
+  `dobavljac_id`,
+  `energent_id`, 
+  `rn_tip_id`,
+  `iznos`,
+  `kolicina`,
+  `kolicina_kwh`,
+  `kolicina_kwh_pov`,
+  `kolicina_kwh_zap`,
+  `kolicina_kwh_kor`,
+  `kolicina_fin_ene`,
+  `kolicina_prim_ene`,
+  `emisija_co2`
+from rn;
+
+
+DELIMITER |
+
+CREATE TRIGGER trig_aiRn AFTER INSERT ON Rn
+   FOR EACH ROW BEGIN
+   
+	  DECLARE p_kwh_jm, p_emisija, p_primarna_ene, p_finalna_ene DOUBLE;
+      DECLARE p_grej_po_korisna, p_grej_za, p_op_br_kor DOUBLE;
+      DECLARE p_koef DOUBLE;
+      DECLARE p_id BIGINT(20);
+      
+      DECLARE cur CURSOR FOR SELECT id FROM brojilo_koef_v WHERE vodece_brojilo_id = NEW.brojilo_id;
+	  DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+      
+      -- koeficijenti za energent --
+      select kwh_jm, emisija, primarna_energija, finalna_energija
+      into p_kwh_jm, p_emisija, p_primarna_ene, p_finalna_ene
+      from energent
+      where id = NEW.`energent_id`;
+      
+      
+      -- glavno brojilo --           
+      select grej_po_korisna, grej_za, op_br_kor
+      into p_grej_po_korisna, p_grej_za, p_op_br_kor
+      from objekat o, brojilo b
+      where o.id = b.objekat_id
+			and b.id = NEW.`brojilo_id`;
+            
+	  select koef into p_koef
+      from brojilo_koef_v
+      where id = NEW.`brojilo_id`;
+	
+      INSERT INTO RnBilnas(`id`,
+						  `datumr`,
+						  `brojilo_id`,
+						  `dobavljac_id`,
+						  `energent_id`, 
+						  `rn_tip_id`,
+						  `iznos`,
+						  `kolicina`,
+						  `kolicina_kwh`,
+						  `kolicina_kwh_pov`,
+						  `kolicina_kwh_zap`,
+						  `kolicina_kwh_kor`,
+						  `kolicina_fin_ene`,
+						  `kolicina_prim_ene`,
+						  `emisija_co2`)
+		VALUES(NEW.`id`,
+			  NEW.`datumr`,
+			  NEW.`brojilo_id`,
+			  NEW.`dobavljac_id`,
+			  NEW.`energent_id`, 
+			  NEW.`rn_tip_id`,
+			  NEW.`iznos`,
+			  NEW.`kolicina`,
+			  NEW.`kolicina` * p_kwh_jm * p_koef,
+			  NEW.`kolicina` * p_kwh_jm / p_grej_po_korisna * p_koef,
+			  NEW.`kolicina` * p_kwh_jm / p_grej_za * p_koef,
+			  NEW.`kolicina` * p_kwh_jm / p_op_br_kor * p_koef,
+			  NEW.`kolicina` * p_finalna_ene * p_koef,
+			  NEW.`kolicina` * p_primarna_ene * p_koef,
+			  NEW.`kolicina` * p_emisija * p_koef);
+              
+		-- virtuelna brojila --        
+        OPEN cur;
+        ins_loop: LOOP
+            FETCH cur INTO p_id;
+            IF done THEN
+                LEAVE ins_loop;
+            END IF;
+            
+            select grej_po_korisna, grej_za, op_br_kor
+		    into p_grej_po_korisna, p_grej_za, p_op_br_kor
+		    from objekat o, brojilo b
+		    where o.id = b.objekat_id
+				 and b.id = p_id;
+				
+		    select koef into p_koef
+		    from brojilo_koef_v
+		    where id = p_id;
+            
+            INSERT INTO RnBilnas(`id`,
+						  `datumr`,
+						  `brojilo_id`,
+						  `dobavljac_id`,
+						  `energent_id`, 
+						  `rn_tip_id`,
+						  `iznos`,
+						  `kolicina`,
+						  `kolicina_kwh`,
+						  `kolicina_kwh_pov`,
+						  `kolicina_kwh_zap`,
+						  `kolicina_kwh_kor`,
+						  `kolicina_fin_ene`,
+						  `kolicina_prim_ene`,
+						  `emisija_co2`)
+			VALUES(NEW.`id`,
+				  NEW.`datumr`,
+				  NEW.`brojilo_id`,
+				  NEW.`dobavljac_id`,
+				  NEW.`energent_id`, 
+				  NEW.`rn_tip_id`,
+				  NEW.`iznos`,
+				  NEW.`kolicina`,
+				  NEW.`kolicina` * p_kwh_jm * p_koef,
+				  NEW.`kolicina` * p_kwh_jm / p_grej_po_korisna * p_koef,
+				  NEW.`kolicina` * p_kwh_jm / p_grej_za * p_koef,
+				  NEW.`kolicina` * p_kwh_jm / p_op_br_kor * p_koef,
+				  NEW.`kolicina` * p_finalna_ene * p_koef,
+				  NEW.`kolicina` * p_primarna_ene * p_koef,
+				  NEW.`kolicina` * p_emisija * p_koef);            
+            
+        END LOOP;
+		CLOSE cur;
+
+   END;
+|
+
+CREATE TRIGGER trig_adRn AFTER DELETE ON Rn
+   FOR EACH ROW BEGIN
+      DELETE FROM RnBilnas
+      WHERE id = OLD.id;
+   END;
+|
+CREATE TRIGGER trig_auRn AFTER UPDATE ON Rn
+   FOR EACH ROW BEGIN
+		
+	  DECLARE p_kwh_jm, p_emisija, p_primarna_ene, p_finalna_ene DOUBLE;
+      DECLARE p_grej_po_korisna, p_grej_za, p_op_br_kor DOUBLE;
+      
+      select kwh_jm, emisija, primarna_energija, finalna_energija
+      into p_kwh_jm, p_emisija, p_primarna_ene, p_finalna_ene
+      from energent
+      where id = NEW.`energent_id`;
+      
+      select grej_po_korisna, grej_za, op_br_kor
+      into p_grej_po_korisna, p_grej_za, p_op_br_kor
+      from objekat o, brojilo b
+      where o.id = b.objekat_id
+			and b.id = NEW.`brojilo_id`;
+   
+   
+      UPDATE RnBilan 
+      SET `id` = NEW.`id`,
+		  `datumr` = NEW.`datumr`,
+		  `brojilo_id` = NEW.`brojilo_id`,
+		  `dobavljac_id` = NEW.`dobavljac_id`,
+		  `energent_id` = NEW.`energent_id`, 
+		  `rn_tip_id` = NEW.`rn_tip_id`,
+		  `iznos` = NEW.`iznos`,
+		  `kolicina` = NEW.`kolicina`,
+		  `kolicina_kwh` = NEW.`kolicina` * p_kwh_jm,
+		  `kolicina_kwh_pov` = (NEW.`kolicina` * p_kwh_jm) / p_grej_po_korisna,
+		  `kolicina_kwh_zap` = (NEW.`kolicina` * p_kwh_jm) / p_grej_za,
+		  `kolicina_kwh_kor` = (NEW.`kolicina` * p_kwh_jm) / p_op_br_kor,
+		  `kolicina_fin_ene` = NEW.`kolicina` * p_finalna_ene,
+		  `kolicina_prim_ene` = NEW.`kolicina` * p_primarna_ene,
+		  `emisija_co2` = NEW.`kolicina` * p_emisija
+      WHERE id = NEW.id;
+   END;
+|
+
+
