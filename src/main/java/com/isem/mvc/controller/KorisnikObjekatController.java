@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isem.mvc.model.KorisnikObjekat;
 import com.isem.mvc.service.KorisnikObjekatService;
+import com.isem.mvc.tab.KorisnikObjekatView;
 
 @RestController
 @RequestMapping("/kor_obj")
@@ -39,6 +40,11 @@ public class KorisnikObjekatController {
 	public KorisnikObjekat findById(@RequestParam("id") Long id){
 		return service.findById(id);
 	}		
+	
+	@RequestMapping(value="/tab", params = {"kor_id"}, method=RequestMethod.GET)
+	public List<KorisnikObjekatView> findKorisnikObjekatViewByKorisnik(Long id){
+		return service.findKorisnikObjekatViewByKorisnik(id);
+	}
 
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
 	public KorisnikObjekat add(@RequestBody KorisnikObjekat obj) {

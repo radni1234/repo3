@@ -248,3 +248,10 @@ FROM rn, brojilo_koef_v b
 WHERE rn.brojilo_id = b.id
 	  AND b.brojilo_tip_id = 3
 ;
+
+
+create view korisnik_objekat_view as
+select ko.id, ko.korisnik_id, k.naziv korisnik, ko.objekat_id, o.naziv objekat
+from korisnik_objekat ko left join user k on ko.korisnik_id = k.id
+		left join objekat o on ko.objekat_id = o.id
+;

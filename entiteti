@@ -88,6 +88,9 @@ OBJEKAT_OSTALO - /objekat/ostalo
 OBJEKAT_MERE - /obj_mere
 GET /sve?params = {"obj_id"}
 
+KORISNIK_OBJEKAT - /kor_obj
+GET /tab?params = {"kor_id"}
+
 IZVESTAJI
 izvestaj/aps_mes_pot?params = {"obj_id, ene_tip_id, datum_od, datum_do"}
 

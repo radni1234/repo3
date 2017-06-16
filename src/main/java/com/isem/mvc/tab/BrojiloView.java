@@ -18,6 +18,7 @@ public class BrojiloView {
 	private String procenat;
 	private String obracunski_period;
 	private String automatski;
+	
 	public Long getId() {
 		return id;
 	}
