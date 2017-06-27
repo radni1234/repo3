@@ -65,7 +65,7 @@ select `id`,
 from rn;
 
 
-CREATE DEFINER = CURRENT_USER TRIGGER `heroku_75858eca71cd74b`.`rn_bilans_AFTER_INSERT` AFTER INSERT ON `rn_bilans` FOR EACH ROW
+CREATE DEFINER=`isem`@`%` TRIGGER `heroku_75858eca71cd74b`.`rn_AFTER_INSERT` AFTER INSERT ON `rn` FOR EACH ROW
 BEGIN
 	DECLARE p_kwh_jm, p_emisija, p_primarna_ene, p_finalna_ene DOUBLE;
       DECLARE p_grej_po_korisna, p_grej_za, p_op_br_kor DOUBLE;
@@ -101,14 +101,23 @@ BEGIN
 						  `energent_id`, 
 						  `rn_tip_id`,
 						  `iznos`,
+                          `iznos_pov`,
+                          `iznos_zap`,
+                          `iznos_kor`,
 						  `kolicina`,
+                          `kolicina_pov`,
+						  `kolicina_zap`,
+						  `kolicina_kor`,
 						  `kolicina_kwh`,
 						  `kolicina_kwh_pov`,
 						  `kolicina_kwh_zap`,
 						  `kolicina_kwh_kor`,
 						  `kolicina_fin_ene`,
 						  `kolicina_prim_ene`,
-						  `emisija_co2`)
+						  `emisija_co2`,
+                          `emisija_co2_pov`,
+                          `emisija_co2_zap`,
+                          `emisija_co2_kor`)
 		VALUES(NEW.`id`,
 			  NEW.`datumr`,
 			  NEW.`brojilo_id`,
@@ -116,14 +125,23 @@ BEGIN
 			  NEW.`energent_id`, 
 			  NEW.`rn_tip_id`,
 			  NEW.`iznos` * p_koef,
+              NEW.`iznos` / p_grej_po_korisna * p_koef,
+              NEW.`iznos` / p_grej_za * p_koef,
+              NEW.`iznos` / p_op_br_kor * p_koef,
 			  NEW.`kolicina` * p_koef,
+              NEW.`kolicina` / p_grej_po_korisna * p_koef,
+              NEW.`kolicina` / p_grej_za * p_koef,
+              NEW.`kolicina` / p_op_br_kor * p_koef,
 			  NEW.`kolicina` * p_kwh_jm * p_koef,
 			  NEW.`kolicina` * p_kwh_jm / p_grej_po_korisna * p_koef,
 			  NEW.`kolicina` * p_kwh_jm / p_grej_za * p_koef,
 			  NEW.`kolicina` * p_kwh_jm / p_op_br_kor * p_koef,
 			  NEW.`kolicina` * p_finalna_ene * p_koef,
 			  NEW.`kolicina` * p_primarna_ene * p_koef,
-			  NEW.`kolicina` * p_emisija * p_koef);
+			  NEW.`kolicina` * p_emisija * p_koef,
+              NEW.`kolicina` * p_emisija / p_grej_po_korisna * p_koef,
+              NEW.`kolicina` * p_emisija / p_grej_za * p_koef,
+              NEW.`kolicina` * p_emisija / p_op_br_kor * p_koef);
               
 		-- virtuelna brojila --        
         OPEN cur;
@@ -150,37 +168,54 @@ BEGIN
 						  `energent_id`, 
 						  `rn_tip_id`,
 						  `iznos`,
+                          `iznos_pov`,
+                          `iznos_zap`,
+                          `iznos_kor`,
 						  `kolicina`,
+                          `kolicina_pov`,
+						  `kolicina_zap`,
+						  `kolicina_kor`,
 						  `kolicina_kwh`,
 						  `kolicina_kwh_pov`,
 						  `kolicina_kwh_zap`,
 						  `kolicina_kwh_kor`,
 						  `kolicina_fin_ene`,
 						  `kolicina_prim_ene`,
-						  `emisija_co2`)
-			VALUES(NEW.`id`,
-				  NEW.`datumr`,
-				  p_id,
-				  NEW.`dobavljac_id`,
-				  NEW.`energent_id`, 
-				  NEW.`rn_tip_id`,
-				  NEW.`iznos` * p_koef,
-				  NEW.`kolicina` * p_koef,
-				  NEW.`kolicina` * p_kwh_jm * p_koef,
-				  NEW.`kolicina` * p_kwh_jm / p_grej_po_korisna * p_koef,
-				  NEW.`kolicina` * p_kwh_jm / p_grej_za * p_koef,
-				  NEW.`kolicina` * p_kwh_jm / p_op_br_kor * p_koef,
-				  NEW.`kolicina` * p_finalna_ene * p_koef,
-				  NEW.`kolicina` * p_primarna_ene * p_koef,
-				  NEW.`kolicina` * p_emisija * p_koef);            
+						  `emisija_co2`,
+                          `emisija_co2_pov`,
+                          `emisija_co2_zap`,
+                          `emisija_co2_kor`)
+		VALUES(NEW.`id`,
+			  NEW.`datumr`,
+			  NEW.`brojilo_id`,
+			  NEW.`dobavljac_id`,
+			  NEW.`energent_id`, 
+			  NEW.`rn_tip_id`,
+			  NEW.`iznos` * p_koef,
+              NEW.`iznos` / p_grej_po_korisna * p_koef,
+              NEW.`iznos` / p_grej_za * p_koef,
+              NEW.`iznos` / p_op_br_kor * p_koef,
+			  NEW.`kolicina` * p_koef,
+              NEW.`kolicina` / p_grej_po_korisna * p_koef,
+              NEW.`kolicina` / p_grej_za * p_koef,
+              NEW.`kolicina` / p_op_br_kor * p_koef,
+			  NEW.`kolicina` * p_kwh_jm * p_koef,
+			  NEW.`kolicina` * p_kwh_jm / p_grej_po_korisna * p_koef,
+			  NEW.`kolicina` * p_kwh_jm / p_grej_za * p_koef,
+			  NEW.`kolicina` * p_kwh_jm / p_op_br_kor * p_koef,
+			  NEW.`kolicina` * p_finalna_ene * p_koef,
+			  NEW.`kolicina` * p_primarna_ene * p_koef,
+			  NEW.`kolicina` * p_emisija * p_koef,
+              NEW.`kolicina` * p_emisija / p_grej_po_korisna * p_koef,
+              NEW.`kolicina` * p_emisija / p_grej_za * p_koef,
+              NEW.`kolicina` * p_emisija / p_op_br_kor * p_koef);            
             
         END LOOP;
 		CLOSE cur;
 END
 
 
-
-CREATE DEFINER = CURRENT_USER TRIGGER `heroku_75858eca71cd74b`.`rn_bilans_AFTER_UPDATE` AFTER UPDATE ON `rn_bilans` FOR EACH ROW
+CREATE DEFINER=`isem`@`%` TRIGGER `heroku_75858eca71cd74b`.`rn_AFTER_UPDATE` AFTER UPDATE ON `rn` FOR EACH ROW
 BEGIN
 	DECLARE p_kwh_jm, p_emisija, p_primarna_ene, p_finalna_ene DOUBLE;
       DECLARE p_grej_po_korisna, p_grej_za, p_op_br_kor DOUBLE;
@@ -217,14 +252,23 @@ BEGIN
 		  `energent_id` = NEW.`energent_id`, 
 		  `rn_tip_id` = NEW.`rn_tip_id`,
 		  `iznos` = NEW.`iznos` * p_koef,
+          `iznos_pov` = NEW.`iznos` / p_grej_po_korisna * p_koef,
+		  `iznos_zap` = NEW.`iznos` / p_grej_za * p_koef,
+		  `iznos_kor` = NEW.`iznos` / p_op_br_kor * p_koef,
 		  `kolicina` = NEW.`kolicina` * p_koef,
+          `kolicina_pov` = NEW.`kolicina` / p_grej_po_korisna * p_koef, 
+		  `kolicina_zap` = NEW.`kolicina` / p_grej_za * p_koef,
+		  `kolicina_kor` = NEW.`kolicina` / p_op_br_kor * p_koef,
 		  `kolicina_kwh` = NEW.`kolicina` * p_kwh_jm * p_koef,
 		  `kolicina_kwh_pov` = NEW.`kolicina` * p_kwh_jm / p_grej_po_korisna * p_koef,
 		  `kolicina_kwh_zap` = NEW.`kolicina` * p_kwh_jm / p_grej_za * p_koef,
 		  `kolicina_kwh_kor` = NEW.`kolicina` * p_kwh_jm / p_op_br_kor * p_koef,
 		  `kolicina_fin_ene` = NEW.`kolicina` * p_finalna_ene * p_koef,
 		  `kolicina_prim_ene` = NEW.`kolicina` * p_primarna_ene * p_koef,
-		  `emisija_co2` = NEW.`kolicina` * p_emisija * p_koef
+		  `emisija_co2` = NEW.`kolicina` * p_emisija * p_koef,
+          `emisija_co2_pov` = NEW.`kolicina` * p_emisija / p_grej_po_korisna * p_koef,
+		  `emisija_co2_zap` = NEW.`kolicina` * p_emisija / p_grej_za * p_koef,
+		  `emisija_co2_kor` = NEW.`kolicina` * p_emisija / p_op_br_kor * p_koef
       WHERE rn_id = NEW.id and brojilo_id = NEW.`brojilo_id`;
       
       -- virtuelna brojila --        
@@ -247,22 +291,31 @@ BEGIN
 
                   
 			UPDATE rn_bilans 
-			SET `rn_id` = NEW.`id`,
-			  `datumr` = NEW.`datumr`,
-			  `brojilo_id` = p_id,
-			  `dobavljac_id` = NEW.`dobavljac_id`,
-			  `energent_id` = NEW.`energent_id`, 
-			  `rn_tip_id` = NEW.`rn_tip_id`,
-			  `iznos` = NEW.`iznos` * p_koef,
-			  `kolicina` = NEW.`kolicina` * p_koef,
-			  `kolicina_kwh` = NEW.`kolicina` * p_kwh_jm * p_koef,
-			  `kolicina_kwh_pov` = NEW.`kolicina` * p_kwh_jm / p_grej_po_korisna * p_koef,
-			  `kolicina_kwh_zap` = NEW.`kolicina` * p_kwh_jm / p_grej_za * p_koef,
-			  `kolicina_kwh_kor` = NEW.`kolicina` * p_kwh_jm / p_op_br_kor * p_koef,
-			  `kolicina_fin_ene` = NEW.`kolicina` * p_finalna_ene * p_koef,
-			  `kolicina_prim_ene` = NEW.`kolicina` * p_primarna_ene * p_koef,
-			  `emisija_co2` = NEW.`kolicina` * p_emisija * p_koef
-			WHERE rn_id = NEW.id and brojilo_id = p_id;
+			  SET `rn_id` = NEW.`id`,
+				  `datumr` = NEW.`datumr`,
+				  `brojilo_id` = NEW.`brojilo_id`,
+				  `dobavljac_id` = NEW.`dobavljac_id`,
+				  `energent_id` = NEW.`energent_id`, 
+				  `rn_tip_id` = NEW.`rn_tip_id`,
+				  `iznos` = NEW.`iznos` * p_koef,
+				  `iznos_pov` = NEW.`iznos` / p_grej_po_korisna * p_koef,
+				  `iznos_zap` = NEW.`iznos` / p_grej_za * p_koef,
+				  `iznos_kor` = NEW.`iznos` / p_op_br_kor * p_koef,
+				  `kolicina` = NEW.`kolicina` * p_koef,
+				  `kolicina_pov` = NEW.`kolicina` / p_grej_po_korisna * p_koef, 
+				  `kolicina_zap` = NEW.`kolicina` / p_grej_za * p_koef,
+				  `kolicina_kor` = NEW.`kolicina` / p_op_br_kor * p_koef,
+				  `kolicina_kwh` = NEW.`kolicina` * p_kwh_jm * p_koef,
+				  `kolicina_kwh_pov` = NEW.`kolicina` * p_kwh_jm / p_grej_po_korisna * p_koef,
+				  `kolicina_kwh_zap` = NEW.`kolicina` * p_kwh_jm / p_grej_za * p_koef,
+				  `kolicina_kwh_kor` = NEW.`kolicina` * p_kwh_jm / p_op_br_kor * p_koef,
+				  `kolicina_fin_ene` = NEW.`kolicina` * p_finalna_ene * p_koef,
+				  `kolicina_prim_ene` = NEW.`kolicina` * p_primarna_ene * p_koef,
+				  `emisija_co2` = NEW.`kolicina` * p_emisija * p_koef,
+				  `emisija_co2_pov` = NEW.`kolicina` * p_emisija / p_grej_po_korisna * p_koef,
+				  `emisija_co2_zap` = NEW.`kolicina` * p_emisija / p_grej_za * p_koef,
+				  `emisija_co2_kor` = NEW.`kolicina` * p_emisija / p_op_br_kor * p_koef
+			  WHERE rn_id = NEW.id and brojilo_id = NEW.`brojilo_id`;
             
         END LOOP;
 		CLOSE cur;
