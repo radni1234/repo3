@@ -7,11 +7,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.isem.mvc.izvestaj.ApsGodPot;
+import com.isem.mvc.izvestaj.SpecGodPot;
+import com.isem.mvc.izvestaj.SpecMesPot;
 import com.isem.mvc.izvestaj.ApsMesPot;
+import com.isem.mvc.izvestaj.UkPotObj;
 import com.isem.mvc.izvestaj.UkPotEneObj;
+import com.isem.mvc.izvestaj.SpecPotEneObj;
+import com.isem.mvc.izvestaj.EfikObj;
+import com.isem.mvc.izvestaj.PregObj;
 import com.isem.mvc.izvestaj.dao.ApsGodPotDao;
+import com.isem.mvc.izvestaj.dao.SpecGodPotDao;
+import com.isem.mvc.izvestaj.dao.SpecMesPotDao;
 import com.isem.mvc.izvestaj.dao.ApsMesPotDao;
+import com.isem.mvc.izvestaj.dao.UkPotObjDao;
 import com.isem.mvc.izvestaj.dao.UkPotEneObjDao;
+import com.isem.mvc.izvestaj.dao.SpecPotEneObjDao;
+import com.isem.mvc.izvestaj.dao.EfikObjDao;
+import com.isem.mvc.izvestaj.dao.PregObjDao;
 
 @Service
 public class IzvestajService {
@@ -24,6 +36,24 @@ public class IzvestajService {
 	@Autowired
 	private ApsGodPotDao dao3;
 	
+	@Autowired
+	private SpecGodPotDao dao4;
+	
+	@Autowired
+	private SpecMesPotDao dao5;
+	
+	@Autowired
+	private UkPotObjDao dao6;
+	
+	@Autowired
+	private SpecPotEneObjDao dao7;
+	
+	@Autowired
+	private EfikObjDao dao8;
+	
+	@Autowired
+	private PregObjDao dao9;
+	
 	public List<ApsMesPot> apsMesPot (String obj_id, String ene_tip_id, Date datum_od, Date datum_do) {
 		return dao.apsMesPot(obj_id, ene_tip_id, datum_od, datum_do);
 	}	
@@ -34,6 +64,30 @@ public class IzvestajService {
 	
 	public List<ApsGodPot> apsGodPot (String obj_id, String ene_tip_id, Date datum_od, Date datum_do) {
 		return dao3.apsGodPot(obj_id, ene_tip_id, datum_od, datum_do);
+	}
+	
+	public List<SpecGodPot> specGodPot (String obj_id, String ene_tip_id, Date datum_od, Date datum_do, String indikator) {
+		return dao4.specGodPot(obj_id, ene_tip_id, datum_od, datum_do, indikator);
+	}
+	
+	public List<SpecMesPot> specMesPot (String obj_id, String ene_tip_id, Date datum_od, Date datum_do, String indikator) {
+		return dao5.specMesPot(obj_id, ene_tip_id, datum_od, datum_do, indikator);
+	}
+	
+	public List<UkPotObj> ukPotObj (String obj_id, String ene_tip_id, Date datum_od, Date datum_do) {
+		return dao6.ukPotObj(obj_id, ene_tip_id, datum_od, datum_do);
+	}
+	
+	public List<SpecPotEneObj> specPotEneObj (String obj_id, String ene_tip_id, Date datum_od, Date datum_do, String indikator) {
+		return dao7.specPotEneObj(obj_id, ene_tip_id, datum_od, datum_do, indikator);
+	}
+	
+	public List<EfikObj> efikObj (String obj_id, String ene_tip_id, Date datum_od, Date datum_do, String indikator) {
+		return dao8.efikObj(obj_id, ene_tip_id, datum_od, datum_do, indikator);
+	}
+	
+	public List<PregObj> pregObj (String obj_id) {
+		return dao9.pregObj(obj_id);
 	}
 
 }

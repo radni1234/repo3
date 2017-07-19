@@ -1,0 +1,85 @@
+GET /entitet/sve
+GET /entitet/sve?params = {"str", "vel"}
+GET /entitet/jedan?params = {"id"}
+POST /entitet/dodaj
+DELETE /entitet/obrisi
+
+entiteti:
+
+JED_MERE - jedmere
+GODINA - godina
+MESEC - mesec
+OPSTINA - opstina
+ULOGA - uloga
+DELOVI_OBJEKTA_PRIKAZ - del_obj_prikaz
+DELOVI_OBJEKTA - del_obj
+NACIN_FINANSIRANJA - nac_fin
+GRUPA - grupa
+PDV - pdv
+DOBAVLJAC - dobavljac
+GET /tab
+GET /tab?params = {"str", "vel"}
+
+STEPEN_DAN - stepen_dan
+
+ENERGENT_TIP - energent_tip
+GET /sve?params = {"bro_id"}
+
+ENERGENT - energent
+GET /tab
+GET /tab?params = {"str", "vel"}
+GET /sve?params = {"obj_id"}
+GET /sve?params = {"en_tip_id"}
+
+BROJILO_VRSTA - brojilo_vrsta
+BROJILO_TIP - brojilo_tip
+
+BROJILO_VRSTA_KOLONE - bro_vrs_kol
+GET /sve?params = {"bro_vrs_id"}
+GET /tab
+GET /tab?params = {"str", "vel"}
+GET /tab?params = {"bro_vrs_id"}
+
+REZIM_MERENJA - rezim_merenja
+
+STUB_TIP - stub_tip
+SVETILJKA_TIP - svetiljka_tip
+
+RN_TIP - rn_tip
+KOLONA_TIP - kolona_tip
+
+
+PODGRUPA - podgrupa
+GET /sve?params = {"gru_id"}
+
+KORISNIK - korisnik
+GET /tab
+GET /tab?params = {"str", "vel"}
+GET /jedan?params = {"username"}
+
+MESTO - mesto
+GET /sve?params = {"ops_id"}
+
+BROJILO - brojilo
+GET /sve?params = {"obj_id"}
+
+OBJEKAT - objekat
+GET /tab
+GET /tab?params = {"str", "vel"}
+
+RN - rn
+GET /sve?params = {"obj_id"}
+GET /tab?params = {"obj_id"}
+
+
+OBJEKAT_STRUJA - /objekat/struja
+OBJEKAT_GREJANJE - /objekat/grejanje
+OBJEKAT_HLADJENJE - /objekat/hladjenje
+OBJEKAT_KK - /objekat/kk
+OBJEKAT_TOPLA_VODA - /objekat/topla_voda
+OBJEKAT_VENTILACIJA - /objekat/ventilacija
+OBJEKAT_VODA - /objekat/voda
+OBJEKAT_OSTALO - /objekat/ostalo
+
+IZVESTAJI
+izvestaj/aps_mes_pot?params = {"obj_id"}

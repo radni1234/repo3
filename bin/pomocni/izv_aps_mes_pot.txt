@@ -1,0 +1,64 @@
+delimiter //
+drop procedure izv_aps_mes_pot//
+
+create procedure izv_aps_mes_pot(obj_id varchar(1000))
+begin
+	
+	DROP TEMPORARY TABLE IF EXISTS temp;
+	CREATE TEMPORARY TABLE temp(id int,
+								energent varchar(100),
+                                godina varchar(4),
+                                mesec varchar(20),
+                                kolicina double,
+                                kolicina_kwh double,
+                                emisija_co2 double,
+                                iznos double,
+                                tip double) ENGINE=MEMORY;
+    
+        
+        insert into temp(energent, tip) 
+        select e.naziv, e.id + 0.1			                 
+		from rn, energent e		
+		where rn.energent_id = e.id			
+			  and brojilo_id in (select id from brojilo where objekat_id = obj_id)              
+		group by e.naziv;
+        
+        insert into temp(godina, mesec, kolicina, kolicina_kwh, emisija_co2, iznos, tip) 
+		select g.god, m.naziv, sum(kolicina), sum(kolicina_kwh), sum(emisija_co2), sum(iznos), e.id + 0.2                     
+		from rn, energent e, godina g, mesec m		
+		where rn.energent_id = e.id
+			  and YEAR(rn.datumr) = g.god
+			  and MONTH(rn.datumr) = m.id
+			  and brojilo_id in (select id from brojilo where objekat_id = obj_id)               
+		group by e.id, g.god, m.naziv
+        order by e.id, g.god, m.id; 
+		
+        insert into temp(energent, kolicina, kolicina_kwh, emisija_co2, iznos, tip) 
+        select e.naziv, sum(kolicina), sum(kolicina_kwh), sum(emisija_co2), sum(iznos), e.id + 0.3                     
+		from rn, energent e		
+		where rn.energent_id = e.id			
+			  and brojilo_id in (select id from brojilo where objekat_id = obj_id)              
+		group by e.naziv; 		
+        
+        insert into temp(kolicina, kolicina_kwh, emisija_co2, iznos, tip) 
+		select sum(kolicina), sum(kolicina_kwh), sum(emisija_co2), sum(iznos), 999                 
+		from rn
+		where brojilo_id in (select id from brojilo where objekat_id = obj_id)
+		;  
+        
+
+    commit; 
+	
+    SET @row_number = 0;
+
+	select (@row_number:=@row_number + 1) AS id, tip,
+			case tip
+				when 2 then null
+                else energent
+			end as energent, godina, mesec, 
+			kolicina, kolicina_kwh, emisija_co2, iznos
+	from temp
+	order by tip, godina, mesec;
+ 
+end
+//

@@ -1,0 +1,42 @@
+delimiter //
+
+
+CREATE PROCEDURE `rn_obj_proc`(obj_id bigint(20))
+begin
+
+SET @sql = NULL;
+
+SET @sql = CONCAT('
+					SELECT rn.id, 
+                    `b`.`sifra_brojila` brojilo,
+					`g`.`god` godina,
+					`m`.`naziv` mesec,
+					`d`.`naziv` dobavljac,
+                    `e`.`naziv` energent,
+                    `r`.`naziv` rn_tip,
+					`rn`.`broj_rn`,
+					`rn`.`datumr`,
+					`rn`.`napomena`,
+					`rn`.`uneo`,
+					`rn`.`datumu`,
+					`rn`.`menjao`,
+					`rn`.`datumm`
+				  FROM rn INNER JOIN brojilo b ON b.id = rn.brojilo_id
+						  LEFT JOIN godina g ON g.id = rn.godina_id
+                          LEFT JOIN mesec m ON m.id = rn.mesec_id
+                          LEFT JOIN dobavljac d ON d.id = rn.dobavljac_id
+                          LEFT JOIN energent e ON e.id = rn.energent_id
+                          LEFT JOIN rn_tip r ON r.id = rn.rn_tip_id
+                  WHERE rn.brojilo_id in (select id
+										      from brojilo
+                                              where objekat_id = ', obj_id, ');'
+					);
+
+
+-- insert into t values(@sql);
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+
+end

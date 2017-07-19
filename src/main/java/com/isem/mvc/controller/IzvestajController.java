@@ -11,8 +11,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isem.mvc.izvestaj.ApsGodPot;
+import com.isem.mvc.izvestaj.UkPotObj;
+import com.isem.mvc.izvestaj.SpecGodPot;
+import com.isem.mvc.izvestaj.SpecMesPot;
 import com.isem.mvc.izvestaj.ApsMesPot;
 import com.isem.mvc.izvestaj.UkPotEneObj;
+import com.isem.mvc.izvestaj.SpecPotEneObj;
+import com.isem.mvc.izvestaj.EfikObj;
+import com.isem.mvc.izvestaj.PregObj;
 import com.isem.mvc.service.IzvestajService;
 
 @RestController
@@ -44,5 +50,54 @@ public class IzvestajController {
 			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
 			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
 		return service.apsGodPot(obj_id, ene_tip_id, datum_od, datum_do);
+	}
+	
+	@RequestMapping(value="/spec_god_pot", params = {"obj_id", "ene_tip_id", "datum_od", "datum_do", "indikator"}, method=RequestMethod.GET)
+	public List<SpecGodPot> izvSpecGodPot(@RequestParam("obj_id") String obj_id,
+			@RequestParam("ene_tip_id") String ene_tip_id,
+			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
+			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do,
+			@RequestParam("indikator") String indikator) {
+		return service.specGodPot(obj_id, ene_tip_id, datum_od, datum_do, indikator);
+	}
+	
+	@RequestMapping(value="/spec_mes_pot", params = {"obj_id", "ene_tip_id", "datum_od", "datum_do", "indikator"}, method=RequestMethod.GET)
+	public List<SpecMesPot> izvSpecMesPot(@RequestParam("obj_id") String obj_id,
+			@RequestParam("ene_tip_id") String ene_tip_id,
+			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
+			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do,
+			@RequestParam("indikator") String indikator) {
+		return service.specMesPot(obj_id, ene_tip_id, datum_od, datum_do, indikator);
+	}
+	
+	@RequestMapping(value="/uk_pot_obj", params = {"obj_id", "ene_tip_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
+	public List<UkPotObj> izvUkPotObj(@RequestParam("obj_id") String obj_id,
+			@RequestParam("ene_tip_id") String ene_tip_id,
+			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
+			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
+		return service.ukPotObj(obj_id, ene_tip_id, datum_od, datum_do);
+	}
+	
+	@RequestMapping(value="/spec_pot_ene_obj", params = {"obj_id", "ene_tip_id", "datum_od", "datum_do", "indikator"}, method=RequestMethod.GET)
+	public List<SpecPotEneObj> izvSpecPotEneObj(@RequestParam("obj_id") String obj_id,
+			@RequestParam("ene_tip_id") String ene_tip_id,
+			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
+			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do,
+			@RequestParam("indikator") String indikator) {
+		return service.specPotEneObj(obj_id, ene_tip_id, datum_od, datum_do, indikator);
+	}
+	
+	@RequestMapping(value="/efik_obj", params = {"obj_id", "ene_tip_id", "datum_od", "datum_do", "indikator"}, method=RequestMethod.GET)
+	public List<EfikObj> izvEfikObj(@RequestParam("obj_id") String obj_id,
+			@RequestParam("ene_tip_id") String ene_tip_id,
+			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
+			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do,
+			@RequestParam("indikator") String indikator) {
+		return service.efikObj(obj_id, ene_tip_id, datum_od, datum_do, indikator);
+	}
+	
+	@RequestMapping(value="/preg_obj", params = {"obj_id"}, method=RequestMethod.GET)
+	public List<PregObj> pregObj(@RequestParam("obj_id") String obj_id) {
+		return service.pregObj(obj_id);
 	}
 }

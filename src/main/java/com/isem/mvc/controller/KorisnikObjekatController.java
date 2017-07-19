@@ -42,7 +42,7 @@ public class KorisnikObjekatController {
 	}		
 	
 	@RequestMapping(value="/tab", params = {"kor_id"}, method=RequestMethod.GET)
-	public List<KorisnikObjekatView> findKorisnikObjekatViewByKorisnik(Long id){
+	public List<KorisnikObjekatView> findKorisnikObjekatViewByKorisnik(@RequestParam("kor_id") Long id){
 		return service.findKorisnikObjekatViewByKorisnik(id);
 	}
 

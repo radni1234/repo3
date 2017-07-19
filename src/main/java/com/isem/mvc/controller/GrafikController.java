@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isem.mvc.service.GrafikService;
 import com.isem.mvc.tab.Grafik;
+import com.isem.mvc.tab.GrafikEneMixPie;
 import com.isem.mvc.tab.GrafikCusum;
 
 @RestController
@@ -26,6 +27,14 @@ public class GrafikController {
 			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
 			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
 		return service.grafEfikObjKwhPov(obj_id, datum_od, datum_do);
+	}
+	
+	@RequestMapping(value="/energy_mix_pie", params = {"obj_id", "ene_tip_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
+	public List<GrafikEneMixPie> grafEneMixPie(@RequestParam("obj_id") String obj_id,
+			@RequestParam("ene_tip_id") String ene_tip_id,
+			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
+			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
+		return service.grafEneMixPie(obj_id, ene_tip_id, datum_od, datum_do);
 	}
 	
 	@RequestMapping(value="/cusum_pre", params = {"mera_id"}, method=RequestMethod.GET)

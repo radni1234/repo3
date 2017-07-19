@@ -1,0 +1,138 @@
+create view energent_view as
+select e.id, e.naziv, emisija, kwh_jm, sifra, racun, t.naziv energent_tip, j.naziv jed_mere
+from energent e, energent_tip t, jed_mere j
+where e.energent_tip_id = t.id
+	  and e.jed_mere_id = j.id;
+      
+create view dobavljac_view as
+select d.id, d.naziv, tel, mail, web, m.naziv mesto
+from dobavljac d, mesto m
+where d.mesto_id = m.id;
+
+
+create view rn_iznos_v as
+select r.id, r.rn_id, r.brojilo_vrsta_kolone_id, b.naziv, r.vrednost
+from rn_iznos r, brojilo_vrsta_kolone b
+where r.brojilo_vrsta_kolone_id = b.id; 
+
+create view rn_potrosnja_v as
+select r.id, r.rn_id, r.brojilo_vrsta_kolone_id, b.naziv, r.vrednost
+from rn_potrosnja r, brojilo_vrsta_kolone b
+where r.brojilo_vrsta_kolone_id = b.id; 
+
+create view rn_ostalo_v as
+select r.id, r.rn_id, r.brojilo_vrsta_kolone_id, b.naziv, r.vrednost
+from rn_ostalo r, brojilo_vrsta_kolone b
+where r.brojilo_vrsta_kolone_id = b.id; 
+
+
+CREATE VIEW `stepen_dan_view` AS
+    SELECT 
+        `s`.`id` AS `id`,
+        `o`.`naziv` AS `opstina`,
+        `g`.`god` AS `godina`,
+        `m`.`naziv` AS `mesec`,
+        `s`.`sd_iznos` AS `sd_iznos`
+    FROM
+        (((`stepen_dan` `s`
+        JOIN `opstina` `o`)
+        JOIN `godina` `g`)
+        JOIN `mesec` `m`)
+    WHERE
+        ((`s`.`godina_id` = `g`.`id`)
+            AND (`s`.`mesec_id` = `m`.`id`)
+            AND (`s`.`opstina_id` = `o`.`id`))
+            ;
+			
+			
+CREATE VIEW `korisnik_view` AS
+    SELECT 
+        `k`.`id` AS `id`,
+        `k`.`naziv` AS `naziv`,
+        `k`.`username` AS `username`,
+        `k`.`password` AS `password`,
+        `u`.`naziv` AS `uloga`,
+        `m`.`naziv` AS `mesto`,
+        `o`.`naziv` AS `opstina`,
+        `k`.`mail` AS `mail`,
+        `k`.`fax` AS `fax`,
+        `k`.`mob` AS `mob`,
+        `k`.`tel` AS `tel`,
+        `k`.`alarm_racun` AS `alarm_racun`,
+        `k`.`alarm_racun_start` AS `alarm_racun_start`,
+        `k`.`alarm_trend` AS `alarm_trend`,
+        `k`.`alarm_trend_start` AS `alarm_trend_start`,
+        `k`.`rasveta` AS `rasveta`,
+        `k`.`blokiran` AS `blokiran`
+    FROM
+        (((`korisnik` `k`
+        JOIN `uloga` `u`)
+        JOIN `opstina` `o`)
+        JOIN `mesto` `m`)
+    WHERE
+        ((`k`.`uloga_id` = `u`.`id`)
+            AND (`k`.`mesto_id` = `m`.`id`)
+            AND (`m`.`opstina_id` = `o`.`id`))
+			;
+			
+			
+CREATE VIEW `objekat_view` AS
+    SELECT 
+        `o`.`id` AS `id`,
+        `o`.`naziv` AS `naziv`,
+        `op`.`naziv` AS `opstina`,
+        `m`.`naziv` AS `mesto`,
+        `o`.`adresa` AS `adresa`,
+        `g`.`naziv` AS `grupa`,
+        `p`.`naziv` AS `podgrupa`,
+        `o`.`god_izgr` AS `god_izgr`,
+        `o`.`projektan_firma` AS `projektan_firma`,
+        `o`.`izvodjac_izg` AS `izvodjac_izg`,
+        `o`.`god_rekon` AS `god_rekon`,
+        `o`.`izvodjac_rekon` AS `izvodjac_rekon`,
+        `o`.`tip_rek` AS `tip_rek`,
+        `o`.`ko_ime` AS `ko_ime`,
+        `o`.`ko_prezime` AS `ko_prezime`,
+        `o`.`ko_zanimanje` AS `ko_zanimanje`,
+        `o`.`ko_tel` AS `ko_tel`,
+        `o`.`ko_faks` AS `ko_faks`,
+        `o`.`ko_mob` AS `ko_mob`,
+        `o`.`ko_mail` AS `ko_mail`,
+        `o`.`op_br_etaza` AS `op_br_etaza`,
+        `o`.`op_br_rd_ned` AS `op_br_rd_ned`,
+        `o`.`op_br_rd_god` AS `op_br_rd_god`,
+        `o`.`op_pbr_rs_dan` AS `op_pbr_rs_dan`,
+        `o`.`op_br_nrd_zima` AS `op_br_nrd_zima`,
+        `o`.`op_br_nrd_leto` AS `op_br_nrd_leto`,
+        `o`.`op_br_stalno_zap` AS `op_br_stalno_zap`,
+        `o`.`op_br_kor` AS `op_br_kor`,
+        `o`.`lon` AS `lon`,
+        `o`.`lat` AS `lat`,
+        `n`.`naziv` AS `nacin_finansiranja`,
+        `o`.`trend_tolerancija` AS `trend_tolerancija`,
+        `o`.`alarm_trend` AS `alarm_trend`,
+        `o`.`alarm_trend_start` AS `alarm_trend_start`
+    FROM
+        (((((`objekat` `o`
+        JOIN `mesto` `m`)
+        JOIN `podgrupa` `p`)
+        JOIN `nacin_finansiranja` `n`)
+        JOIN `opstina` `op`)
+        JOIN `grupa` `g`)
+    WHERE
+        ((`o`.`mesto_id` = `m`.`id`)
+            AND (`o`.`podgrupa_id` = `p`.`id`)
+            AND (`o`.`nacin_finansiranja_id` = `n`.`id`)
+            AND (`m`.`opstina_id` = `op`.`id`)
+            AND (`p`.`grupa_id` = `g`.`id`))
+			;
+			
+			
+create view  brojilo_vrsta_kolone_view as       
+select bv.id, bv.naziv, bv.opis, bv.rbr,  b.naziv brojilo_vrsta, j.naziv jedinica_mere, k.naziv kolona_tip
+from brojilo_vrsta_kolone bv left join brojilo_vrsta b on bv.brojilo_vrsta_id = b.id
+		left join kolona_tip k on bv.kolona_tip_id = k.id
+        left join jed_mere j on  bv.jed_mere_id = j.id
+;
+
+			

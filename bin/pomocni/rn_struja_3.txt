@@ -1,0 +1,127 @@
+/* struja sa dvotarifnim merenjem energent_id = 16; brojilo_vrsta_id = 3; model_placanja_id = 5
+kolone  23	VISA_TARIFA	2
+		24	NIZA_TARIFA	2
+		25	OBRACUNSKA_SNAGA	2
+		26	IZNOS	1
+		27	NAKNADA	1
+*/
+
+alter session set  nls_date_format="yyyy-mm-dd hh24:mi:ss";
+
+
+declare p_id number;
+begin
+
+  for i in (SELECT id stari_id, 
+            rn_struja.BROJILO_ID,
+             case 
+             when GODINA_ID = 1 then 1
+             when GODINA_ID = 2 then 2
+             when GODINA_ID = 21 then 3
+             when GODINA_ID = 41 then 4
+             when GODINA_ID = 61 then 5
+             when GODINA_ID = 81 then 6
+             when GODINA_ID = 101 then 7
+             when GODINA_ID = 121 then 8
+             end as GODINA_ID,
+            rn_struja.MESEC_ID,    
+            rn_struja.DOBAVLJAC_ID,
+            rn_struja.BROJ_RN,
+            null DATUMR,
+            rn_struja.NAPOMENA,
+            rn_struja.UNEO,
+            rn_struja.DATUMU,
+            rn_struja.MENJAO,
+            rn_struja.DATUMM,
+            16 energent_id, 
+            1 rn_tip_id,
+            VISA_TARIFA,
+			NIZA_TARIFA,
+			OBRACUNSKA_SNAGA,
+			IZNOS,
+			NAKNADA
+            FROM isem_vr.rn_struja
+            where brojilo_id in (select id from brojilo where model_placanja_id = 5))
+  loop
+
+    select rn_seq.nextval into p_id from dual;
+    
+    INSERT INTO rn (id, stari_id,
+                    brojilo_id,
+                    godina_id,
+                    mesec_id,
+                    dobavljac_id,
+                    broj_rn,
+                    datumr,
+                    napomena,
+                    uneo,
+                    datumu,
+                    menjao,
+                    datumm,
+                    energent_id,
+                    rn_tip_id)
+                values(p_id, 
+                        i.stari_id,
+                        i.brojilo_id,
+                        i.godina_id,
+                        i.mesec_id,
+                        i.dobavljac_id,
+                        i.broj_rn,
+                        i.datumr,
+                        i.napomena,
+                        i.uneo,
+                        i.datumu,
+                        i.menjao,
+                        i.datumm,
+                        i.energent_id,
+                        i.rn_tip_id);
+        
+        
+                        
+         insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        values (p_id, 23, i.VISA_TARIFA);
+		
+		insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        values (p_id, 24, i.NIZA_TARIFA);
+		
+		insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        values (p_id, 25, i.OBRACUNSKA_SNAGA);
+
+        insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        values (p_id, 26, i.iznos);
+		
+		insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        values (p_id, 27, i.NAKNADA);
+
+    
+  end loop;  
+  
+end;
+/
+
+
+SELECT ID,
+  BROJ_RN,
+  to_char(DATUMM,'yyyy-mm-dd hh24:mi:ss') DATUMM,
+  to_char(DATUMR,'yyyy-mm-dd hh24:mi:ss') DATUMR,
+  to_char(DATUMU,'yyyy-mm-dd hh24:mi:ss') DATUMU,
+  MENJAO,
+  NAPOMENA,
+  STARI_ID,
+  UNEO,
+  VERSION,
+  BROJILO_ID,
+  DOBAVLJAC_ID,
+  ENERGENT_ID,
+  GODINA_ID,
+  MESEC_ID,
+  RN_TIP_ID
+FROM RN
+where energent_id = 16;
+
+select *
+from rn_stavke
+where rn_id in (select id
+                from rn
+                where energent_id = 16);
+                

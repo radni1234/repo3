@@ -1,0 +1,119 @@
+﻿/* mazut energent_id = 11; brojilo_vrsta_id = 7; 
+kolone  37	KOLICINA	Količina
+		38	CENA	Cena
+		39	IZNOS	Iznos [din]
+*/
+
+alter session set  nls_date_format="yyyy-mm-dd hh24:mi:ss";
+
+
+declare p_id number;
+begin
+
+  for i in (SELECT id stari_id, 
+            rn_mazut.BROJILO_ID,
+             case 
+             when GODINA_ID = 1 then 1
+             when GODINA_ID = 2 then 2
+             when GODINA_ID = 21 then 3
+             when GODINA_ID = 41 then 4
+             when GODINA_ID = 61 then 5
+             when GODINA_ID = 81 then 6
+             when GODINA_ID = 101 then 7
+             when GODINA_ID = 121 then 8
+             end as GODINA_ID,
+            rn_mazut.MESEC_ID,    
+            rn_mazut.DOBAVLJAC_ID,
+            rn_mazut.BROJ_RN,
+            rn_mazut.DATUMR,
+            rn_mazut.NAPOMENA,
+            rn_mazut.UNEO,
+            rn_mazut.DATUMU,
+            rn_mazut.MENJAO,
+            rn_mazut.DATUMM,
+            11 energent_id, 
+            1 rn_tip_id,
+            kolicina,
+            cena, 
+            iznos
+            FROM isem_vr.rn_mazut)
+  loop
+
+    select rn_seq.nextval into p_id from dual;
+    
+    INSERT INTO rn (id, stari_id,
+                    brojilo_id,
+                    godina_id,
+                    mesec_id,
+                    dobavljac_id,
+                    broj_rn,
+                    datumr,
+                    napomena,
+                    uneo,
+                    datumu,
+                    menjao,
+                    datumm,
+                    energent_id,
+                    rn_tip_id)
+                values(p_id, 
+                        i.stari_id,
+                        i.brojilo_id,
+                        i.godina_id,
+                        i.mesec_id,
+                        i.dobavljac_id,
+                        i.broj_rn,
+                        i.datumr,
+                        i.napomena,
+                        i.uneo,
+                        i.datumu,
+                        i.menjao,
+                        i.datumm,
+                        i.energent_id,
+                        i.rn_tip_id);
+        
+        
+                        
+        insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        values (p_id, 37, i.kolicina);
+        
+        insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        values (p_id, 38, i.cena);
+        
+        insert into rn_stavke(rn_id, brojilo_vrsta_kolone_id, vrednost)
+        values (p_id, 39, i.iznos);
+
+    
+  end loop;  
+  
+end;
+/
+
+
+SELECT ID,
+  BROJ_RN,
+  to_char(DATUMM,'yyyy-mm-dd hh24:mi:ss') DATUMM,
+  to_char(DATUMR,'yyyy-mm-dd hh24:mi:ss') DATUMR,
+  to_char(DATUMU,'yyyy-mm-dd hh24:mi:ss') DATUMU,
+  MENJAO,
+  NAPOMENA,
+  STARI_ID,
+  UNEO,
+  VERSION,
+  BROJILO_ID,
+  DOBAVLJAC_ID,
+  ENERGENT_ID,
+  GODINA_ID,
+  MESEC_ID,
+  RN_TIP_ID
+FROM RN
+where energent_id = 11;
+
+
+select *
+from rn_stavke
+where rn_id in (select id
+                from rn
+                where energent_id = 11);
+                
+
+                

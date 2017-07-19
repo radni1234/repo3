@@ -1,0 +1,37 @@
+set sql_safe_updates = 0;
+
+update rn
+set iznos = (select sum(vrednost) 
+				from rn_stavke s, brojilo_vrsta_kolone b
+				where rn.id = s.rn_id
+						and s.brojilo_vrsta_kolone_id = b.id
+                        and b.kolona_tip_id = 1);
+                        
+update rn
+set kolicina = (select sum(vrednost) 
+				from rn_stavke s, brojilo_vrsta_kolone b
+				where rn.id = s.rn_id
+						and s.brojilo_vrsta_kolone_id = b.id
+                        and b.kolona_tip_id = 2);
+                        
+update rn
+set kolicina_kwh = (select sum(vrednost)
+					from rn_stavke s, brojilo_vrsta_kolone b
+					where rn.id = s.rn_id
+							and s.brojilo_vrsta_kolone_id = b.id
+							and b.kolona_tip_id = 2) 
+					*
+                    (select kwh_jm
+                    from energent
+                    where id = rn.energent_id);
+                    
+update rn
+set emisija_co2 = (select sum(vrednost)
+					from rn_stavke s, brojilo_vrsta_kolone b
+					where rn.id = s.rn_id
+							and s.brojilo_vrsta_kolone_id = b.id
+							and b.kolona_tip_id = 2) 
+					*
+                    (select emisija
+                    from energent
+                    where id = rn.energent_id);
