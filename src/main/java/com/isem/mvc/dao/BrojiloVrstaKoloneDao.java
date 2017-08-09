@@ -21,4 +21,7 @@ public interface BrojiloVrstaKoloneDao extends PagingAndSortingRepository<Brojil
 	
 	@Query("SELECT b FROM BrojiloVrstaKolone b where b.brojiloVrsta.id = :id order by rbr")
 	List<BrojiloVrstaKolone> findBrojiloVrstaKoloneByBrojiloVrsta(@Param("id") Long id);
+	
+	@Query("SELECT b FROM BrojiloVrstaKolone b where b.brojiloVrsta.id = (select b2.brojiloVrsta.id from Brojilo b2 where b2.id = :id) order by rbr")
+	List<BrojiloVrstaKolone> findBrojiloVrstaKoloneByBrojilo(@Param("id") Long id);
 }

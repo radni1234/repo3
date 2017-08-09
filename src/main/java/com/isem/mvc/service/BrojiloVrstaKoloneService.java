@@ -36,6 +36,10 @@ public class BrojiloVrstaKoloneService {
 		return dao.findBrojiloVrstaKoloneByBrojiloVrsta(id);
 	}
 	
+	public List<BrojiloVrstaKolone> findBrojiloVrstaKoloneByBrojilo(Long id) {
+		return dao.findBrojiloVrstaKoloneByBrojilo(id);
+	}
+	
 	public BrojiloVrstaKoloneView findByIdView (Long id) {
 		return daoView.findById(id);
 	}
