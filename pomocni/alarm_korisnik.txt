@@ -1,0 +1,136 @@
+CREATE DEFINER=`isem`@`%` PROCEDURE `alarm_korisnik`(i_korisnik_id numeric)
+BEGIN
+	
+
+	DECLARE p_obj_id, p_bro_id, p_ene_id, p_god, p_mes numeric;
+    
+    DECLARE p_pocetak, p_kraj, p_racun_vrsta varchar(200);
+    
+    DECLARE p_obj_naz, p_bro_naz varchar(500); 
+    
+    DECLARE p_poruka, p_poruka_objekat, p_poruka_brojilo, p_poruka_sva_brojila, p_poruka_racun longtext;
+    
+    DECLARE p_datum_od, p_datum_do, p_alarm_racun_start date;
+
+	DECLARE done BOOL DEFAULT FALSE; 
+    
+    -- objekti koji su dodeljeni korisniku --
+	DECLARE cur_kor_obj CURSOR FOR
+	  select distinct o.id, o.naziv objekat
+	  from objekat o, korisnik_objekat ko
+	  where ko.korisnik_id = i_korisnik_id
+			and o.id = ko.objekat_id;     
+            
+	-- brojila koja postoje na objektu --
+	DECLARE cur_obj_bro CURSOR FOR
+	  select b.id brojilo_id, b.sifra_brojila brojilo, e.id energent_id -- , e.naziv energent
+	  from brojilo b, brojilo_vrsta v, energent_tip t, energent e
+	  where b.objekat_id = p_obj_id
+			and b.brojilo_vrsta_id = v.id
+            and v.energent_tip_id = t.id
+            and e.energent_tip_id = t.id		    
+		    and e.id in (2,14,16,20);    
+            
+	-- racuni koji nisu uneti za brojilo --
+	DECLARE cur_rac_bro CURSOR FOR
+	  select godina, mesec
+	  from god_mes g
+	  where not exists (select 1
+					    from rn
+					    where rn.datumr = g.datum
+							  and rn.energent_id = p_ene_id 
+                              and rn.brojilo_id = p_bro_id)
+		    and datum between p_datum_od and p_datum_do; 
+
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done := TRUE;
+	
+    SET p_pocetak := '<html><body>Potrebno je uneti sledeće račune u informacioni sistem ISEM: <hr><br /> ';
+    SET p_kraj := '</body></html>';
+    
+    SET p_poruka := ' ';
+    SET p_poruka_objekat := ' ';
+    SET p_poruka_brojilo := ' ';
+    SET p_poruka_sva_brojila := ' ';
+    
+    -- odredjivanje datuma od i do --    
+    select alarm_racun_start
+    into p_alarm_racun_start
+    from korisnik
+    where id = i_korisnik_id; 
+    
+    SET p_datum_od := DATE_FORMAT(p_alarm_racun_start, '%Y-%m-01');
+    
+	if DATE_FORMAT(current_date, '%d') >= 15 then
+		SET p_datum_do := DATE_SUB(curdate(), INTERVAL 1 MONTH);
+	else
+		SET p_datum_do := DATE_SUB(curdate(), INTERVAL 2 MONTH);
+	end if;
+    
+    
+    OPEN cur_kor_obj;
+    korObjLoop: LOOP
+
+	  FETCH cur_kor_obj INTO p_obj_id, p_obj_naz;
+
+	  IF done THEN
+		CLOSE cur_kor_obj;
+	    LEAVE korObjLoop;
+	  END IF;
+
+	  SET  p_poruka_objekat := CONCAT(' <br /><b> Objekat: ', p_obj_naz,' </b><br /> ');       
+	  SET  p_poruka_sva_brojila := ' ';
+      
+		  OPEN cur_obj_bro;
+		  objBroLoop: LOOP
+        
+			FETCH cur_obj_bro INTO p_bro_id, p_bro_naz, p_ene_id;
+			
+			IF done THEN
+			  SET done := false;
+			  CLOSE cur_obj_bro;
+			  LEAVE objBroLoop;			  
+			END IF;
+            
+            if p_ene_id = 2 then
+				SET p_racun_vrsta := 'Račun za toplotnu energiju: ';
+			elseif p_ene_id = 14 then
+				SET p_racun_vrsta := 'Račun za gas: ';
+			elseif p_ene_id = 16 then
+				SET p_racun_vrsta := 'Račun za struju: ';
+			elseif p_ene_id = 20 then
+				SET p_racun_vrsta := 'Račun za vodu: ';
+			end if;
+			
+            SET p_poruka_brojilo := CONCAT('<u> Brojilo:',p_bro_naz,' </u><br /> ');
+            
+              OPEN cur_rac_bro;
+			  racBroLoop: LOOP
+			
+				FETCH cur_rac_bro INTO p_god, p_mes;
+				
+				IF done THEN
+				  SET done := false;
+				  CLOSE cur_rac_bro;
+				  LEAVE racBroLoop;			  
+				END IF;
+                
+				
+                SET p_poruka_racun := CONCAT(p_racun_vrsta,vrati_naziv_meseca(p_mes),' ',p_god,'. <br /> ');                
+                SET p_poruka_brojilo := CONCAT(p_poruka_brojilo, p_poruka_racun);
+			  END LOOP racBroLoop;
+              
+			
+			SET p_poruka_sva_brojila := CONCAT(p_poruka_sva_brojila, p_poruka_brojilo);
+            
+		  END LOOP objBroLoop;        
+      
+      SET  p_poruka := CONCAT(p_poruka, p_poruka_objekat, p_poruka_sva_brojila);
+      
+
+      
+  END LOOP korObjLoop;
+  
+  SET p_poruka := CONCAT(p_pocetak, p_poruka, p_kraj);
+
+  select p_poruka;
+END

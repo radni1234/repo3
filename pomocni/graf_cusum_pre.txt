@@ -1,0 +1,44 @@
+CREATE DEFINER=`isem`@`%` PROCEDURE `graf_cusum_pre`(i_mera_id bigint(20))
+begin
+	declare p_objekat_id, p_opstina_id bigint(20);
+    declare p_datum_mere, p_datum_mere_pre date;   
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET p_datum_mere_pre = '1950-01-01';
+    
+    select objekat_id, datum_mere
+    into p_objekat_id, p_datum_mere
+	from objekat_mere
+	where id = i_mera_id;
+    
+    select datum_mere
+    into p_datum_mere_pre
+	from objekat_mere
+	where datum_mere < p_datum_mere and objekat_id = p_objekat_id
+	order by datum_mere desc
+	limit 1;
+    
+    select opstina_id
+    into p_opstina_id
+	from objekat o, mesto m
+	where o.id = p_objekat_id
+	  and o.mesto_id = m.id;
+    
+    select t1.godina god, t1.mesec mes, IFNULL(t2.stepen_dan,0) x_value, t1.kolicina y_value
+    from 
+    (select YEAR(rn.datumr) godina, MONTH(rn.datumr) mesec, sum(rn.kolicina_kwh) kolicina
+	from rn_bilans rn
+	where brojilo_id in (select id
+						 from brojilo
+						 where objekat_id = p_objekat_id)
+		  and rn.datumr between DATE_ADD(LAST_DAY(p_datum_mere_pre), INTERVAL 1 DAY) and LAST_DAY(p_datum_mere)
+	group by YEAR(rn.datumr), MONTH(rn.datumr)) t1
+    
+    LEFT JOIN
+    
+    (select godina, mesec, sd_iznos stepen_dan
+	from stepen_dan
+	where opstina_id = p_opstina_id) t2
+	
+    ON t1.godina = t2.godina
+	   and t1.mesec = t2.mesec
+    ;
+end

@@ -1,0 +1,348 @@
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `isem`@`%` 
+    SQL SECURITY DEFINER
+VIEW `brojilo_koef_v` AS
+    SELECT 
+        `b1`.`id` AS `id`,
+        `b1`.`vodece_brojilo_id` AS `vodece_brojilo_id`,
+        1 AS `koef`,
+        `b1`.`objekat_id` AS `objekat_id`,
+        `b1`.`brojilo_tip_id` AS `brojilo_tip_id`
+    FROM
+        `brojilo` `b1`
+    WHERE
+        ((NOT (EXISTS( SELECT 
+                1
+            FROM
+                `brojilo` `b2`
+            WHERE
+                (`b1`.`id` = `b2`.`vodece_brojilo_id`))))
+            AND (`b1`.`brojilo_tip_id` IN (1 , 2))) 
+    UNION SELECT 
+        `b1`.`id` AS `id`,
+        `b1`.`vodece_brojilo_id` AS `vodece_brojilo_id`,
+        (1 - (SELECT 
+                (SUM(IFNULL(`bb`.`procenat`, 0)) / 100)
+            FROM
+                `brojilo` `bb`
+            WHERE
+                (`bb`.`vodece_brojilo_id` = `b1`.`id`))) AS `koef`,
+        `b1`.`objekat_id` AS `objekat_id`,
+        `b1`.`brojilo_tip_id` AS `brojilo_tip_id`
+    FROM
+        `brojilo` `b1`
+    WHERE
+        (EXISTS( SELECT 
+                1
+            FROM
+                `brojilo` `b2`
+            WHERE
+                (`b1`.`id` = `b2`.`vodece_brojilo_id`))
+            AND (`b1`.`brojilo_tip_id` IN (1 , 2))) 
+    UNION SELECT 
+        `b1`.`id` AS `id`,
+        `b1`.`vodece_brojilo_id` AS `vodece_brojilo_id`,
+        (IFNULL(`b1`.`procenat`, 0) / 100) AS `koef`,
+        `b1`.`objekat_id` AS `objekat_id`,
+        `b1`.`brojilo_tip_id` AS `brojilo_tip_id`
+    FROM
+        `brojilo` `b1`
+    WHERE
+        (`b1`.`brojilo_tip_id` = 3);
+		
+
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `isem`@`%` 
+    SQL SECURITY DEFINER
+VIEW `brojilo_view` AS
+    SELECT 
+        `brojilo`.`id` AS `id`,
+        `brojilo`.`sifra_brojila` AS `sifra_brojila`,
+        `brojilo`.`opis` AS `opis`,
+        `objekat`.`id` AS `objekat_id`,
+        `objekat`.`naziv` AS `objekat`,
+        `brojilo_tip`.`naziv` AS `brojilo_tip`,
+        `brojilo_vrsta`.`naziv` AS `brojilo_vrsta`,
+        `rezim_merenja`.`naziv` AS `rezim_merenja`,
+        `brojilo_2`.`sifra_brojila` AS `vodece_brojilo`,
+        `brojilo`.`procenat` AS `procenat`,
+        `brojilo`.`obracunski_period` AS `obracunski_period`,
+        `brojilo`.`automatski` AS `automatski`
+    FROM
+        (((((`brojilo`
+        LEFT JOIN `objekat` ON ((`brojilo`.`objekat_id` = `objekat`.`id`)))
+        LEFT JOIN `brojilo_tip` ON ((`brojilo`.`brojilo_tip_id` = `brojilo_tip`.`id`)))
+        LEFT JOIN `brojilo_vrsta` ON ((`brojilo`.`brojilo_vrsta_id` = `brojilo_vrsta`.`id`)))
+        LEFT JOIN `rezim_merenja` ON ((`brojilo`.`rezim_merenja_id` = `rezim_merenja`.`id`)))
+        LEFT JOIN `brojilo` `brojilo_2` ON ((`brojilo`.`vodece_brojilo_id` = `brojilo_2`.`id`)));
+		
+		
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `isem`@`%` 
+    SQL SECURITY DEFINER
+VIEW `brojilo_vrsta_kolone_view` AS
+    SELECT 
+        `bv`.`id` AS `id`,
+        `bv`.`naziv` AS `naziv`,
+        `bv`.`opis` AS `opis`,
+        `bv`.`rbr` AS `rbr`,
+        `bv`.`brojilo_vrsta_id` AS `brojilo_vrsta_id`,
+        `b`.`naziv` AS `brojilo_vrsta`,
+        `j`.`naziv` AS `jedinica_mere`,
+        `k`.`naziv` AS `kolona_tip`
+    FROM
+        (((`brojilo_vrsta_kolone` `bv`
+        LEFT JOIN `brojilo_vrsta` `b` ON ((`bv`.`brojilo_vrsta_id` = `b`.`id`)))
+        LEFT JOIN `kolona_tip` `k` ON ((`bv`.`kolona_tip_id` = `k`.`id`)))
+        LEFT JOIN `jed_mere` `j` ON ((`bv`.`jed_mere_id` = `j`.`id`)));
+		
+		
+		
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `isem`@`%` 
+    SQL SECURITY DEFINER
+VIEW `cifre_view` AS
+    SELECT 0 AS `i` 
+    UNION SELECT 1 AS `1` 
+    UNION SELECT 2 AS `2` 
+    UNION SELECT 3 AS `3` 
+    UNION SELECT 4 AS `4` 
+    UNION SELECT 5 AS `5` 
+    UNION SELECT 6 AS `6` 
+    UNION SELECT 7 AS `7` 
+    UNION SELECT 8 AS `8` 
+    UNION SELECT 9 AS `9`;
+	
+	
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `dobavljac_view` AS
+    SELECT 
+        `d`.`id` AS `id`,
+        `d`.`naziv` AS `naziv`,
+        `d`.`tel` AS `tel`,
+        `d`.`mail` AS `mail`,
+        `d`.`web` AS `web`,
+        `m`.`naziv` AS `mesto`
+    FROM
+        (`dobavljac` `d`
+        JOIN `mesto` `m`)
+    WHERE
+        (`d`.`mesto_id` = `m`.`id`);
+		
+		
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `isem`@`%` 
+    SQL SECURITY DEFINER
+VIEW `energent_view` AS
+    SELECT 
+        `e`.`id` AS `id`,
+        `e`.`naziv` AS `naziv`,
+        `e`.`emisija` AS `emisija`,
+        `e`.`kwh_jm` AS `kwh_jm`,
+        `e`.`sifra` AS `sifra`,
+        `e`.`racun` AS `racun`,
+        `t`.`naziv` AS `energent_tip`,
+        `j`.`naziv` AS `jed_mere`,
+        `e`.`primarna_energija` AS `primarna_energija`,
+        `e`.`finalna_energija` AS `finalna_energija`
+    FROM
+        ((`energent` `e`
+        LEFT JOIN `energent_tip` `t` ON ((`e`.`energent_tip_id` = `t`.`id`)))
+        LEFT JOIN `jed_mere` `j` ON ((`e`.`jed_mere_id` = `j`.`id`)));
+		
+		
+		
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `isem`@`%` 
+    SQL SECURITY DEFINER
+VIEW `god_mes_view` AS
+    SELECT 
+        STR_TO_DATE(('1950-01-01' + INTERVAL (((((`t4`.`i` * 10000) + (`t3`.`i` * 1000)) + (`t2`.`i` * 100)) + (`t1`.`i` * 10)) + `t0`.`i`) DAY),
+                '%Y-%m-%d') AS `datum`,
+        MONTH(('1950-01-01' + INTERVAL (((((`t4`.`i` * 10000) + (`t3`.`i` * 1000)) + (`t2`.`i` * 100)) + (`t1`.`i` * 10)) + `t0`.`i`) DAY)) AS `mesec`,
+        YEAR(('1950-01-01' + INTERVAL (((((`t4`.`i` * 10000) + (`t3`.`i` * 1000)) + (`t2`.`i` * 100)) + (`t1`.`i` * 10)) + `t0`.`i`) DAY)) AS `godina`
+    FROM
+        ((((`cifre_view` `t0`
+        JOIN `cifre_view` `t1`)
+        JOIN `cifre_view` `t2`)
+        JOIN `cifre_view` `t3`)
+        JOIN `cifre_view` `t4`)
+    WHERE
+        (DAYOFMONTH(('1950-01-01' + INTERVAL (((((`t4`.`i` * 10000) + (`t3`.`i` * 1000)) + (`t2`.`i` * 100)) + (`t1`.`i` * 10)) + `t0`.`i`) DAY)) = 15);
+		
+		
+		
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `isem`@`%` 
+    SQL SECURITY DEFINER
+VIEW `korisnik_objekat_view` AS
+    SELECT 
+        `ko`.`id` AS `id`,
+        `ko`.`korisnik_id` AS `korisnik_id`,
+        `k`.`naziv` AS `korisnik`,
+        `ko`.`objekat_id` AS `objekat_id`,
+        `o`.`naziv` AS `objekat`
+    FROM
+        ((`korisnik_objekat` `ko`
+        LEFT JOIN `user` `k` ON ((`ko`.`korisnik_id` = `k`.`id`)))
+        LEFT JOIN `objekat` `o` ON ((`ko`.`objekat_id` = `o`.`id`)));
+		
+		
+		
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `isem`@`%` 
+    SQL SECURITY DEFINER
+VIEW `korisnik_view` AS
+    SELECT 
+        `k`.`id` AS `id`,
+        `k`.`naziv` AS `naziv`,
+        `k`.`username` AS `username`,
+        `k`.`password` AS `password`,
+        `u`.`name` AS `uloga`,
+        `m`.`naziv` AS `mesto`,
+        `o`.`naziv` AS `opstina`,
+        `k`.`mail` AS `mail`,
+        `k`.`fax` AS `fax`,
+        `k`.`mob` AS `mob`,
+        `k`.`tel` AS `tel`,
+        (CASE `k`.`alarm_racun`
+            WHEN 'N' THEN 'Ne'
+            WHEN 'D' THEN 'Da'
+        END) AS `alarm_racun`,
+        `k`.`alarm_racun_start` AS `alarm_racun_start`,
+        (CASE `k`.`alarm_trend`
+            WHEN 'N' THEN 'Ne'
+            WHEN 'D' THEN 'Da'
+        END) AS `alarm_trend`,
+        `k`.`alarm_trend_start` AS `alarm_trend_start`,
+        (CASE `k`.`rasveta`
+            WHEN 'N' THEN 'Ne'
+            WHEN 'D' THEN 'Da'
+        END) AS `rasveta`,
+        (CASE `k`.`blokiran`
+            WHEN 'N' THEN 'Ne'
+            WHEN 'D' THEN 'Da'
+        END) AS `blokiran`
+    FROM
+        ((((`user` `k`
+        JOIN `authority` `u`)
+        JOIN `opstina` `o`)
+        JOIN `mesto` `m`)
+        JOIN `user_authority` `ua`)
+    WHERE
+        ((`k`.`id` = `ua`.`user_id`)
+            AND (`k`.`mesto_id` = `m`.`id`)
+            AND (`m`.`opstina_id` = `o`.`id`)
+            AND (`u`.`id` = `ua`.`authority_id`));
+			
+			
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `objekat_view` AS
+    SELECT 
+        `o`.`id` AS `id`,
+        `o`.`naziv` AS `naziv`,
+        `op`.`id` AS `opstina_id`,
+        `op`.`naziv` AS `opstina`,
+        `m`.`naziv` AS `mesto`,
+        `o`.`adresa` AS `adresa`,
+        `g`.`naziv` AS `grupa`,
+        `p`.`naziv` AS `podgrupa`,
+        `o`.`god_izgr` AS `god_izgr`,
+        `o`.`projektan_firma` AS `projektan_firma`,
+        `o`.`izvodjac_izg` AS `izvodjac_izg`,
+        `o`.`god_rekon` AS `god_rekon`,
+        `o`.`izvodjac_rekon` AS `izvodjac_rekon`,
+        `o`.`tip_rek` AS `tip_rek`,
+        `o`.`ko_ime` AS `ko_ime`,
+        `o`.`ko_prezime` AS `ko_prezime`,
+        `o`.`ko_zanimanje` AS `ko_zanimanje`,
+        `o`.`ko_tel` AS `ko_tel`,
+        `o`.`ko_faks` AS `ko_faks`,
+        `o`.`ko_mob` AS `ko_mob`,
+        `o`.`ko_mail` AS `ko_mail`,
+        `o`.`op_br_etaza` AS `op_br_etaza`,
+        `o`.`op_br_rd_ned` AS `op_br_rd_ned`,
+        `o`.`op_br_rd_god` AS `op_br_rd_god`,
+        `o`.`op_pbr_rs_dan` AS `op_pbr_rs_dan`,
+        `o`.`op_br_nrd_zima` AS `op_br_nrd_zima`,
+        `o`.`op_br_nrd_leto` AS `op_br_nrd_leto`,
+        `o`.`op_br_stalno_zap` AS `op_br_stalno_zap`,
+        `o`.`op_br_kor` AS `op_br_kor`,
+        `o`.`lon` AS `lon`,
+        `o`.`lat` AS `lat`,
+        `n`.`naziv` AS `nacin_finansiranja`,
+        `o`.`trend_tolerancija` AS `trend_tolerancija`,
+        `o`.`alarm_trend` AS `alarm_trend`,
+        `o`.`alarm_trend_start` AS `alarm_trend_start`
+    FROM
+        (((((`objekat` `o`
+        JOIN `mesto` `m`)
+        JOIN `podgrupa` `p`)
+        JOIN `nacin_finansiranja` `n`)
+        JOIN `opstina` `op`)
+        JOIN `grupa` `g`)
+    WHERE
+        ((`o`.`mesto_id` = `m`.`id`)
+            AND (`o`.`podgrupa_id` = `p`.`id`)
+            AND (`o`.`nacin_finansiranja_id` = `n`.`id`)
+            AND (`m`.`opstina_id` = `op`.`id`)
+            AND (`p`.`grupa_id` = `g`.`id`));
+			
+			
+			
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `rn_stavke_v` AS
+    SELECT 
+        `r`.`id` AS `id`,
+        `r`.`rn_id` AS `rn_id`,
+        `r`.`brojilo_vrsta_kolone_id` AS `brojilo_vrsta_kolone_id`,
+        `b`.`naziv` AS `naziv`,
+        `r`.`vrednost` AS `vrednost`
+    FROM
+        (`rn_stavke` `r`
+        JOIN `brojilo_vrsta_kolone` `b`)
+    WHERE
+        (`r`.`brojilo_vrsta_kolone_id` = `b`.`id`);
+		
+		
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `stepen_dan_view` AS
+    SELECT 
+        `s`.`id` AS `id`,
+        `o`.`naziv` AS `opstina`,
+        `g`.`god` AS `godina`,
+        `m`.`naziv` AS `mesec`,
+        `s`.`sd_iznos` AS `sd_iznos`
+    FROM
+        (((`stepen_dan` `s`
+        JOIN `opstina` `o`)
+        JOIN `godina` `g`)
+        JOIN `mesec` `m`)
+    WHERE
+        ((`s`.`godina_id` = `g`.`id`)
+            AND (`s`.`mesec_id` = `m`.`id`)
+            AND (`s`.`opstina_id` = `o`.`id`));
+			
+			
+			
+		

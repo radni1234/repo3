@@ -1,46 +1,23 @@
-delimiter //
-
-
-create procedure rn_proc()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `rn_proc`(i_bro_id numeric)
 begin
 
 	SET @sql = NULL;
-	SET @sql2 = NULL;
-	SET @sql3 = NULL;
 
 	SELECT
 	  GROUP_CONCAT(DISTINCT
 		CONCAT(
-		  'MAX(IF(i.naziv = ''',
-		  naziv,
-		  ''', i.vrednost, NULL)) AS ',
-		  naziv
+		  'MAX(IF(s.brojilo_vrsta_kolone_id = ''',
+		  brojilo_vrsta_kolone_id,
+		  ''', s.vrednost, NULL)) AS ',
+		  '''','k',b.rbr,''''
 		)
-	  ) INTO @sql
-	FROM rn_iznos_v;
+	  )  INTO @sql
+	FROM rn_stavke s, brojilo_vrsta_kolone b
+    WHERE rn_id in (select id from rn where brojilo_id = i_bro_id)
+			and s.brojilo_vrsta_kolone_id = b.id   
+    ;
 
-	SELECT
-	  GROUP_CONCAT(DISTINCT
-		CONCAT(
-		  'MAX(IF(p.naziv = ''',
-		  naziv,
-		  ''', p.vrednost, NULL)) AS ',
-		  naziv
-		)
-	  ) INTO @sql2
-	FROM rn_potrosnja_v;
-
-	SELECT
-	  GROUP_CONCAT(DISTINCT
-		CONCAT(
-		  'MAX(IF(o.naziv = ''',
-		  naziv,
-		  ''', o.vrednost, NULL)) AS ',
-		  naziv
-		)
-	  ) INTO @sql3
-	FROM rn_ostalo_v;
-
+	
 	SET @sql = CONCAT('
 						SELECT rn.id, 
 						`b`.`sifra_brojila` brojilo,
@@ -56,24 +33,22 @@ begin
 						`rn`.`datumu`,
 						`rn`.`menjao`,
 						`rn`.`datumm`,
-						`rn`.`version`,', @sql, ',', @sql2, ',', @sql3 ,
-					' FROM rn, rn_iznos_v i, rn_potrosnja_v p, rn_ostalo_v o,
+						`rn`.`version`,', @sql, 
+					' FROM rn, rn_stavke_v s,
 							brojilo b, godina g, mesec m, dobavljac d, energent e, rn_tip r
-					  WHERE i.rn_id = rn.id 
-							and p.rn_id = rn.id 
-							and o.rn_id = rn.id
+					  WHERE s.rn_id = rn.id 
 							and b.id = rn.brojilo_id
 							and g.id = rn.godina_id
 							and m.id = rn.mesec_id
 							and d.id = rn.dobavljac_id
 							and e.id = rn.energent_id
 							and r.id = rn.rn_tip_id
-						GROUP BY rn.id');
+                            and rn.brojilo_id = ', i_bro_id, 
+					 ' GROUP BY rn.id');
 
-
+-- insert into t values(@sql);
 	PREPARE stmt FROM @sql;
 	EXECUTE stmt;
 	DEALLOCATE PREPARE stmt;
 
-end//
-
+end

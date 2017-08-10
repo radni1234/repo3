@@ -1,0 +1,11 @@
+kriptovanje lozinke se desava u kontroleru korisnika 
+
+@RequestMapping(value="/dodaj", method=RequestMethod.POST)
+	public User add(@RequestBody User obj) {
+		if(obj.getId() == null){
+			obj.setPassword(passwordEncoder.encode(obj.getPassword()));
+			obj.setEnabled(true);
+		}
+		
+		return service.save(obj);
+	}

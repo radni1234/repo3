@@ -1,0 +1,61 @@
+CREATE DEFINER=`isem`@`%` PROCEDURE `graf_ene_mix`(i_obj_id varchar(1000), i_ene_tip_id varchar(1000), i_datum_od date, i_datum_do date)
+begin
+	
+    CALL upisi_id_u_temp(i_obj_id,'t1');
+	CALL upisi_id_u_temp(i_ene_tip_id,'t2');
+    CALL upisi_id_u_temp(i_ene_tip_id,'tt2');
+	
+	DROP TEMPORARY TABLE IF EXISTS temp;
+	CREATE TEMPORARY TABLE temp(id int,                     
+								tekst varchar(100),
+								godina varchar(4),
+                                mesec double,
+                                kolicina double,
+                                kolicina_kwh double,
+                                emisija_co2 double,
+                                iznos double
+                                ) ENGINE=MEMORY;
+    
+        SET @rank=0;        
+        	
+        
+        insert into temp(tekst, godina, mesec, kolicina, kolicina_kWh, emisija_co2, iznos) 
+        select e.naziv, t3.god, t3.mes, t3.kolicina, t3.kolicina_kwh, t3.emisija_co2, t3.iznos
+		from (
+				select t4.energent_id, godina god, mesec mes, 
+					IFNULL(kolicina,0) kolicina, 
+					IFNULL(kolicina_kwh,0) kolicina_kwh, 
+					IFNULL(emisija_co2,0) emisija_co2, 
+					IFNULL(iznos,0) iznos
+				from (
+					select energent_id, YEAR(rn.datumr) god, MONTH(rn.datumr) mes, sum(kolicina) kolicina, sum(kolicina_kwh) kolicina_kwh, sum(emisija_co2) emisija_co2, sum(iznos) iznos              
+					from rn_bilans rn, brojilo b, objekat o	
+					where rn.brojilo_id = b.id
+						  and b.objekat_id = o.id		  
+						  and brojilo_id in (select id from brojilo where objekat_id in (select k1 from t1))  
+						  and rn.datumr between i_datum_od and i_datum_do
+						  and rn.energent_id in (select id from energent where energent_tip_id in (select k1 from t2))              
+					group by energent_id, YEAR(rn.datumr), MONTH(rn.datumr)) t1 
+					right join
+					(select mesec, godina, t.id energent_id
+					from god_mes_view, (select id from energent where energent_tip_id in (select k1 from tt2)) t
+					where datum between i_datum_od and i_datum_do) t4
+					on t1.mes = t4.mesec 
+					   and t1.god = t4.godina 
+					   and t1.energent_id = t4.energent_id) t3
+		join energent e on t3.energent_id = e.id;      
+        
+
+    commit; 
+	
+    SET @row_number = 0;
+    
+  
+	select 
+             
+            tekst, godina, mesec,
+            kolicina, kolicina_kwh, emisija_co2, iznos
+	from temp   
+	order by tekst, godina, mesec;
+ 
+end

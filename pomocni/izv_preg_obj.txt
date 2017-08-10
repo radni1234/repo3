@@ -1,0 +1,12 @@
+CREATE DEFINER=`isem`@`%` PROCEDURE `izv_preg_obj`(i_obj_id varchar(1000))
+begin
+	
+    CALL upisi_id_u_temp(i_obj_id,'t1');
+    
+    select o.naziv, o.grej_po_korisna, o.grej_uk_snaga, o.grej_uk_snaga_tela, o.el_snaga_potrosaca, o.el_snaga_grejalica, o.el_snaga_rasveta
+    from objekat o 
+    where o.id in (select k1 from t1);
+    
+
+ 
+end

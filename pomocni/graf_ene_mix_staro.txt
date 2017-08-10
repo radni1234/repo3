@@ -1,0 +1,51 @@
+CREATE DEFINER=`isem`@`%` PROCEDURE `graf_ene_mix`(i_obj_id varchar(1000), i_ene_tip_id varchar(1000), i_datum_od date, i_datum_do date)
+begin
+	
+    CALL upisi_id_u_temp(i_obj_id,'t1');
+	CALL upisi_id_u_temp(i_ene_tip_id,'t2');
+	
+	DROP TEMPORARY TABLE IF EXISTS temp;
+	CREATE TEMPORARY TABLE temp(id int,                     
+								tekst varchar(100),
+								godina varchar(4),
+                                mesec double,
+                                kolicina double,
+                                kolicina_kwh double,
+                                emisija_co2 double,
+                                iznos double
+                                ) ENGINE=MEMORY;
+    
+        SET @rank=0;
+        
+        	
+        
+        insert into temp(tekst, godina, mesec, kolicina, kolicina_kWh, emisija_co2, iznos) 
+        select e.naziv, g.god, m.id, sum(kolicina) kolicina, sum(kolicina_kwh) kolicina_kwh, sum(emisija_co2) emisija_co2, sum(iznos) iznos              
+		from rn_bilans rn, energent e, jed_mere j, brojilo b, objekat o, godina g, mesec m 	
+		where rn.energent_id = e.id	
+			  and rn.brojilo_id = b.id
+              and b.objekat_id = o.id
+              and YEAR(rn.datumr) = g.god
+			  and MONTH(rn.datumr) = m.id
+              and e.jed_mere_id = j.id
+			  and brojilo_id in (select id from brojilo where objekat_id in (select k1 from t1))  
+              and rn.datumr between i_datum_od and i_datum_do
+              and rn.energent_id in (select id from energent where energent_tip_id in (select k1 from t2))              
+		group by e.id, god, m.id;        
+        
+       
+        
+
+    commit; 
+	
+    SET @row_number = 0;
+    
+  
+	select 
+             
+            tekst, godina, mesec,
+            kolicina, kolicina_kwh, emisija_co2, iznos
+	from temp   
+	order by tekst, godina, mesec;
+ 
+end

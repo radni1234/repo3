@@ -1,0 +1,198 @@
+CREATE DEFINER=`isem`@`%` PROCEDURE `izv_efik_obj`(i_obj_id varchar(1000), i_ene_tip_id varchar(1000), i_datum_od date, i_datum_do date, i_indikator varchar(1000))
+begin
+
+	IF (i_indikator='pov') THEN
+	
+    CALL upisi_id_u_temp(i_obj_id,'t1');
+	CALL upisi_id_u_temp(i_ene_tip_id,'t2');
+	
+	DROP TEMPORARY TABLE IF EXISTS temp;
+	CREATE TEMPORARY TABLE temp(id int,                     
+								tekst varchar(100),
+                                kolicina_pov double,
+                                kolicina_kwh_pov double,
+                                emisija_co2_pov double,
+                                iznos_pov double,
+                                grupa varchar(100),
+                                energent varchar(100),
+                                grupa2 varchar(100),
+                                energent2 varchar(100),
+                                objekat varchar(100),
+                                sort1 double,
+                                sort2 double,
+                                sort3 double) ENGINE=MEMORY;
+    
+        SET @rank=0;
+        
+        insert into temp(tekst, grupa, sort1, grupa2) 
+        select distinct g.naziv, g.naziv, 1, g.naziv
+		from rn_bilans rn, brojilo b, objekat o, podgrupa p, grupa g
+		where rn.brojilo_id = b.id
+              and b.objekat_id = o.id
+              and o.podgrupa_id = p.id
+              and p.grupa_id = g.id
+			  and rn.brojilo_id in (select id from brojilo where objekat_id in (select k1 from t1))  
+              and rn.datumr between i_datum_od and i_datum_do
+              and rn.energent_id in (select id from energent where energent_tip_id in (select k1 from t2))
+		group by g.naziv; 	
+        
+        insert into temp(tekst, kolicina_pov, kolicina_kwh_pov, emisija_co2_pov, iznos_pov, grupa, energent, objekat, sort1, sort2, grupa2, energent2) 
+        select concat('      ',o.naziv), sum(kolicina_pov) kolicina_pov, sum(kolicina_kwh_pov) kolicina_kwh_pov, sum(emisija_co2_pov) emisija_co2_pov, sum(iznos_pov) iznos_pov, g.naziv, e.naziv, o.naziv, 2, 2, g.naziv, e.naziv	                 
+		from rn_bilans rn, energent e, jed_mere j, brojilo b, objekat o, podgrupa p, grupa g	
+		where rn.energent_id = e.id	
+			  and rn.brojilo_id = b.id
+              and b.objekat_id = o.id
+              and o.podgrupa_id = p.id
+              and p.grupa_id = g.id
+              and e.jed_mere_id = j.id
+			  and brojilo_id in (select id from brojilo where objekat_id in (select k1 from t1))  
+              and rn.datumr between i_datum_od and i_datum_do
+              and rn.energent_id in (select id from energent where energent_tip_id in (select k1 from t2))              
+		group by o.naziv, g.naziv;        
+		
+
+        
+
+    commit; 
+	
+    SET @row_number = 0;
+    
+  
+	select 
+            case isnull(energent) when 1 then grupa else null end as grupa, 
+            objekat, kolicina_kwh_pov, emisija_co2_pov, iznos_pov
+	from temp
+	order by isnull(grupa2), grupa2, sort1, sort2, isnull(objekat), kolicina_kwh_pov DESC;
+ 
+	END IF;
+    
+    IF (i_indikator='zap') THEN
+	
+CALL upisi_id_u_temp(i_obj_id,'t1');
+	CALL upisi_id_u_temp(i_ene_tip_id,'t2');
+	
+	DROP TEMPORARY TABLE IF EXISTS temp;
+	CREATE TEMPORARY TABLE temp(id int,                     
+								tekst varchar(100),
+                                kolicina_zap double,
+                                kolicina_kwh_zap double,
+                                emisija_co2_zap double,
+                                iznos_zap double,
+                                grupa varchar(100),
+                                energent varchar(100),
+                                grupa2 varchar(100),
+                                energent2 varchar(100),
+                                objekat varchar(100),
+                                sort1 double,
+                                sort2 double,
+                                sort3 double) ENGINE=MEMORY;
+    
+        SET @rank=0;
+        
+        insert into temp(tekst, grupa, sort1, grupa2) 
+        select distinct g.naziv, g.naziv, 1, g.naziv
+		from rn_bilans rn, brojilo b, objekat o, podgrupa p, grupa g
+		where rn.brojilo_id = b.id
+              and b.objekat_id = o.id
+              and o.podgrupa_id = p.id
+              and p.grupa_id = g.id
+			  and rn.brojilo_id in (select id from brojilo where objekat_id in (select k1 from t1))  
+              and rn.datumr between i_datum_od and i_datum_do
+              and rn.energent_id in (select id from energent where energent_tip_id in (select k1 from t2))
+		group by g.naziv; 	
+        
+        insert into temp(tekst, kolicina_zap, kolicina_kwh_zap, emisija_co2_zap, iznos_zap, grupa, energent, objekat, sort1, sort2, grupa2, energent2) 
+        select concat('      ',o.naziv), sum(kolicina_zap) kolicina_zap, sum(kolicina_kwh_zap) kolicina_kwh_zap, sum(emisija_co2_zap) emisija_co2_zap, sum(iznos_zap) iznos_zap, g.naziv, e.naziv, o.naziv, 2, 2, g.naziv, e.naziv	                 
+		from rn_bilans rn, energent e, jed_mere j, brojilo b, objekat o, podgrupa p, grupa g	
+		where rn.energent_id = e.id	
+			  and rn.brojilo_id = b.id
+              and b.objekat_id = o.id
+              and o.podgrupa_id = p.id
+              and p.grupa_id = g.id
+              and e.jed_mere_id = j.id
+			  and brojilo_id in (select id from brojilo where objekat_id in (select k1 from t1))  
+              and rn.datumr between i_datum_od and i_datum_do
+              and rn.energent_id in (select id from energent where energent_tip_id in (select k1 from t2))              
+		group by o.naziv, g.naziv;        
+		
+
+        
+
+    commit; 
+	
+    SET @row_number = 0;
+    
+  
+	select 
+            case isnull(energent) when 1 then grupa else null end as grupa, 
+            objekat, kolicina_kwh_zap, emisija_co2_zap, iznos_zap
+	from temp
+	order by isnull(grupa2), grupa2, sort1, sort2, isnull(objekat), kolicina_kwh_zap DESC;
+ 
+	END IF;
+    
+    IF (i_indikator='kor') THEN
+	
+ CALL upisi_id_u_temp(i_obj_id,'t1');
+	CALL upisi_id_u_temp(i_ene_tip_id,'t2');
+	
+	DROP TEMPORARY TABLE IF EXISTS temp;
+	CREATE TEMPORARY TABLE temp(id int,                     
+								tekst varchar(100),
+                                kolicina_kor double,
+                                kolicina_kwh_kor double,
+                                emisija_co2_kor double,
+                                iznos_kor double,
+                                grupa varchar(100),
+                                energent varchar(100),
+                                grupa2 varchar(100),
+                                energent2 varchar(100),
+                                objekat varchar(100),
+                                sort1 double,
+                                sort2 double,
+                                sort3 double) ENGINE=MEMORY;
+    
+        SET @rank=0;
+        
+        insert into temp(tekst, grupa, sort1, grupa2) 
+        select distinct g.naziv, g.naziv, 1, g.naziv
+		from rn_bilans rn, brojilo b, objekat o, podgrupa p, grupa g
+		where rn.brojilo_id = b.id
+              and b.objekat_id = o.id
+              and o.podgrupa_id = p.id
+              and p.grupa_id = g.id
+			  and rn.brojilo_id in (select id from brojilo where objekat_id in (select k1 from t1))  
+              and rn.datumr between i_datum_od and i_datum_do
+              and rn.energent_id in (select id from energent where energent_tip_id in (select k1 from t2))
+		group by g.naziv; 	
+        
+        insert into temp(tekst, kolicina_kor, kolicina_kwh_kor, emisija_co2_kor, iznos_kor, grupa, energent, objekat, sort1, sort2, grupa2, energent2) 
+        select concat('      ',o.naziv), sum(kolicina_kor) kolicina_kor, sum(kolicina_kwh_kor) kolicina_kwh_kor, sum(emisija_co2_kor) emisija_co2_kor, sum(iznos_kor) iznos_kor, g.naziv, e.naziv, o.naziv, 2, 2, g.naziv, e.naziv	                 
+		from rn_bilans rn, energent e, jed_mere j, brojilo b, objekat o, podgrupa p, grupa g	
+		where rn.energent_id = e.id	
+			  and rn.brojilo_id = b.id
+              and b.objekat_id = o.id
+              and o.podgrupa_id = p.id
+              and p.grupa_id = g.id
+              and e.jed_mere_id = j.id
+			  and brojilo_id in (select id from brojilo where objekat_id in (select k1 from t1))  
+              and rn.datumr between i_datum_od and i_datum_do
+              and rn.energent_id in (select id from energent where energent_tip_id in (select k1 from t2))              
+		group by o.naziv, g.naziv;        
+		
+
+        
+
+    commit; 
+	
+    SET @row_number = 0;
+    
+  
+	select 
+            case isnull(energent) when 1 then grupa else null end as grupa, 
+            objekat, kolicina_kwh_kor, emisija_co2_kor, iznos_kor
+	from temp
+	order by isnull(grupa2), grupa2, sort1, sort2, isnull(objekat), kolicina_kwh_kor DESC;
+ 
+	END IF;
+end
