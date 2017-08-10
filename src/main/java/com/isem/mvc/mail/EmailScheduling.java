@@ -10,12 +10,16 @@ import org.springframework.stereotype.Component;
 public class EmailScheduling {
 	private final Log logger = LogFactory.getLog(this.getClass());
 	
-	@Autowired
-    public EmailServiceImpl emailServiceImp;
 	
+	@Autowired
+    public MailClient emailClient;
+	
+
 	@Scheduled(cron = "0 0 6 ? * MON-FRI")
     public void reportCurrentTime() {
 		logger.info("@Scheduled radi!!!");
-		emailServiceImp.sendSimpleMessage("rkoledin@yahoo.com","test","scheduer");  
+		emailClient.Send();
     }
+	
+
 }
