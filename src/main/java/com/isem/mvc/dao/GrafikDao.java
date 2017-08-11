@@ -34,9 +34,11 @@ public class GrafikDao {
         
         List<Grafik> result = new ArrayList<>(rows.size());
         for (Object[] row : rows) {
-            result.add(new Grafik((String) row[0],
-                                    (BigDecimal) row[1],
-                                    (BigDecimal) row[2]));
+            result.add(new Grafik((String) row[0],(BigDecimal) row[1], (BigDecimal) row[2], (BigDecimal) row[3],(BigDecimal) row[4],
+									(BigDecimal) row[5],
+									(BigDecimal) row[6])          		
+            		
+            		);
         }
         
         return result;
