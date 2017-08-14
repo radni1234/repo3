@@ -1,5 +1,8 @@
 package com.isem.mvc.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -7,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
@@ -24,6 +29,12 @@ public class Dobavljac {
             foreignKey = @ForeignKey(name = "DOBAVLJAC_FK1")
     )
 	private Mesto mesto;
+	
+	@ManyToMany
+	@JoinTable(name = "DOBAVLJAC_ENERGENT",
+		joinColumns = { @JoinColumn(name = "DOBAVLJAC_ID") },
+		inverseJoinColumns = { @JoinColumn(name = "ENERGENT_ID") })
+	private Set<Energent> energenti = new HashSet<Energent>();
 	
 	@Column(name = "TEL", length = 20)
 	private String tel;
@@ -84,6 +95,14 @@ public class Dobavljac {
 
 	public void setWeb(String web) {
 		this.web = web;
+	}	
+
+	public Set<Energent> getEnergenti() {
+		return energenti;
+	}
+
+	public void setEnergenti(Set<Energent> energenti) {
+		this.energenti = energenti;
 	}
 
 	@Override

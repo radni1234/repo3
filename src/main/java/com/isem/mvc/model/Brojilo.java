@@ -1,5 +1,8 @@
 package com.isem.mvc.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -7,8 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
+
+
 
 @Entity
 public class Brojilo {
@@ -64,6 +71,22 @@ public class Brojilo {
 	@Version
 	@Column(name = "VERSION", columnDefinition = "int(11) default 0")
 	private Integer version;
+	
+	
+	@ManyToMany
+	@JoinTable(name = "BROJILO_DOBAVLJAC",
+		joinColumns = { @JoinColumn(name = "BROJILO_ID") },
+		inverseJoinColumns = { @JoinColumn(name = "DOBAVLJAC_ID") })
+	private Set<Dobavljac> dobavljaci = new HashSet<Dobavljac>();		
+	
+
+	public Set<Dobavljac> getDobavljaci() {
+		return dobavljaci;
+	}
+
+	public void setDobavljaci(Set<Dobavljac> dobavljaci) {
+		this.dobavljaci = dobavljaci;
+	}
 
 	public Long getId() {
 		return id;
