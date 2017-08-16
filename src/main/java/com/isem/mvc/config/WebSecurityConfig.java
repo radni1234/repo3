@@ -18,6 +18,7 @@ import org.springframework.web.filter.CorsFilter;
 
 import com.isem.mvc.security.JwtAuthenticationEntryPoint;
 import com.isem.mvc.security.JwtAuthenticationTokenFilter;
+import com.isem.mvc.security.SpringSecurityAuditorAware;
 
 @SuppressWarnings("SpringJavaAutowiringInspection")
 @Configuration
@@ -49,6 +50,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public JwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
         return new JwtAuthenticationTokenFilter();
+    }
+    
+    @Bean
+    public SpringSecurityAuditorAware auditorProvider() {
+       return new SpringSecurityAuditorAware();
     }
 
     @Override

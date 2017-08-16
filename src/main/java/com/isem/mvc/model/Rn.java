@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +17,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Rn {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -68,15 +76,19 @@ public class Rn {
 	private String napomena;
 	
 	@Column(name = "UNEO", length = 100)
+	@CreatedBy
 	private String uneo;
 	
 	@Column(name = "DATUMU")
+	@CreatedDate
 	private Date datumu;
 	
 	@Column(name = "MENJAO", length = 100)
+	@LastModifiedBy
 	private String menjao;
 	
 	@Column(name = "DATUMM")
+	@LastModifiedDate
 	private Date datumm;
 	
 	@Column(name = "IZNOS", columnDefinition = "numeric(18,2)")

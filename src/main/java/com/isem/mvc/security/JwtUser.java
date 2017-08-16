@@ -104,4 +104,6 @@ public class JwtUser implements UserDetails {
     public Date getLastPasswordResetDate() {
         return lastPasswordResetDate;
     }
+
+	
 }
