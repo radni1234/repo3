@@ -42,6 +42,9 @@ public class BrojiloVrstaKolone {
             foreignKey = @ForeignKey(name = "BROJILO_VRSTA_KOLONE_FK3")
     )
 	private KolonaTip kolonaTip;
+	
+	@Column(name = "OBAVEZNO")
+	private Boolean obavezno;
 
 	@Version
 	@Column(name = "VERSION", columnDefinition = "int(11) default 0")
@@ -102,13 +105,22 @@ public class BrojiloVrstaKolone {
 	public void setKolonaTip(KolonaTip kolonaTip) {
 		this.kolonaTip = kolonaTip;
 	}
+	
+
+	public Boolean getObavezno() {
+		return obavezno;
+	}
+
+	public void setObavezno(Boolean obavezno) {
+		this.obavezno = obavezno;
+	}
 
 	@Override
 	public String toString() {
 		return "BrojiloVrstaKolone [id=" + id + ", naziv=" + naziv + ", opis=" + opis + ", brojiloVrsta=" + brojiloVrsta
-				+ ", rbr=" + rbr + ", jedMere=" + jedMere + ", kolonaTip=" + kolonaTip + ", version=" + version + "]";
+				+ ", rbr=" + rbr + ", jedMere=" + jedMere + ", kolonaTip=" + kolonaTip + ", obavezno=" + obavezno
+				+ ", version=" + version + "]";
 	}
-	
 	
 
 }
