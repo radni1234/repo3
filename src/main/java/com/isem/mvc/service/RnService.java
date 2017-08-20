@@ -58,9 +58,13 @@ public class RnService {
 			rn.addRnStavke(r);
 		    
 		    if (r.getBrojiloVrstaKolone().getKolonaTip().getId() == 1){
-		    	sumIznos = sumIznos + r.getVrednost();
+		    	if(r.getVrednost() != null){
+		    		sumIznos = sumIznos + r.getVrednost();
+		    	}
 		    } else if (r.getBrojiloVrstaKolone().getKolonaTip().getId() == 2){
-		    	sumKolicina = sumKolicina + r.getVrednost();
+		    	if(r.getVrednost() != null){
+		    		sumKolicina = sumKolicina + r.getVrednost();
+		    	}
 		    } 
 		}
 				
