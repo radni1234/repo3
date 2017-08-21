@@ -36,8 +36,11 @@ public class ObjekatMere {
 	@Column(name = "PROC_USTEDE", columnDefinition = "numeric(5,2)")
 	private Double procUstede;
 	
-	@Column(name = "AKTIVIRATI", length = 1)
-	private String aktivirati;
+	@Column(name = "VREDNOST_INVESTICIJE", columnDefinition = "numeric(18,2)")
+	private Double vrednostInvesticije;
+	
+	@Column(name = "AKTIVIRATI")
+	private Boolean aktivirati;
 
 	@Version
 	@Column(name = "VERSION", columnDefinition = "int(11) default 0")
@@ -67,7 +70,7 @@ public class ObjekatMere {
 		return procUstede;
 	}
 
-	public String getAktivirati() {
+	public Boolean getAktivirati() {
 		return aktivirati;
 	}
 
@@ -95,8 +98,16 @@ public class ObjekatMere {
 		this.procUstede = procUstede;
 	}
 
-	public void setAktivirati(String aktivirati) {
+	public void setAktivirati(Boolean aktivirati) {
 		this.aktivirati = aktivirati;
+	}	
+
+	public Double getVrednostInvesticije() {
+		return vrednostInvesticije;
+	}
+
+	public void setVrednostInvesticije(Double vrednostInvesticije) {
+		this.vrednostInvesticije = vrednostInvesticije;
 	}
 
 	@Override
