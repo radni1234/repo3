@@ -62,7 +62,7 @@ public class RnService {
 		    		sumIznos = sumIznos + r.getVrednost();
 		    	}
 		    } else if (r.getBrojiloVrstaKolone().getKolonaTip().getId() == 2){
-		    	if(r.getVrednost() != null){
+		    	if(r.getVrednost() != null && rn.getRnTip().getId() == 1){
 		    		sumKolicina = sumKolicina + r.getVrednost();
 		    	}
 		    } 
