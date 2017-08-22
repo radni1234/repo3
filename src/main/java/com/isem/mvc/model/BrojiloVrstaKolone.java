@@ -45,6 +45,9 @@ public class BrojiloVrstaKolone {
 	
 	@Column(name = "OBAVEZNO")
 	private Boolean obavezno;
+	
+	@Column(name = "FORMULA", length = 100)
+	private String formula;
 
 	@Version
 	@Column(name = "VERSION", columnDefinition = "int(11) default 0")
@@ -113,6 +116,14 @@ public class BrojiloVrstaKolone {
 
 	public void setObavezno(Boolean obavezno) {
 		this.obavezno = obavezno;
+	}	
+
+	public String getFormula() {
+		return formula;
+	}
+
+	public void setFormula(String formula) {
+		this.formula = formula;
 	}
 
 	@Override
