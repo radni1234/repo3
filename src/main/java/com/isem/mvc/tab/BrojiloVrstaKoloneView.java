@@ -14,6 +14,9 @@ public class BrojiloVrstaKoloneView {
 	private String brojiloVrsta;
 	private String jedinicaMere;
 	private String kolonaTip;
+	private String obavezno;
+	private String formula;
+	
 	public Long getId() {
 		return id;
 	}
@@ -38,6 +41,11 @@ public class BrojiloVrstaKoloneView {
 	public String getKolonaTip() {
 		return kolonaTip;
 	}
-	
+	public String getObavezno() {
+		return obavezno;
+	}
+	public String getFormula() {
+		return formula;
+	}	 
 	
 }
