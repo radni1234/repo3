@@ -1,13 +1,30 @@
 package com.isem.mvc.model.security;
 
-import javax.persistence.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.isem.mvc.model.Mesto;
-
-import java.util.Date;
-import java.util.List;
+import com.isem.mvc.model.Objekat;
 
 @Entity
 @Table(name = "USER")
@@ -58,6 +75,12 @@ public class User {
             joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")})
     private List<Authority> authorities;
+    
+    @ManyToMany
+	@JoinTable(name = "KORISNIK_OBJEKAT",
+		joinColumns = { @JoinColumn(name = "KORISNIK_ID") },
+		inverseJoinColumns = { @JoinColumn(name = "OBJEKAT_ID") })
+	private Set<Objekat> objekti = new HashSet<Objekat>();
     
     @ManyToOne
     @JoinColumn(name = "mesto_id",
@@ -164,7 +187,15 @@ public class User {
 
     public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
-    }
+    }    
+
+	public Set<Objekat> getObjekti() {
+		return objekti;
+	}
+
+	public void setObjekti(Set<Objekat> objekti) {
+		this.objekti = objekti;
+	}
 
 	public Mesto getMesto() {
 		return mesto;

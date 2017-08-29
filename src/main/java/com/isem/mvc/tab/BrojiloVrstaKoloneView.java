@@ -16,6 +16,7 @@ public class BrojiloVrstaKoloneView {
 	private String kolonaTip;
 	private String obavezno;
 	private String formula;
+	private String dozvoljeneVrednosti;
 	
 	public Long getId() {
 		return id;
@@ -46,6 +47,9 @@ public class BrojiloVrstaKoloneView {
 	}
 	public String getFormula() {
 		return formula;
-	}	 
+	}
+	public String getDozvoljeneVrednosti() {
+		return dozvoljeneVrednosti;
+	}	
 	
 }

@@ -24,8 +24,8 @@ public class OpstinaService {
 		return dao.findByNaziv(naziv);
 	}	
 	
-	public List<Opstina> findAll () {
-		return dao.findAll();
+	public List<Opstina> findAll (String user) {
+		return dao.findAll(user);
 	}
 	
 	public Page<Opstina> findAll (Pageable pageRequest) {

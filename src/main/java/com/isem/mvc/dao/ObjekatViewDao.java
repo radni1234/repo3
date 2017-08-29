@@ -13,13 +13,39 @@ import com.isem.mvc.tab.ObjekatView;
 
 public interface ObjekatViewDao extends Repository<ObjekatView, Long> {
 	
-	@Query("select o from ObjekatView o where "
-			 + "(o.opstinaId in (select m.opstina from Mesto m where m in (select k.mesto from User k where username like :user)) "
-			 + " and (select a.id from User k join k.authorities a where username like :user) = 2)"
-			 + "or ((select a.id from User k join k.authorities a where username like :user) = 1)"
-	
+	@Query("select o from Objekat o " 
+			 + "where "
+			 	+ "(o.mesto.id in "
+			 		+ "(select m from Mesto m where m.opstina in "				 
+			 		+ "(select m2.opstina from Mesto m2 where m2 in "
+			 		+ "(select u.mesto from User u where username like :user)))"
+			 	  + "and (select a.id from User u inner join u.authorities a where u.id = "
+		 	 		+ "(select u.id from User u where username like :user)) in (1,2,4)"
+	 	 		+ ") "
+	 	 		+ "or"
+	 	 		+ "(o.id in "
+	 	 			+ "(select o.id from User u inner join u.objekti o where username like :user)"
+	 			  + "and (select a.id from User u inner join u.authorities a where u.id = "
+		 	 		+ "(select u.id from User u where username like :user)) in (3)"
+	 	 		+ "	)"
 		  )
 	List<ObjekatView> findAll(@Param("user") String user);
 	
-	Page<ObjekatView> findAll(Pageable pageRequest);	
+	@Query("select o from Objekat o " 
+			 + "where "
+			 	+ "(o.mesto.id in "
+			 		+ "(select m from Mesto m where m.opstina in "				 
+			 		+ "(select m2.opstina from Mesto m2 where m2 in "
+			 		+ "(select u.mesto from User u where username like :user)))"
+			 	  + "and (select a.id from User u inner join u.authorities a where u.id = "
+		 	 		+ "(select u.id from User u where username like :user)) in (1,2,4)"
+	 	 		+ ") "
+	 	 		+ "or"
+	 	 		+ "(o.id in "
+	 	 			+ "(select o.id from User u inner join u.objekti o where username like :user)"
+	 			  + "and (select a.id from User u inner join u.authorities a where u.id = "
+		 	 		+ "(select u.id from User u where username like :user)) in (3)"
+	 	 		+ "	)"
+		  )
+	Page<ObjekatView> findAll(Pageable pageRequest, @Param("user") String user);	
 }

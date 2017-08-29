@@ -38,8 +38,8 @@ public class ObjekatService {
 		return dao.findAll(user);
 	}
 
-	public Page<Objekat> findAll (Pageable pageRequest) {
-		return dao.findAll(pageRequest);
+	public Page<Objekat> findAll (Pageable pageRequest, String user) {
+		return dao.findAll(pageRequest, user);
 	}
 	
 	public List<ObjekatView> findAllView (String user) {
@@ -47,8 +47,8 @@ public class ObjekatService {
 		return viewDao.findAll(user);
 	}
 
-	public Page<ObjekatView> findAllView (Pageable pageRequest) {
-		return viewDao.findAll(pageRequest);
+	public Page<ObjekatView> findAllView (Pageable pageRequest, String user) {
+		return viewDao.findAll(pageRequest, user);
 	}
 
 	public Objekat save(Objekat obj) {

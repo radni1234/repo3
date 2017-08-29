@@ -22,51 +22,46 @@ import com.isem.mvc.tab.ObjekatView;
 @RestController
 @RequestMapping("/objekat")
 public class ObjekatController {
+//	private final Log logger = LogFactory.getLog(this.getClass());
+	
 	@Autowired
 	private ObjekatService service;
 	
 	@Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+
 	@RequestMapping(value="/sve", method=RequestMethod.GET)
-	public List<Objekat> getAll(@RequestHeader("Authorization") String user) {
+	public List<Objekat> getAll(@RequestHeader("Authorization") String user) {		
 		
-		if(user != null && user.startsWith("Bearer ")) {
-			user = user.substring(7);
-        }
+		return service.findAll(jwtTokenUtil.vratiKorisnikaIzTokena(user));
 		
-		String username = jwtTokenUtil.getUsernameFromToken(user);
-		
-		return service.findAll(username);
 	}
 
 	@RequestMapping(value="/sve", params = {"str", "vel"}, method=RequestMethod.GET)
 	public Page<Objekat> getAll(@RequestParam(value = "str") int strana, 
-								@RequestParam(value = "vel") int velicina ) {
+								@RequestParam(value = "vel") int velicina,
+								@RequestHeader("Authorization") String user) {
 		
-		Pageable pageable = new PageRequest(strana, velicina);
+		Pageable pageable = new PageRequest(strana, velicina);	
 		
-		return service.findAll(pageable);
+		return service.findAll(pageable, jwtTokenUtil.vratiKorisnikaIzTokena(user));
 	}
 	
 	@RequestMapping(value="/tab", method=RequestMethod.GET)
 	public List<ObjekatView> getAllTab(@RequestHeader("Authorization") String user) {
-		if(user != null && user.startsWith("Bearer ")) {
-			user = user.substring(7);
-        }
 		
-		String username = jwtTokenUtil.getUsernameFromToken(user);
-		
-		return service.findAllView(username);
+		return service.findAllView(jwtTokenUtil.vratiKorisnikaIzTokena(user));
 	}
 
 	@RequestMapping(value="/tab", params = {"str", "vel"}, method=RequestMethod.GET)
 	public Page<ObjekatView> getAllTab(@RequestParam(value = "str") int strana, 
-								@RequestParam(value = "vel") int velicina ) {
+								@RequestParam(value = "vel") int velicina,
+								@RequestHeader("Authorization") String user) {
 		
 		Pageable pageable = new PageRequest(strana, velicina);
 		
-		return service.findAllView(pageable);
+		return service.findAllView(pageable, jwtTokenUtil.vratiKorisnikaIzTokena(user));
 	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)

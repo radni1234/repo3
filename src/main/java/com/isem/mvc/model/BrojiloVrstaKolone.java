@@ -48,6 +48,9 @@ public class BrojiloVrstaKolone {
 	
 	@Column(name = "FORMULA", length = 100)
 	private String formula;
+	
+	@Column(name = "DOZVOLJENE_VREDNOSTI", length = 1000)
+	private String dozvoljeneVrednosti;
 
 	@Version
 	@Column(name = "VERSION", columnDefinition = "int(11) default 0")
@@ -124,6 +127,14 @@ public class BrojiloVrstaKolone {
 
 	public void setFormula(String formula) {
 		this.formula = formula;
+	}	
+
+	public String getDozvoljeneVrednosti() {
+		return dozvoljeneVrednosti;
+	}
+
+	public void setDozvoljeneVrednosti(String dozvoljeneVrednosti) {
+		this.dozvoljeneVrednosti = dozvoljeneVrednosti;
 	}
 
 	@Override

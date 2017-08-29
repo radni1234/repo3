@@ -44,6 +44,21 @@ public class JwtTokenUtil implements Serializable {
         }
         return username;
     }
+    
+    public String vratiKorisnikaIzTokena(String token) {
+        String username;
+        try {
+        	if(token != null && token.startsWith("Bearer ")) {
+        		token = token.substring(7);
+            }
+        	
+            final Claims claims = getClaimsFromToken(token);
+            username = claims.getSubject();
+        } catch (Exception e) {
+            username = null;
+        }
+        return username;
+    }
 
     public Date getCreatedDateFromToken(String token) {
         Date created;
