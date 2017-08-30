@@ -89,8 +89,9 @@ public class ObjekatController {
 	public List<Lov> getObjekatLov(@RequestParam(value = "ops_id") Long opsId, 
 								   @RequestParam(value = "mes_id") Long mesId,
 								   @RequestParam(value = "gru_id") Long gruId, 
-								   @RequestParam(value = "podgru_id") Long podgruId) {
-		return service.objekatIzvestajLov(opsId, mesId, gruId, podgruId);
+								   @RequestParam(value = "podgru_id") Long podgruId,
+								   @RequestHeader("Authorization") String user) {
+		return service.objekatLov(jwtTokenUtil.vratiKorisnikaIzTokena(user), opsId, mesId, gruId, podgruId);
 	}
 	
 	@RequestMapping(value="/lov", params = {"ops_id", "mes_id", "gru_id", "podgru_id", "nac_fin_id"}, method=RequestMethod.GET)
@@ -98,7 +99,8 @@ public class ObjekatController {
 								   @RequestParam(value = "mes_id") Long mesId,
 								   @RequestParam(value = "gru_id") Long gruId, 
 								   @RequestParam(value = "podgru_id") Long podgruId,
-								   @RequestParam(value = "nac_fin_id") Long nacFinId) {
-		return service.objekatIzvestajLov(opsId, mesId, gruId, podgruId, nacFinId);
+								   @RequestParam(value = "nac_fin_id") Long nacFinId,
+								   @RequestHeader("Authorization") String user) {
+		return service.objekatLov(jwtTokenUtil.vratiKorisnikaIzTokena(user), opsId, mesId, gruId, podgruId, nacFinId);
 	}
 }

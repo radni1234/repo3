@@ -27,9 +27,87 @@ public class LovDao {
 				"Lov"
 				).setParameter("user", user);
 		
-		List<Lov> result = query.getResultList();
-		return result;
+		return query.getResultList();		
 
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<Lov> objekatLov(String user, Long opsId, Long mesId, Long gruId, Long podgruId) {
+//		Query query = entityManager.createNativeQuery(
+//				"select o.id, o.naziv as name " + 
+//				 "FROM ((((`objekat` `o` JOIN `mesto` `m`)	JOIN `podgrupa` `p`) JOIN `opstina` `op`) JOIN `grupa` `g`) " + 
+//				 "WHERE ((`o`.`mesto_id` = `m`.`id`) AND (`o`.`podgrupa_id` = `p`.`id`) AND (`m`.`opstina_id` = `op`.`id`)	AND (`p`.`grupa_id` = `g`.`id`)) " +
+//				 "			and (`m`.`opstina_id` = " + opsId + " or " + opsId + " = 0) " +
+//				 "			and (`o`.`mesto_id` = " + mesId + " or " + mesId + " = 0) " +
+//				 "			and (`p`.`grupa_id` = " + gruId + " or " + gruId + " = 0) " +	
+//				 "			and (`o`.`podgrupa_id` = " + podgruId + " or " + podgruId + " = 0) " ,								
+//				"Lov");
+		
+		
+		Query query = entityManager.createNativeQuery(
+				"select id, naziv as name "
+				+ "from objekat o join mesto m on o.mesto_id = m.id "
+				+ "		join podgrupa p on o.podgrupa_id = p.id "
+				+ "		join opstina op on m.opstina_id = op.id "
+				+ "		join grupa g on p.grupa_id = g.id "
+				+ "where ((mesto_id in (select id from mesto where opstina_id = (select opstina_id from mesto where id = (select mesto_id from user where username like :user))) "
+				+ "			and (select authority_id from user_authority where user_id = (select id from user where username like :user)) in (1,2,4)) "
+				+ " 		or "
+				+ "			(id in (select objekat_id from korisnik_objekat where korisnik_id = (select id from user where username like :user)) "
+				+ "			and (select authority_id from user_authority where user_id = (select id from user where username like :user)) in (3))) "
+				+ "		and (op.id = :opsId or :opsId = 0) "
+				+ "		and (m.id = :mesId or :mesId = 0) "
+				+ "		and (g.id = :gruId or :gruId = 0) "
+				+ "		and (p.id = :podgruId or :podgruId = 0) "
+				,"Lov"
+				).setParameter("user", user)
+				 .setParameter("opsId", opsId)
+				 .setParameter("mesId", mesId)
+				 .setParameter("gruId", gruId)
+				 .setParameter("podgruId", podgruId);
+	
+		return query.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Lov> objekatLov(String user, Long opsId, Long mesId, Long gruId, Long podgruId, Long nacFinId) {
+//		Query query = entityManager.createNativeQuery(
+//				"select o.id, o.naziv as name " + 
+//				 "FROM ((((`objekat` `o` JOIN `mesto` `m`)	JOIN `podgrupa` `p`) JOIN `opstina` `op`) JOIN `grupa` `g`) " + 
+//				 "WHERE ((`o`.`mesto_id` = `m`.`id`) AND (`o`.`podgrupa_id` = `p`.`id`) AND (`m`.`opstina_id` = `op`.`id`)	AND (`p`.`grupa_id` = `g`.`id`)) " +
+//				 "			and (`m`.`opstina_id` = " + opsId + " or " + opsId + " = 0) " +
+//				 "			and (`o`.`mesto_id` = " + mesId + " or " + mesId + " = 0) " +
+//				 "			and (`p`.`grupa_id` = " + gruId + " or " + gruId + " = 0) " +	
+//				 "			and (`o`.`podgrupa_id` = " + podgruId + " or " + podgruId + " = 0) " + 
+//				 "			and (`o`.`nacin_finansiranja_id` = " + nacFinId + " or " + nacFinId + " = 0) ",								
+//				"Lov");
+		
+		Query query = entityManager.createNativeQuery(
+				"select o.id, o.naziv as name "
+				+ "from objekat o join mesto m on o.mesto_id = m.id "
+				+ "		join podgrupa p on o.podgrupa_id = p.id "
+				+ "		join opstina op on m.opstina_id = op.id "
+				+ "		join grupa g on p.grupa_id = g.id "
+				+ "where ((mesto_id in (select id from mesto where opstina_id = (select opstina_id from mesto where id = (select mesto_id from user where username like :user))) "
+				+ "			and (select authority_id from user_authority where user_id = (select id from user where username like :user)) in (1,2,4)) "
+				+ " 		or "
+				+ "			(o.id in (select objekat_id from korisnik_objekat where korisnik_id = (select id from user where username like :user)) "
+				+ "			and (select authority_id from user_authority where user_id = (select id from user where username like :user)) in (3))) "
+				+ "		and (op.id = :opsId or :opsId = 0) "
+				+ "		and (m.id = :mesId or :mesId = 0) "
+				+ "		and (g.id = :gruId or :gruId = 0) "
+				+ "		and (p.id = :podgruId or :podgruId = 0) "
+				+ "		and (o.nacin_finansiranja_id = :nacFinId or :nacFinId = 0) "
+				,"Lov"
+				).setParameter("user", user)
+				 .setParameter("opsId", opsId)
+				 .setParameter("mesId", mesId)
+				 .setParameter("gruId", gruId)
+				 .setParameter("podgruId", podgruId)
+				 .setParameter("nacFinId", nacFinId);
+	
+		return query.getResultList();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -81,35 +159,7 @@ public class LovDao {
 		return query.getResultList();
 	}
 	
+
 	
-	@SuppressWarnings("unchecked")
-	public List<Lov> objekatIzvestajLov(Long opsId, Long mesId, Long gruId, Long podgruId) {
-		Query query = entityManager.createNativeQuery(
-				"select o.id, o.naziv as name " + 
-				 "FROM ((((`objekat` `o` JOIN `mesto` `m`)	JOIN `podgrupa` `p`) JOIN `opstina` `op`) JOIN `grupa` `g`) " + 
-				 "WHERE ((`o`.`mesto_id` = `m`.`id`) AND (`o`.`podgrupa_id` = `p`.`id`) AND (`m`.`opstina_id` = `op`.`id`)	AND (`p`.`grupa_id` = `g`.`id`)) " +
-				 "			and (`m`.`opstina_id` = " + opsId + " or " + opsId + " = 0) " +
-				 "			and (`o`.`mesto_id` = " + mesId + " or " + mesId + " = 0) " +
-				 "			and (`p`.`grupa_id` = " + gruId + " or " + gruId + " = 0) " +	
-				 "			and (`o`.`podgrupa_id` = " + podgruId + " or " + podgruId + " = 0) " ,								
-				"Lov");
 	
-		return query.getResultList();
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<Lov> objekatIzvestajLov(Long opsId, Long mesId, Long gruId, Long podgruId, Long nacFinId) {
-		Query query = entityManager.createNativeQuery(
-				"select o.id, o.naziv as name " + 
-				 "FROM ((((`objekat` `o` JOIN `mesto` `m`)	JOIN `podgrupa` `p`) JOIN `opstina` `op`) JOIN `grupa` `g`) " + 
-				 "WHERE ((`o`.`mesto_id` = `m`.`id`) AND (`o`.`podgrupa_id` = `p`.`id`) AND (`m`.`opstina_id` = `op`.`id`)	AND (`p`.`grupa_id` = `g`.`id`)) " +
-				 "			and (`m`.`opstina_id` = " + opsId + " or " + opsId + " = 0) " +
-				 "			and (`o`.`mesto_id` = " + mesId + " or " + mesId + " = 0) " +
-				 "			and (`p`.`grupa_id` = " + gruId + " or " + gruId + " = 0) " +	
-				 "			and (`o`.`podgrupa_id` = " + podgruId + " or " + podgruId + " = 0) " + 
-				 "			and (`o`.`nacin_finansiranja_id` = " + nacFinId + " or " + nacFinId + " = 0) ",								
-				"Lov");
-	
-		return query.getResultList();
-	}
 }

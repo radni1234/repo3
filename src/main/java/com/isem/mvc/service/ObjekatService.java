@@ -63,12 +63,12 @@ public class ObjekatService {
 		return lovDao.objekatLov(user);
 	}
 	
-	public List<Lov> objekatIzvestajLov (Long opsId, Long mesId, Long gruId, Long podgruId){
-		return lovDao.objekatIzvestajLov(opsId, mesId, gruId, podgruId);
+	public List<Lov> objekatLov (String user, Long opsId, Long mesId, Long gruId, Long podgruId){
+		return lovDao.objekatLov(user, opsId, mesId, gruId, podgruId);
 	}
 	
-	public List<Lov> objekatIzvestajLov (Long opsId, Long mesId, Long gruId, Long podgruId, Long nacFinId){
-		return lovDao.objekatIzvestajLov(opsId, mesId, gruId, podgruId, nacFinId);
+	public List<Lov> objekatLov (String user, Long opsId, Long mesId, Long gruId, Long podgruId, Long nacFinId){
+		return lovDao.objekatLov(user, opsId, mesId, gruId, podgruId, nacFinId);
 	}
 	
 }
