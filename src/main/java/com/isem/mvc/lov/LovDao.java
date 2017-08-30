@@ -1,4 +1,4 @@
-package com.isem.mvc.dao;
+package com.isem.mvc.lov;
 
 import java.util.List;
 
@@ -8,17 +8,28 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
-import com.isem.mvc.lov.Lov;
-
 @Repository	
 public class LovDao {
 	@PersistenceContext
 	EntityManager entityManager;
 	
 	@SuppressWarnings("unchecked")
-	public List<Lov> objekatLov() {
-		Query query = entityManager.createNamedQuery("objekat_lov");		
-	    return query.getResultList();
+	public List<Lov> objekatLov(String user) {
+		
+		Query query = entityManager.createNativeQuery(
+				"select id, naziv as name "
+				+ "from objekat "
+				+ "where (mesto_id in (select id from mesto where opstina_id = (select opstina_id from mesto where id = (select mesto_id from user where username like :user))) "
+				+ "		and (select authority_id from user_authority where user_id = (select id from user where username like :user)) in (1,2,4)) "
+				+ " or "
+				+ "		(id in (select objekat_id from korisnik_objekat where korisnik_id = (select id from user where username like :user)) "
+				+ "		and (select authority_id from user_authority where user_id = (select id from user where username like :user)) in (3)) ",
+				"Lov"
+				).setParameter("user", user);
+		
+		List<Lov> result = query.getResultList();
+		return result;
+
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -9,10 +9,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.isem.mvc.dao.LovDao;
 import com.isem.mvc.dao.ObjekatDao;
 import com.isem.mvc.dao.ObjekatViewDao;
 import com.isem.mvc.lov.Lov;
+import com.isem.mvc.lov.LovDao;
 import com.isem.mvc.model.Objekat;
 import com.isem.mvc.tab.ObjekatView;
 
@@ -59,8 +59,8 @@ public class ObjekatService {
 		dao.delete(id);
 	}
 	
-	public List<Lov> objekatLov (){
-		return lovDao.objekatLov();
+	public List<Lov> objekatLov (String user){
+		return lovDao.objekatLov(user);
 	}
 	
 	public List<Lov> objekatIzvestajLov (Long opsId, Long mesId, Long gruId, Long podgruId){

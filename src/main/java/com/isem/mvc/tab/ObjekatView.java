@@ -12,6 +12,7 @@ public class ObjekatView {
 	private String naziv;
 	private Long opstinaId;
 	private String opstina;
+	private Long mestoId;
 	private String mesto;
 	private String adresa;
 	private String grupa;	
@@ -147,6 +148,9 @@ public class ObjekatView {
 	}
 	public Long getOpstinaId() {
 		return opstinaId;
+	}
+	public Long getMestoId() {
+		return mestoId;
 	}	
 	
 }

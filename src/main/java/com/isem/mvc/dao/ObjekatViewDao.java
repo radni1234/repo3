@@ -13,10 +13,10 @@ import com.isem.mvc.tab.ObjekatView;
 
 public interface ObjekatViewDao extends Repository<ObjekatView, Long> {
 	
-	@Query("select o from Objekat o " 
+	@Query("select o as mesto from ObjekatView o " 
 			 + "where "
-			 	+ "(o.mesto.id in "
-			 		+ "(select m from Mesto m where m.opstina in "				 
+			 	+ "(o.mestoId in "
+			 		+ "(select m.id from Mesto m where m.opstina in "				 
 			 		+ "(select m2.opstina from Mesto m2 where m2 in "
 			 		+ "(select u.mesto from User u where username like :user)))"
 			 	  + "and (select a.id from User u inner join u.authorities a where u.id = "
@@ -31,9 +31,9 @@ public interface ObjekatViewDao extends Repository<ObjekatView, Long> {
 		  )
 	List<ObjekatView> findAll(@Param("user") String user);
 	
-	@Query("select o from Objekat o " 
+	@Query("select o from ObjekatView o " 
 			 + "where "
-			 	+ "(o.mesto.id in "
+			 	+ "(o.mestoId in "
 			 		+ "(select m from Mesto m where m.opstina in "				 
 			 		+ "(select m2.opstina from Mesto m2 where m2 in "
 			 		+ "(select u.mesto from User u where username like :user)))"

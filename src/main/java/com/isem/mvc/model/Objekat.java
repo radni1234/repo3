@@ -3,6 +3,8 @@ package com.isem.mvc.model;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -10,18 +12,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedNativeQueries;
-import javax.persistence.NamedNativeQuery;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Version;
 
-@NamedNativeQueries({
-    @NamedNativeQuery(
-            name = "objekat_lov",
-            query = "select id, naziv as name from objekat",
-            resultClass = com.isem.mvc.lov.Lov.class
-    )
- })
+import com.isem.mvc.lov.Lov;
 
+@SqlResultSetMapping(name="LovMapping",
+classes = {
+ @ConstructorResult(targetClass = Lov.class,
+   columns = {@ColumnResult(name="id"), @ColumnResult(name="name")}
+ )}
+)
 @Entity
 public class Objekat {
 	@Id

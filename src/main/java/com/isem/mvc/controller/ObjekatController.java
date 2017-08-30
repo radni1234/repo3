@@ -81,8 +81,8 @@ public class ObjekatController {
 	}
 	
 	@RequestMapping(value="/lov", method=RequestMethod.GET)
-	public List<Lov> getObjekatLov() {
-		return service.objekatLov();
+	public List<Lov> getObjekatLov(@RequestHeader("Authorization") String user) {
+		return service.objekatLov(jwtTokenUtil.vratiKorisnikaIzTokena(user));
 	}
 	
 	@RequestMapping(value="/lov", params = {"ops_id", "mes_id", "gru_id", "podgru_id"}, method=RequestMethod.GET)

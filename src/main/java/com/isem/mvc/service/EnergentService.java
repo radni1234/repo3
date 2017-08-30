@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.isem.mvc.dao.EnergentDao;
 import com.isem.mvc.dao.EnergentViewDao;
-import com.isem.mvc.dao.LovDao;
 import com.isem.mvc.lov.Lov;
+import com.isem.mvc.lov.LovDao;
 import com.isem.mvc.model.Energent;
 import com.isem.mvc.tab.EnergentView;
 
