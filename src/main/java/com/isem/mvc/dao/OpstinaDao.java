@@ -18,14 +18,22 @@ public interface OpstinaDao extends PagingAndSortingRepository<Opstina, Long> {
 	Opstina findById(Long id);
 	
 	@Query("select o from Opstina o "
-			+ "where o in (select m.opstina from Mesto m where m in "
-	 			+ "(select u.mesto from User u where username like :user))"
+			+ "where (o in (select m.opstina from Mesto m where m in "
+	 			+ "(select u.mesto from User u where username like :user)) "
+	 			+ " and (select a.id from User u inner join u.authorities a where u.id = "
+	 	 		+ "(select u.id from User u where username like :user)) in (2,3,4)) "
+ 	 		+ "or ((select a.id from User u inner join u.authorities a where u.id = "
+ 	 			+ "(select u.id from User u where username like :user)) in (1))"
 		   )
 	List<Opstina> findAll(@Param("user") String user);
 	
 	@Query("select o from Opstina o "
-			+ "where o in (select m.opstina from Mesto m where m in "
-	 			+ "(select u.mesto from User u where username like :user))"
+			+ "where (o in (select m.opstina from Mesto m where m in "
+	 			+ "(select u.mesto from User u where username like :user)) "
+	 			+ " and (select a.id from User u inner join u.authorities a where u.id = "
+	 	 		+ "(select u.id from User u where username like :user)) in (2,3,4)) "
+	 		+ "or ((select a.id from User u inner join u.authorities a where u.id = "
+	 			+ "(select u.id from User u where username like :user)) in (1))"
 		   )
 	Page<Opstina> findAll(Pageable pageRequest, @Param("user") String user);
 }

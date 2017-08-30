@@ -15,6 +15,7 @@ public class KorisnikView {
 	private String password;	
 	private String uloga;
 	private String mesto;
+	private Long opstinaId;
 	private String opstina;
 	private String mail;	
 	private String tel;
@@ -44,6 +45,9 @@ public class KorisnikView {
 	}
 	public String getMesto() {
 		return mesto;
+	}	 
+	public Long getOpstinaId() {
+		return opstinaId;
 	}
 	public String getOpstina() {
 		return opstina;

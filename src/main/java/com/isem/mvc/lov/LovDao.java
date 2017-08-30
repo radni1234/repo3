@@ -34,16 +34,6 @@ public class LovDao {
 	
 	@SuppressWarnings("unchecked")
 	public List<Lov> objekatLov(String user, Long opsId, Long mesId, Long gruId, Long podgruId) {
-//		Query query = entityManager.createNativeQuery(
-//				"select o.id, o.naziv as name " + 
-//				 "FROM ((((`objekat` `o` JOIN `mesto` `m`)	JOIN `podgrupa` `p`) JOIN `opstina` `op`) JOIN `grupa` `g`) " + 
-//				 "WHERE ((`o`.`mesto_id` = `m`.`id`) AND (`o`.`podgrupa_id` = `p`.`id`) AND (`m`.`opstina_id` = `op`.`id`)	AND (`p`.`grupa_id` = `g`.`id`)) " +
-//				 "			and (`m`.`opstina_id` = " + opsId + " or " + opsId + " = 0) " +
-//				 "			and (`o`.`mesto_id` = " + mesId + " or " + mesId + " = 0) " +
-//				 "			and (`p`.`grupa_id` = " + gruId + " or " + gruId + " = 0) " +	
-//				 "			and (`o`.`podgrupa_id` = " + podgruId + " or " + podgruId + " = 0) " ,								
-//				"Lov");
-		
 		
 		Query query = entityManager.createNativeQuery(
 				"select id, naziv as name "
@@ -72,16 +62,6 @@ public class LovDao {
 	
 	@SuppressWarnings("unchecked")
 	public List<Lov> objekatLov(String user, Long opsId, Long mesId, Long gruId, Long podgruId, Long nacFinId) {
-//		Query query = entityManager.createNativeQuery(
-//				"select o.id, o.naziv as name " + 
-//				 "FROM ((((`objekat` `o` JOIN `mesto` `m`)	JOIN `podgrupa` `p`) JOIN `opstina` `op`) JOIN `grupa` `g`) " + 
-//				 "WHERE ((`o`.`mesto_id` = `m`.`id`) AND (`o`.`podgrupa_id` = `p`.`id`) AND (`m`.`opstina_id` = `op`.`id`)	AND (`p`.`grupa_id` = `g`.`id`)) " +
-//				 "			and (`m`.`opstina_id` = " + opsId + " or " + opsId + " = 0) " +
-//				 "			and (`o`.`mesto_id` = " + mesId + " or " + mesId + " = 0) " +
-//				 "			and (`p`.`grupa_id` = " + gruId + " or " + gruId + " = 0) " +	
-//				 "			and (`o`.`podgrupa_id` = " + podgruId + " or " + podgruId + " = 0) " + 
-//				 "			and (`o`.`nacin_finansiranja_id` = " + nacFinId + " or " + nacFinId + " = 0) ",								
-//				"Lov");
 		
 		Query query = entityManager.createNativeQuery(
 				"select o.id, o.naziv as name "

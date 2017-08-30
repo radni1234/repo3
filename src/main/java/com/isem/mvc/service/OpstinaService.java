@@ -28,8 +28,8 @@ public class OpstinaService {
 		return dao.findAll(user);
 	}
 	
-	public Page<Opstina> findAll (Pageable pageRequest) {
-		return dao.findAll(pageRequest);
+	public Page<Opstina> findAll (Pageable pageRequest, String user) {
+		return dao.findAll(pageRequest, user);
 	}
 	
 	public Opstina save(Opstina obj) {

@@ -28,20 +28,20 @@ public class KorisnikService {
 		return korisnikDao.findByUsername(userName);
 	}
 	
-	public List<User> findAll () {
-		return korisnikDao.findAll();
+	public List<User> findAll (String user) {
+		return korisnikDao.findAll(user);
 	}
 	
-	public Page<User> findAll (Pageable pageRequest) {
-		return korisnikDao.findAll(pageRequest);
+	public Page<User> findAll (Pageable pageRequest, String user) {
+		return korisnikDao.findAll(pageRequest, user);
 	}
 	
-	public List<KorisnikView> findAllView(){
-		return korisnikViewDao.findAll();
+	public List<KorisnikView> findAllView(String user){
+		return korisnikViewDao.findAll(user);
 	};
 	
-	public Page<KorisnikView> findAllView (Pageable pageRequest) {
-		return korisnikViewDao.findAll(pageRequest);
+	public Page<KorisnikView> findAllView (Pageable pageRequest, String user) {
+		return korisnikViewDao.findAll(pageRequest, user);
 	}
 				
 	public User save(User korisnik) {

@@ -24,12 +24,12 @@ public class MestoService {
 		return dao.findMestoByOpstina(id);
 	}
 			
-	public List<Mesto> findAll () {
-		return dao.findAll();
+	public List<Mesto> findAll (String user) {
+		return dao.findAll(user);
 	}
 	
-	public Page<Mesto> findAll (Pageable pageRequest) {
-		return dao.findAll(pageRequest);
+	public Page<Mesto> findAll (Pageable pageRequest, String user) {
+		return dao.findAll(pageRequest, user);
 	}
 			
 	public Mesto save(Mesto obj) {

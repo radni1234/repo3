@@ -34,11 +34,12 @@ public class OpstinaController {
 
 	@RequestMapping(value="/sve", params = {"str", "vel"}, method=RequestMethod.GET)
 	public Page<Opstina> getAll(@RequestParam(value = "str") int strana, 
-								@RequestParam(value = "vel") int velicina ) {
+								@RequestParam(value = "vel") int velicina,
+								@RequestHeader("Authorization") String user) {
 		
 		Pageable pageable = new PageRequest(strana, velicina);
 		
-		return service.findAll(pageable);
+		return service.findAll(pageable, jwtTokenUtil.vratiKorisnikaIzTokena(user));
 	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)

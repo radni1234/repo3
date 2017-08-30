@@ -2,9 +2,6 @@ package com.isem.mvc.lov;
 
 import java.math.BigInteger;
 
-//@Entity
-//@Entity
-//@NamedNativeQuery(name = "lov", query = "select id, naziv as name from energent order by naziv", resultClass = Lov.class)
 public class Lov {
 	private BigInteger id;	
 	private String name;	
