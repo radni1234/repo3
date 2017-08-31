@@ -20,10 +20,12 @@ public class LovDao {
 				"select id, naziv as name "
 				+ "from objekat "
 				+ "where (mesto_id in (select id from mesto where opstina_id = (select opstina_id from mesto where id = (select mesto_id from user where username like :user))) "
-				+ "		and (select authority_id from user_authority where user_id = (select id from user where username like :user)) in (1,2,4)) "
+				+ "		and (select authority_id from user_authority where user_id = (select id from user where username like :user)) in (2,4)) "
 				+ " or "
 				+ "		(id in (select objekat_id from korisnik_objekat where korisnik_id = (select id from user where username like :user)) "
-				+ "		and (select authority_id from user_authority where user_id = (select id from user where username like :user)) in (3)) ",
+				+ "		and (select authority_id from user_authority where user_id = (select id from user where username like :user)) in (3)) "
+				+ "or ((select authority_id from user_authority where user_id = "
+ 				+ "		(select u.id from user u where username like :user)) in (1))",
 				"Lov"
 				).setParameter("user", user);
 		
@@ -36,7 +38,7 @@ public class LovDao {
 	public List<Lov> objekatLov(String user, Long opsId, Long mesId, Long gruId, Long podgruId) {
 		
 		Query query = entityManager.createNativeQuery(
-				"select id, naziv as name "
+				"select o.id, o.naziv as name "
 				+ "from objekat o join mesto m on o.mesto_id = m.id "
 				+ "		join podgrupa p on o.podgrupa_id = p.id "
 				+ "		join opstina op on m.opstina_id = op.id "
@@ -44,8 +46,10 @@ public class LovDao {
 				+ "where ((mesto_id in (select id from mesto where opstina_id = (select opstina_id from mesto where id = (select mesto_id from user where username like :user))) "
 				+ "			and (select authority_id from user_authority where user_id = (select id from user where username like :user)) in (1,2,4)) "
 				+ " 		or "
-				+ "			(id in (select objekat_id from korisnik_objekat where korisnik_id = (select id from user where username like :user)) "
-				+ "			and (select authority_id from user_authority where user_id = (select id from user where username like :user)) in (3))) "
+				+ "			(o.id in (select objekat_id from korisnik_objekat where korisnik_id = (select id from user where username like :user)) "
+				+ "			and (select authority_id from user_authority where user_id = (select id from user where username like :user)) in (3))"
+				+ "			or ((select authority_id from user_authority where user_id = "
+ 				+ "				(select u.id from user u where username like :user)) in (1)))"
 				+ "		and (op.id = :opsId or :opsId = 0) "
 				+ "		and (m.id = :mesId or :mesId = 0) "
 				+ "		and (g.id = :gruId or :gruId = 0) "
@@ -73,7 +77,9 @@ public class LovDao {
 				+ "			and (select authority_id from user_authority where user_id = (select id from user where username like :user)) in (1,2,4)) "
 				+ " 		or "
 				+ "			(o.id in (select objekat_id from korisnik_objekat where korisnik_id = (select id from user where username like :user)) "
-				+ "			and (select authority_id from user_authority where user_id = (select id from user where username like :user)) in (3))) "
+				+ "			and (select authority_id from user_authority where user_id = (select id from user where username like :user)) in (3)) "
+				+ "			or ((select authority_id from user_authority where user_id = "
+ 				+ "				(select u.id from user u where username like :user)) in (1)))"
 				+ "		and (op.id = :opsId or :opsId = 0) "
 				+ "		and (m.id = :mesId or :mesId = 0) "
 				+ "		and (g.id = :gruId or :gruId = 0) "

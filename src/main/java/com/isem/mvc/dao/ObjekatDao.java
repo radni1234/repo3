@@ -26,7 +26,7 @@ public interface ObjekatDao extends PagingAndSortingRepository<Objekat, Long>{
 			 		+ "(select m2.opstina from Mesto m2 where m2 in "
 			 		+ "(select u.mesto from User u where username like :user)))"
 			 	  + "and (select a.id from User u inner join u.authorities a where u.id = "
-		 	 		+ "(select u.id from User u where username like :user)) in (1,2,4)"
+		 	 		+ "(select u.id from User u where username like :user)) in (2,4)"
 	 	 		+ ") "
 	 	 		+ "or"
 	 	 		+ "(o.id in "
@@ -34,6 +34,8 @@ public interface ObjekatDao extends PagingAndSortingRepository<Objekat, Long>{
  	 			  + "and (select a.id from User u inner join u.authorities a where u.id = "
 		 	 		+ "(select u.id from User u where username like :user)) in (3)"
 	 	 		+ "	)"
+	 	 		+ "or ((select a.id from User u inner join u.authorities a where u.id = "
+ 	 				+ "(select u.id from User u where username like :user)) in (1))"
 		  )
 	List<Objekat> findAll(@Param("user") String user);
 
@@ -44,7 +46,7 @@ public interface ObjekatDao extends PagingAndSortingRepository<Objekat, Long>{
 			 		+ "(select m2.opstina from Mesto m2 where m2 in "
 			 		+ "(select u.mesto from User u where username like :user)))"
 			 	  + "and (select a.id from User u inner join u.authorities a where u.id = "
-		 	 		+ "(select u.id from User u where username like :user)) in (1,2,4)"
+		 	 		+ "(select u.id from User u where username like :user)) in (2,4)"
 	 	 		+ ") "
 	 	 		+ "or"
 	 	 		+ "(o.id in "
@@ -52,6 +54,8 @@ public interface ObjekatDao extends PagingAndSortingRepository<Objekat, Long>{
 	 			  + "and (select a.id from User u inner join u.authorities a where u.id = "
 		 	 		+ "(select u.id from User u where username like :user)) in (3)"
 	 	 		+ "	)"
+	 	 		+ "or ((select a.id from User u inner join u.authorities a where u.id = "
+	 				+ "(select u.id from User u where username like :user)) in (1))"
 		  )
 	Page<Objekat> findAll(Pageable pageRequest, @Param("user") String user);
 

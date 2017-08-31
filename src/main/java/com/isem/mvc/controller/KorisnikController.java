@@ -2,6 +2,8 @@ package com.isem.mvc.controller;
 
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +24,7 @@ import com.isem.mvc.tab.KorisnikView;
 @RestController
 @RequestMapping("/korisnik")
 public class KorisnikController {	
-	
+	private final Log logger = LogFactory.getLog(this.getClass());
 
 	@Autowired
 	private KorisnikService service;
@@ -77,6 +79,15 @@ public class KorisnikController {
 	public User add(@RequestBody User obj) {
 		if(obj.getId() == null){
 			obj.setPassword(passwordEncoder.encode(obj.getPassword()));
+		} else {
+			User u = service.findById(obj.getId());
+			logger.info("lozink");
+			logger.info(u.getPassword());
+			logger.info(obj.getPassword());
+			if (u.getPassword() != obj.getPassword()){
+				
+				obj.setPassword(passwordEncoder.encode(obj.getPassword()));
+			}
 		}
 		
 		return service.save(obj);
