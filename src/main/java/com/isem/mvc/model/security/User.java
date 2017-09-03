@@ -29,7 +29,7 @@ import com.isem.mvc.model.Objekat;
 @Entity
 @Table(name = "USER")
 public class User {
-
+	
 	@Id
 	@Column(name = "ID")
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -178,7 +178,7 @@ public class User {
     }
 
     public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
+    	this.enabled = enabled;        
     }
 
     public List<Authority> getAuthorities() {

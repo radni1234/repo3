@@ -24,7 +24,7 @@ import com.isem.mvc.tab.KorisnikView;
 @RestController
 @RequestMapping("/korisnik")
 public class KorisnikController {	
-	private final Log logger = LogFactory.getLog(this.getClass());
+//	private final Log logger = LogFactory.getLog(this.getClass());
 
 	@Autowired
 	private KorisnikService service;
@@ -78,17 +78,25 @@ public class KorisnikController {
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
 	public User add(@RequestBody User obj) {
 		if(obj.getId() == null){
+		
 			obj.setPassword(passwordEncoder.encode(obj.getPassword()));
 		} else {
 			User u = service.findById(obj.getId());
-			logger.info("lozink");
-			logger.info(u.getPassword());
-			logger.info(obj.getPassword());
-			if (u.getPassword() != obj.getPassword()){
+
+			if (!u.getPassword().equals(obj.getPassword())){
 				
 				obj.setPassword(passwordEncoder.encode(obj.getPassword()));
 			}
 		}
+		
+		
+		final Log logger = LogFactory.getLog(this.getClass());
+    	logger.info("enabled");
+    	logger.info(obj.getEnabled());
+    	
+    	if (obj.getEnabled() == null){
+    		obj.setEnabled(true); 
+    	} 
 		
 		return service.save(obj);
 	}
