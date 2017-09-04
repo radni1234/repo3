@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,8 +25,8 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.isem.mvc.model.KorisnikObjekat;
 import com.isem.mvc.model.Mesto;
-import com.isem.mvc.model.Objekat;
 
 @Entity
 @Table(name = "USER")
@@ -76,11 +78,12 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")})
     private List<Authority> authorities;
     
-    @ManyToMany
-	@JoinTable(name = "KORISNIK_OBJEKAT",
-		joinColumns = { @JoinColumn(name = "KORISNIK_ID") },
-		inverseJoinColumns = { @JoinColumn(name = "OBJEKAT_ID") })
-	private Set<Objekat> objekti = new HashSet<Objekat>();
+//    @ManyToMany
+//	@JoinTable(name = "KORISNIK_OBJEKAT",
+//		joinColumns = { @JoinColumn(name = "KORISNIK_ID") },
+//		inverseJoinColumns = { @JoinColumn(name = "OBJEKAT_ID") })
+    @OneToMany(mappedBy = "korisnik", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+	private Set<KorisnikObjekat> objekti = new HashSet<KorisnikObjekat>();
     
     @ManyToOne
     @JoinColumn(name = "mesto_id",
@@ -189,11 +192,11 @@ public class User {
         this.authorities = authorities;
     }    
 
-	public Set<Objekat> getObjekti() {
+	public Set<KorisnikObjekat> getObjekti() {
 		return objekti;
 	}
 
-	public void setObjekti(Set<Objekat> objekti) {
+	public void setObjekti(Set<KorisnikObjekat> objekti) {
 		this.objekti = objekti;
 	}
 

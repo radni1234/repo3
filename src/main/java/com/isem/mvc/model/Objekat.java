@@ -188,6 +188,9 @@ public class Objekat {
 	@Column(name = "ALARM_TREND_START")
 	private Date alarmTrendStart;	
 	
+//	@OneToMany(mappedBy = "objekat", cascade = CascadeType.ALL, fetch=FetchType.EAGER)	
+//	private Set<KorisnikObjekat> korisnici = new HashSet<KorisnikObjekat>();
+	
 	@Version
 	@Column(name = "VERSION", columnDefinition = "int(11) default 0")
 	private Integer version;
@@ -599,6 +602,15 @@ public class Objekat {
 	public void setAlarmTrendStart(Date alarmTrendStart) {
 		this.alarmTrendStart = alarmTrendStart;
 	}
+	 
+//	@JsonIgnore
+//	public Set<KorisnikObjekat> getKorisnici() {
+//		return korisnici;
+//	}
+//
+//	public void setKorisnici(Set<KorisnikObjekat> korisnici) {
+//		this.korisnici = korisnici;
+//	}
 
 	@Override
 	public String toString() {

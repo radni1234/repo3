@@ -1,0 +1,59 @@
+package com.isem.mvc.controller;
+
+import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.isem.mvc.service.KorisnikObjekatService;
+import com.isem.mvc.tab.KorisnikObjekatView;
+
+@RestController
+@RequestMapping("/kor_obj")
+public class KorisnikObjekatController {
+	private final Log logger = LogFactory.getLog(this.getClass());
+	
+	@Autowired
+	private KorisnikObjekatService service;
+
+//	@RequestMapping(value="/sve", method=RequestMethod.GET)
+//	public List<KorisnikObjekat> getAll() {
+//		return service.findAll();
+//	}
+//
+//	@RequestMapping(value="/sve", params = {"str", "vel"}, method=RequestMethod.GET)
+//	public Page<KorisnikObjekat> getAll(@RequestParam(value = "str") int strana, 
+//								@RequestParam(value = "vel") int velicina ) {
+//		
+//		Pageable pageable = new PageRequest(strana, velicina);
+//		
+//		return service.findAll(pageable);
+//	}
+//
+//	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
+//	public KorisnikObjekat findById(@RequestParam("id") Long id){
+//		return service.findById(id);
+//	}		
+	
+	@RequestMapping(value="/tab", params = {"kor_id"}, method=RequestMethod.GET)
+	public List<KorisnikObjekatView> findKorisnikObjekatViewByKorisnik(@RequestParam("kor_id") Long id){
+		return service.findKorisnikObjekatViewByKorisnik(id);
+	}
+
+//	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
+//	public KorisnikObjekat add(@RequestBody KorisnikObjekat obj) {
+//		
+//		return service.save(obj);
+//	}
+
+	@RequestMapping(value="/obrisi", params = {"id"}, method=RequestMethod.DELETE)
+	public void delete(@RequestParam("id") Long id) {
+		logger.info("kontroler");
+		service.delete(id);
+	}
+}
