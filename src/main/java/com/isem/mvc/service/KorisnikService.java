@@ -44,7 +44,7 @@ public class KorisnikService {
 		return korisnikViewDao.findAll(pageRequest, user);
 	}
 				
-	public User save(User korisnik) {
+	public User save(User korisnik) {		
 		return korisnikDao.save(korisnik);
 	}	
 	

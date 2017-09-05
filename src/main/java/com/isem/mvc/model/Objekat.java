@@ -1,6 +1,8 @@
 package com.isem.mvc.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
@@ -11,11 +13,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.isem.mvc.lov.Lov;
+import com.isem.mvc.model.security.User;
 
 @SqlResultSetMapping(name="LovMapping",
 classes = {
@@ -187,6 +192,9 @@ public class Objekat {
 	
 	@Column(name = "ALARM_TREND_START")
 	private Date alarmTrendStart;	
+	
+	@ManyToMany(mappedBy = "objekti")
+    private List<User> korisnici = new ArrayList<>();
 	
 //	@OneToMany(mappedBy = "objekat", cascade = CascadeType.ALL, fetch=FetchType.EAGER)	
 //	private Set<KorisnikObjekat> korisnici = new HashSet<KorisnikObjekat>();
@@ -602,6 +610,8 @@ public class Objekat {
 	public void setAlarmTrendStart(Date alarmTrendStart) {
 		this.alarmTrendStart = alarmTrendStart;
 	}
+	
+	
 	 
 //	@JsonIgnore
 //	public Set<KorisnikObjekat> getKorisnici() {
@@ -611,6 +621,15 @@ public class Objekat {
 //	public void setKorisnici(Set<KorisnikObjekat> korisnici) {
 //		this.korisnici = korisnici;
 //	}
+	
+	@JsonIgnore
+	public List<User> getKorisnici() {
+		return korisnici;
+	}
+
+	public void setKorisnici(List<User> korisnici) {
+		this.korisnici = korisnici;
+	}
 
 	@Override
 	public String toString() {
