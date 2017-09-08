@@ -1,0 +1,87 @@
+package com.isem.mvc.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Version;
+
+@Entity
+public class Kotlarnica {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long id;
+
+	@Column(name = "NAZIV", unique = true, nullable = false, length = 100)
+	private String naziv;	
+	
+	@Column(name = "ADRESA", length = 300)
+	private String adresa;
+	
+	@ManyToOne
+    @JoinColumn(name = "JAVNO_PREDUZECE_ID",
+            foreignKey = @ForeignKey(name = "KOTLARNICA_FK1")
+    )
+	private JavnoPreduzece JavnoPreduzece;
+	
+	@Column(name = "NAPOMENA", length = 1000)
+	private String napomena;
+
+	@Version
+	@Column(name = "VERSION", columnDefinition = "int(11) default 0")
+	private Integer version;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNaziv() {
+		return naziv;
+	}
+
+	public void setNaziv(String naziv) {
+		this.naziv = naziv;
+	}
+
+	public String getAdresa() {
+		return adresa;
+	}
+
+	public void setAdresa(String adresa) {
+		this.adresa = adresa;
+	}
+
+	public JavnoPreduzece getJavnoPreduzece() {
+		return JavnoPreduzece;
+	}
+
+	public void setJavnoPreduzece(JavnoPreduzece javnoPreduzece) {
+		JavnoPreduzece = javnoPreduzece;
+	}
+
+	public String getNapomena() {
+		return napomena;
+	}
+
+	public void setNapomena(String napomena) {
+		this.napomena = napomena;
+	}
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+	
+	
+}
