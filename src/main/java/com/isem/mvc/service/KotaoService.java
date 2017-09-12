@@ -26,6 +26,10 @@ public class KotaoService {
 	public Page<Kotao> findAll (Pageable pageRequest) {
 		return dao.findAll(pageRequest);
 	}
+	
+	public List<Kotao> findKotaoByKotlarnica(Long id){
+		return dao.findKotaoByKotlarnica(id);
+	}
 
 	public Kotao save(Kotao obj) {
 		return dao.save(obj);

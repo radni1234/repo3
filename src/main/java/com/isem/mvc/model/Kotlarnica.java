@@ -16,7 +16,7 @@ public class Kotlarnica {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "NAZIV", unique = true, nullable = false, length = 100)
+	@Column(name = "NAZIV", nullable = false, length = 100)
 	private String naziv;	
 	
 	@Column(name = "ADRESA", length = 300)
@@ -26,7 +26,7 @@ public class Kotlarnica {
     @JoinColumn(name = "JAVNO_PREDUZECE_ID",
             foreignKey = @ForeignKey(name = "KOTLARNICA_FK1")
     )
-	private JavnoPreduzece JavnoPreduzece;
+	private JavnoPreduzece javnoPreduzece;
 	
 	@Column(name = "NAPOMENA", length = 1000)
 	private String napomena;
@@ -60,11 +60,11 @@ public class Kotlarnica {
 	}
 
 	public JavnoPreduzece getJavnoPreduzece() {
-		return JavnoPreduzece;
+		return javnoPreduzece;
 	}
 
 	public void setJavnoPreduzece(JavnoPreduzece javnoPreduzece) {
-		JavnoPreduzece = javnoPreduzece;
+		this.javnoPreduzece = javnoPreduzece;
 	}
 
 	public String getNapomena() {

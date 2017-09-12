@@ -28,6 +28,10 @@ public class PodstanicaService {
 		return dao.findAll(pageRequest);
 	}
 	
+	public List<Podstanica> findPodstanicaByKotlarnica(Long id){
+		return dao.findPodstanicaByKotlarnica(id);
+	}
+	
 	public Podstanica save(Podstanica obj) {
 		return dao.save(obj);
 	}

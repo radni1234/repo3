@@ -16,7 +16,11 @@ DELOVI_OBJEKTA - del_obj
 NACIN_FINANSIRANJA - nac_fin
 GRUPA - grupa
 PDV - pdv
+
 JAVNO_PREDUZECE - javno_pred
+GET /tab
+GET /tab?params = {"str", "vel"}
+GET /lov
 
 DOBAVLJAC - dobavljac
 GET /tab
@@ -101,5 +105,16 @@ GRAFICI
 grafik/efik_obj_kws_pov?params = {"obj_id, datum_od, datum_do"}
 grafik/cusum_pre?params = {"mera_id}
 grafik/cusum_posle?params = {"mera_id}
+
+KOTLARNICA - kotlarnica
+GET /tab
+GET /tab?params = {"str", "vel"}
+GET /lov
+
+KOTAO - kotao
+GET /sve?params = {"kotlarnica_id"}
+
+PODSTANICA - podstanica
+GET /sve?params = {"kotlarnica_id"}
 
 

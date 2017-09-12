@@ -34,6 +34,11 @@ public class KotaoController {
 		
 		return service.findAll(pageable);
 	}
+	
+	@RequestMapping(value = "/sve", params = {"kotlarnica_id"}, method=RequestMethod.GET)
+	public List<Kotao> findKotaoByKotlarnica(@RequestParam(value = "kotlarnica_id") Long id) {	
+		return service.findKotaoByKotlarnica(id);
+	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
 	public Kotao findById(@RequestParam("id") Long id){

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.isem.mvc.lov.Lov;
 import com.isem.mvc.model.JavnoPreduzece;
 import com.isem.mvc.security.JwtTokenUtil;
 import com.isem.mvc.service.JavnoPreduzeceService;
@@ -55,6 +56,11 @@ public class JavnoPreduzeceController {
 		Pageable pageable = new PageRequest(strana, velicina);
 		
 		return service.findAllView(pageable, jwtTokenUtil.vratiKorisnikaIzTokena(user));
+	}
+	
+	@RequestMapping(value="/lov", method=RequestMethod.GET)
+	public List<Lov> energentTipLov(@RequestHeader("Authorization") String user) {
+		return service.javnoPreduzeceLov(jwtTokenUtil.vratiKorisnikaIzTokena(user));
 	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)

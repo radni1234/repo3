@@ -23,10 +23,10 @@ public class Podstanica {
 	private String adresa;
 	
 	@ManyToOne
-    @JoinColumn(name = "KOTAO_ID",
+    @JoinColumn(name = "KOTLARNICA_ID",
             foreignKey = @ForeignKey(name = "PODSTANICA_FK1")
     )
-	private Kotao kotao;
+	private Kotlarnica kotlarnica;
 	
 	@Column(name = "GREJNA_POVRSINA", length = 100)
 	private String grejnaPovrsina;	
@@ -66,12 +66,12 @@ public class Podstanica {
 		this.adresa = adresa;
 	}
 
-	public Kotao getKotao() {
-		return kotao;
+	public Kotlarnica getKotlarnica() {
+		return kotlarnica;
 	}
 
-	public void setKotao(Kotao kotao) {
-		this.kotao = kotao;
+	public void setKotlarnica(Kotlarnica kotlarnica) {
+		this.kotlarnica = kotlarnica;
 	}
 
 	public String getGrejnaPovrsina() {

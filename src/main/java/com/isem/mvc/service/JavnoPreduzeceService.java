@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.isem.mvc.dao.JavnoPreduzeceDao;
 import com.isem.mvc.dao.JavnoPreduzeceViewDao;
+import com.isem.mvc.lov.Lov;
+import com.isem.mvc.lov.LovDao;
 import com.isem.mvc.model.JavnoPreduzece;
 import com.isem.mvc.tab.JavnoPreduzeceView;
 
@@ -19,6 +21,9 @@ public class JavnoPreduzeceService {
 	
 	@Autowired
 	private JavnoPreduzeceViewDao daoView;
+	
+	@Autowired
+	private LovDao daoLov;
 		
 	public JavnoPreduzece findById (Long id) {
 		return dao.findById(id);
@@ -42,6 +47,10 @@ public class JavnoPreduzeceService {
 
 	public Page<JavnoPreduzeceView> findAllView (Pageable pageRequest, String user) {
 		return daoView.findAll(pageRequest, user);
+	}
+	
+	public List<Lov> javnoPreduzeceLov (String user) {
+		return daoLov.JavnoPreduzeceLov(user);
 	}
 
 	public JavnoPreduzece save(JavnoPreduzece obj) {

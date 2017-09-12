@@ -146,6 +146,21 @@ public class LovDao {
 	}
 	
 
-	
+	@SuppressWarnings("unchecked")
+	public List<Lov> JavnoPreduzeceLov(String user) {
+		
+		Query query = entityManager.createNativeQuery(
+				"select id, naziv as name "
+				+ "from javno_preduzece "
+				+ "where (mesto_id in (select id from mesto where opstina_id = (select opstina_id from mesto where id = (select mesto_id from user where username like :user))) "
+				+ "		and (select authority_id from user_authority where user_id = (select id from user where username like :user)) in (2,3,4)) "
+				+ "or ((select authority_id from user_authority where user_id = "
+ 				+ "		(select u.id from user u where username like :user)) in (1))",
+				"Lov"
+				).setParameter("user", user);
+		
+		return query.getResultList();		
+
+	}
 	
 }

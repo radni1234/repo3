@@ -34,6 +34,11 @@ public class PodstanicaController {
 		
 		return service.findAll(pageable);
 	}
+	
+	@RequestMapping(value = "/sve", params = {"kotlarnica_id"}, method=RequestMethod.GET)
+	public List<Podstanica> findPodstanicaByKotlarnica(@RequestParam(value = "kotlarnica_id") Long id) {	
+		return service.findPodstanicaByKotlarnica(id);
+	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
 	public Podstanica findById(@RequestParam("id") Long id){
