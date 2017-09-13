@@ -12,23 +12,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.isem.mvc.model.PotrosnjaPodstanice;
-import com.isem.mvc.service.PotrosnjaPodstaniceService;
+import com.isem.mvc.model.BrojiloKotlarnica;
+import com.isem.mvc.service.BrojiloKotlarnicaService;
+import com.isem.mvc.tab.BrojiloKotlarnicaView;
 
 @RestController
-@RequestMapping("/potrosnja_podstanice")
-public class PotrosnjaPodstaniceController {
-
+@RequestMapping("/brojilo_kotlarnica")
+public class BrojiloKotlarnicaController {
 	@Autowired
-	private PotrosnjaPodstaniceService service;
-	
+	private BrojiloKotlarnicaService service;
+
 	@RequestMapping(value="/sve", method=RequestMethod.GET)
-	public List<PotrosnjaPodstanice> getAll() {
+	public List<BrojiloKotlarnica> getAll() {
 		return service.findAll();
 	}
-	
+
 	@RequestMapping(value="/sve", params = {"str", "vel"}, method=RequestMethod.GET)
-	public Page<PotrosnjaPodstanice> getAll(@RequestParam(value = "str") int strana, 
+	public Page<BrojiloKotlarnica> getAll(@RequestParam(value = "str") int strana, 
 								@RequestParam(value = "vel") int velicina ) {
 		
 		Pageable pageable = new PageRequest(strana, velicina);
@@ -36,22 +36,32 @@ public class PotrosnjaPodstaniceController {
 		return service.findAll(pageable);
 	}
 	
-	@RequestMapping(value = "/sve", params = {"podstanica_id"}, method=RequestMethod.GET)
-	public List<PotrosnjaPodstanice> findPotrosnjaByPodstanica(@RequestParam(value = "podstanica_id") Long id) {	
-		return service.findPotrosnjaByPodstanica(id);
+	@RequestMapping(value = "/sve", params = {"obj_id"}, method=RequestMethod.GET)
+	public List<BrojiloKotlarnica> getAllBrojiloByObjekat(@RequestParam(value = "obj_id") Long obj_id) {	
+		return service.findBrojiloByKotlarnica(obj_id);
 	}
 	
+	@RequestMapping(value="/tab", method=RequestMethod.GET)
+	public List<BrojiloKotlarnicaView> getAllView() {
+		return service.findAllView();
+	}
+	
+	@RequestMapping(value="/tab", params = {"obj_id"}, method=RequestMethod.GET)
+	public List<BrojiloKotlarnicaView> findBrojiloViewByObjekat(@RequestParam(value = "obj_id") Long obj_id) {		
+		return service.findBrojiloViewByKotlarnica(obj_id);
+	}
+
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
-	public PotrosnjaPodstanice findById(@RequestParam("id") Long id){
+	public BrojiloKotlarnica findById(@RequestParam("id") Long id){
 		return service.findById(id);
 	}		
-	
+
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
-	public PotrosnjaPodstanice add(@RequestBody PotrosnjaPodstanice obj) {
+	public BrojiloKotlarnica add(@RequestBody BrojiloKotlarnica obj) {
 		
 		return service.save(obj);
 	}
-	
+
 	@RequestMapping(value="/obrisi", params = {"id"}, method=RequestMethod.DELETE)
 	public void delete(@RequestParam("id") Long id) {
 		service.delete(id);

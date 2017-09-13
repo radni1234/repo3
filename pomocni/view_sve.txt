@@ -392,3 +392,29 @@ VIEW `kotlarnica_view` AS
         left join `javno_preduzece` `jp` ON ((`k`.`javno_preduzece_id` = `jp`.`id`)))
         left join `mesto` `m` ON ((`jp`.`mesto_id` = `m`.`id`)))
         left join `opstina` `o` ON ((`m`.`opstina_id` = `o`.`id`)));
+        
+        
+ CREATE 
+VIEW `brojilo_kotlarnica_view` AS
+    select 
+        `brojilo_kotlarnica`.`id` AS `id`,
+        `brojilo_kotlarnica`.`sifra_brojila` AS `sifra_brojila`,
+        `brojilo_kotlarnica`.`opis` AS `opis`,
+        `kotlarnica`.`id` AS `kotlarnica_id`,
+        `kotlarnica`.`naziv` AS `kotlarnica`,
+        `brojilo_tip`.`naziv` AS `brojilo_tip`,
+        `brojilo_vrsta`.`naziv` AS `brojilo_vrsta`,
+        `rezim_merenja`.`naziv` AS `rezim_merenja`,
+        `brojilo_2`.`sifra_brojila` AS `vodece_brojilo`,
+        `brojilo_kotlarnica`.`procenat` AS `procenat`,
+        `brojilo_kotlarnica`.`obracunski_period` AS `obracunski_period`,
+        `brojilo_kotlarnica`.`automatski` AS `automatski`
+    from
+        (((((`brojilo_kotlarnica`
+        left join `kotlarnica` ON ((`brojilo_kotlarnica`.`kotlarnica_id` = `kotlarnica`.`id`)))
+        left join `brojilo_tip` ON ((`brojilo_kotlarnica`.`brojilo_tip_id` = `brojilo_tip`.`id`)))
+        left join `brojilo_vrsta` ON ((`brojilo_kotlarnica`.`brojilo_vrsta_id` = `brojilo_vrsta`.`id`)))
+        left join `rezim_merenja` ON ((`brojilo_kotlarnica`.`rezim_merenja_id` = `rezim_merenja`.`id`)))
+        left join `brojilo_kotlarnica` `brojilo_2` ON ((`brojilo_kotlarnica`.`vodece_brojilo_id` = `brojilo_2`.`id`)));
+        
+        

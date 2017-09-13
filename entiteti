@@ -117,4 +117,8 @@ GET /sve?params = {"kotlarnica_id"}
 PODSTANICA - podstanica
 GET /sve?params = {"kotlarnica_id"}
 
+POTROSNJA PODSTANICE - potrosnja_podstanice
+GET /sve?params = {"podstanica_id"}
+
+
 

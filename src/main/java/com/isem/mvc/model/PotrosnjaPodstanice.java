@@ -34,4 +34,39 @@ public class PotrosnjaPodstanice {
 	@Version
 	@Column(name = "VERSION", columnDefinition = "int(11) default 0")
 	private Integer version;
+
+	public Long getId() {
+		return id;
+	}
+
+	public Podstanica getPodstanica() {
+		return podstanica;
+	}
+
+	public void setPodstanica(Podstanica podstanica) {
+		this.podstanica = podstanica;
+	}
+
+	public Date getDatum() {
+		return datum;
+	}
+
+	public void setDatum(Date datum) {
+		this.datum = datum;
+	}
+
+	public Double getPotrosnjaKwh() {
+		return potrosnjaKwh;
+	}
+
+	public void setPotrosnjaKwh(Double potrosnjaKwh) {
+		this.potrosnjaKwh = potrosnjaKwh;
+	}
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	
+	
 }
