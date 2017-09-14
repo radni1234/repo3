@@ -16,4 +16,8 @@ public class RnPrikazService {
 	public List<RnPrikaz> rnPrikaz (String bro_id) {
 		return dao.rnPrikaz(bro_id);
 	}
+	
+	public List<RnPrikaz> rnPrikazKotlarnica (String kot_id) {
+		return dao.rnPrikazKotlarnica(kot_id);
+	}
 }

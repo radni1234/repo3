@@ -21,13 +21,13 @@ public class RnStavkeKotlarnica {
 	@JsonIgnore
 	@ManyToOne
     @JoinColumn(name = "RN_KOTLARNICA_ID",
-            foreignKey = @ForeignKey(name = "RN_STAVKE_FK1")
+            foreignKey = @ForeignKey(name = "RN_STAVKE_KOTLARNICA_FK1")
     )
 	private RnKotlarnica rn;
 
 	@ManyToOne
     @JoinColumn(name = "BROJILO_VRSTA_KOLONE_ID",
-            foreignKey = @ForeignKey(name = "RN_STAVKE_FK2")
+            foreignKey = @ForeignKey(name = "RN_STAVKE_KOTLARNICA_FK2")
     )
 	private BrojiloVrstaKolone brojiloVrstaKolone;
 	

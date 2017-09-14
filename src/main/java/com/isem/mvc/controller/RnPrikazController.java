@@ -21,4 +21,9 @@ public class RnPrikazController {
 	public List<RnPrikaz> rnPrikaz(@RequestParam("bro_id") String bro_id) {
 		return service.rnPrikaz(bro_id);
 	}
+	
+	@RequestMapping(params = {"kot_id"}, method=RequestMethod.GET)
+	public List<RnPrikaz> rnPrikazKotlarnica(@RequestParam("kot_id") String kot_id) {
+		return service.rnPrikazKotlarnica(kot_id);
+	}
 }

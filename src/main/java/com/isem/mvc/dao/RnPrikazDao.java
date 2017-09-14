@@ -29,7 +29,24 @@ public class RnPrikazDao {
          
         List<Object[]> rows = storedProcedure.getResultList();
         
-        List<RnPrikaz> result = new ArrayList<>(rows.size());
+        return generisiPrikaz(rows);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<RnPrikaz> rnPrikazKotlarnica(String kot_id) {
+		StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("rn_prikaz_kotlarnica")
+                .registerStoredProcedureParameter(0 , String.class , ParameterMode.IN);
+         
+        storedProcedure .setParameter(0, kot_id);
+         
+        List<Object[]> rows = storedProcedure.getResultList();
+        
+        return generisiPrikaz(rows);
+	}
+	
+	
+	private List<RnPrikaz> generisiPrikaz(List<Object[]> rows){
+		List<RnPrikaz> result = new ArrayList<>(rows.size());
         for (Object[] row : rows) {
         	Integer duzina = row.length;
         	if (duzina == 24) {

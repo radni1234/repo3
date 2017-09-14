@@ -4,18 +4,29 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
+import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureParameter;
 
-@NamedStoredProcedureQuery(
-        name="rn_prikaz",
-        procedureName="rn_prikaz",
-        resultClasses = { RnPrikaz.class },
-        parameters={
-            @StoredProcedureParameter(name="i_bro_id", type=String.class, mode=ParameterMode.IN)
-        }
-)
+@NamedStoredProcedureQueries({
+	@NamedStoredProcedureQuery(
+	        name="rn_prikaz",
+	        procedureName="rn_prikaz",
+	        resultClasses = { RnPrikaz.class },
+	        parameters={
+	            @StoredProcedureParameter(name="i_bro_id", type=String.class, mode=ParameterMode.IN)
+	        }
+	),
+	@NamedStoredProcedureQuery(
+	        name="rn_prikaz_kotlarnica",
+	        procedureName="rn_prikaz_kotlarnica",
+	        resultClasses = { RnPrikaz.class },
+	        parameters={
+	            @StoredProcedureParameter(name="i_kot_id", type=String.class, mode=ParameterMode.IN)
+	        }
+	)
+})
 public class RnPrikaz {
 	private BigInteger id;
 	private String brojilo;

@@ -31,26 +31,26 @@ public class RnKotlarnica {
 	private Long id;
 
 	@ManyToOne
-    @JoinColumn(name = "BROJILO_ID",
-            foreignKey = @ForeignKey(name = "RN_FK1")
+    @JoinColumn(name = "BROJILO_KOTLARNICA_ID",
+            foreignKey = @ForeignKey(name = "RN_KOTLARNICA_FK1")
     )
 	private BrojiloKotlarnica brojiloKotlarnica;
 	
 	@ManyToOne
     @JoinColumn(name = "ENERGENT_ID",
-            foreignKey = @ForeignKey(name = "RN_FK2")
+            foreignKey = @ForeignKey(name = "RN_KOTLARNICA_FK2")
     )
 	private Energent energent;
 	
 	@ManyToOne
     @JoinColumn(name = "DOBAVLJAC_ID",
-            foreignKey = @ForeignKey(name = "RN_FK5")
+            foreignKey = @ForeignKey(name = "RN_KOTLARNICA_FK5")
     )
 	private Dobavljac dobavljac;
 	
 	@ManyToOne
     @JoinColumn(name = "RN_TIP_ID",
-            foreignKey = @ForeignKey(name = "RN_FK6")
+            foreignKey = @ForeignKey(name = "RN_KOTLARNICA_FK6")
     )
 	private RnTip rnTip;
 	

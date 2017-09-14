@@ -1,0 +1,87 @@
+-- --------------------------------------------------------------------------------
+-- Routine DDL
+-- Note: comments before and after the routine body will not be stored by the server
+-- --------------------------------------------------------------------------------
+DELIMITER $$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `rn_prikaz`(i_bro_id numeric)
+begin
+
+	SET @sql = NULL;
+    
+    DROP TEMPORARY TABLE IF EXISTS upit_temp;
+    CREATE TEMPORARY TABLE upit_temp(k1 varchar(500), k2 bigint);
+    
+    INSERT INTO upit_temp
+    SELECT DISTINCT
+		CONCAT(
+		  'MAX(IF(s.brojilo_vrsta_kolone_id = ''',
+		  brojilo_vrsta_kolone_id,
+		  ''', s.vrednost, NULL)) AS ',
+		  '''','k',b.rbr,''''
+		) , b.rbr		   
+	FROM rn_stavke s, brojilo_vrsta_kolone b
+	WHERE rn_id in (select id from rn where brojilo_id = i_bro_id)
+			and s.brojilo_vrsta_kolone_id = b.id   
+	ORDER BY b.rbr
+	;
+    
+    SELECT
+		IFNULL(
+		  GROUP_CONCAT(k1
+		  ),1)  
+	INTO @sql
+	FROM upit_temp
+	ORDER BY k2
+	;
+
+	/*
+	SELECT
+		IFNULL(
+		  GROUP_CONCAT(DISTINCT
+			CONCAT(
+			  'MAX(IF(s.brojilo_vrsta_kolone_id = ''',
+			  brojilo_vrsta_kolone_id,
+			  ''', s.vrednost, NULL)) AS ',
+			  '''','k',b.rbr,''''
+			)
+		  ),1)  INTO @sql
+	FROM rn_stavke s, brojilo_vrsta_kolone b
+	WHERE rn_id in (select id from rn where brojilo_id = i_bro_id)
+			and s.brojilo_vrsta_kolone_id = b.id   
+	;
+    */
+
+	SET @sql = CONCAT('
+						SELECT rn.id, 
+						`b`.`sifra_brojila` brojilo,
+						`e`.`naziv` energent,
+						CAST(YEAR(rn.datumr) as CHAR(4)) godina,
+						`m`.`naziv` mesec,
+						`d`.`naziv` dobavljac,		
+						`r`.`naziv` rn_tip,
+						`rn`.`broj_rn`,
+						`rn`.`datumr`,
+						`rn`.`napomena`,
+						`rn`.`uneo`,
+						`rn`.`datumu`,
+						`rn`.`menjao`,
+						`rn`.`datumm`,
+						', @sql, 
+					' FROM ((((((rn join rn_stavke_v s on rn.id = s.rn_id)
+								left join brojilo b on b.id = rn.brojilo_id)	
+								left join mesec m on m.id = MONTH(rn.datumr))	
+								left join dobavljac d on d.id = rn.dobavljac_id)
+								left join energent e on e.id = rn.energent_id)	
+								left join rn_tip r on r.id = rn.rn_tip_id)	
+					  WHERE rn.brojilo_id = ', i_bro_id, 
+					 ' GROUP BY rn.id');
+
+    -- insert into t values(@sql);
+	PREPARE stmt FROM @sql;
+	EXECUTE stmt;
+	DEALLOCATE PREPARE stmt;
+	
+
+
+end

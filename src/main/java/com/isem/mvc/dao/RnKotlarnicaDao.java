@@ -22,9 +22,9 @@ public interface RnKotlarnicaDao extends PagingAndSortingRepository<RnKotlarnica
 
 	Page<RnKotlarnica> findAll(Pageable pageRequest);
 	
-	@Query("SELECT r FROM RnKotlarnica r where r.brojilo in (select b from com.isem.mvc.model.BrojiloKotlarnica b where b.kotlarnica.id = :id)")
+	@Query("SELECT r FROM RnKotlarnica r where r.brojiloKotlarnica in (select b from com.isem.mvc.model.BrojiloKotlarnica b where b.kotlarnica.id = :id)")
 	List<Rn> findRnByKotlarnica(@Param("id") Long id);
 	
-	@Query("SELECT count(*) FROM RnKotlarnica r where r.brojilo.id = :brojilo_id and DATE(r.datumr) = :datumr")
+	@Query("SELECT count(*) FROM RnKotlarnica r where r.brojiloKotlarnica.id = :brojilo_id and DATE(r.datumr) = :datumr")
 	Long proveriRacun(@Param("datumr") Date datumr, @Param("brojilo_id") Long brojilo_id);
 }

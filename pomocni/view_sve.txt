@@ -417,4 +417,16 @@ VIEW `brojilo_kotlarnica_view` AS
         left join `rezim_merenja` ON ((`brojilo_kotlarnica`.`rezim_merenja_id` = `rezim_merenja`.`id`)))
         left join `brojilo_kotlarnica` `brojilo_2` ON ((`brojilo_kotlarnica`.`vodece_brojilo_id` = `brojilo_2`.`id`)));
         
-        
+CREATE 
+VIEW `rn_stavke_kotlarnica_v` AS
+    select 
+        `r`.`id` AS `id`,
+        `r`.`rn_kotlarnica_id` AS `rn_kotlarnica_id`,
+        `r`.`brojilo_vrsta_kolone_id` AS `brojilo_vrsta_kolone_id`,
+        `b`.`naziv` AS `naziv`,
+        `r`.`vrednost` AS `vrednost`
+    from
+        (`rn_stavke_kotlarnica` `r`
+        join `brojilo_vrsta_kolone` `b`)
+    where
+        (`r`.`brojilo_vrsta_kolone_id` = `b`.`id`);        
