@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.isem.mvc.dao.DobavljacDao;
 import com.isem.mvc.dao.DobavljacViewDao;
+import com.isem.mvc.lov.Lov;
+import com.isem.mvc.lov.LovDao;
 import com.isem.mvc.model.Dobavljac;
 import com.isem.mvc.tab.DobavljacView;
 
@@ -19,6 +21,9 @@ public class DobavljacService {
 	
 	@Autowired
 	private DobavljacViewDao daoView;
+	
+	@Autowired
+	private LovDao daoLov;
 		
 	public Dobavljac findById (Long id) {
 		return dao.findById(id);
@@ -42,6 +47,10 @@ public class DobavljacService {
 
 	public Page<DobavljacView> findAllView (Pageable pageRequest) {
 		return daoView.findAll(pageRequest);
+	}
+	
+	public List<Lov> dobavljacLov (String user, Long opsId, Long mesId) {
+		return daoLov.dobavljacLov(user, opsId, mesId);
 	}
 
 	public Dobavljac save(Dobavljac obj) {

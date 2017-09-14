@@ -123,18 +123,23 @@ CREATE
     DEFINER = `root`@`localhost` 
     SQL SECURITY DEFINER
 VIEW `dobavljac_view` AS
-    SELECT 
+    select 
         `d`.`id` AS `id`,
         `d`.`naziv` AS `naziv`,
         `d`.`tel` AS `tel`,
         `d`.`mail` AS `mail`,
         `d`.`web` AS `web`,
-        `m`.`naziv` AS `mesto`
-    FROM
-        (`dobavljac` `d`
-        JOIN `mesto` `m`)
-    WHERE
-        (`d`.`mesto_id` = `m`.`id`);
+        `m`.`id` AS `mesto_id`,
+        `m`.`naziv` AS `mesto`,
+		`o`.`id` AS `opstina_id`,
+        `o`.`naziv` AS `opstina`
+    from
+        `dobavljac` `d`,
+        `mesto` `m`,
+        `opstina` `o` 
+    where
+        (`d`.`mesto_id` = `m`.`id`)
+        and (`m`.`opstina_id` = `o`.`id`);
 		
 		
 CREATE 

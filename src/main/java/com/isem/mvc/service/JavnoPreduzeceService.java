@@ -50,7 +50,7 @@ public class JavnoPreduzeceService {
 	}
 	
 	public List<Lov> javnoPreduzeceLov (String user) {
-		return daoLov.JavnoPreduzeceLov(user);
+		return daoLov.javnoPreduzeceLov(user);
 	}
 
 	public JavnoPreduzece save(JavnoPreduzece obj) {

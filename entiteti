@@ -25,6 +25,7 @@ GET /lov
 DOBAVLJAC - dobavljac
 GET /tab
 GET /tab?params = {"str", "vel"}
+GET /lov?params = {"ops_id", "mes_id"}
 
 STEPEN_DAN - stepen_dan
 
