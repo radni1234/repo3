@@ -9,6 +9,7 @@ import javax.persistence.Version;
 
 @Entity
 public class Saveti {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;

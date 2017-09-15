@@ -19,7 +19,7 @@ import com.isem.mvc.service.SavetiService;
 @RequestMapping("/saveti")
 public class SavetiController {
 	@Autowired
-	private SavetiService service;
+	private SavetiService service;	
 	
 	@RequestMapping(value="/sve", method=RequestMethod.GET)
 	public List<Saveti> getAll() {

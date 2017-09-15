@@ -14,7 +14,7 @@ import com.isem.mvc.model.Saveti;
 public class SavetiService {
 	@Autowired
 	private SavetiDao dao;	
-	
+		
 	public Saveti findById (Long id) {
 		return dao.findById(id);
 	}

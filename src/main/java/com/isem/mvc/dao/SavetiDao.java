@@ -10,7 +10,7 @@ import com.isem.mvc.model.Saveti;
 
 public interface SavetiDao extends PagingAndSortingRepository<Saveti, Long> {
 	Saveti findById(Long id);
-	
+		
 	List<Saveti> findAll();
 	
 	Page<Saveti> findAll(Pageable pageRequest);
