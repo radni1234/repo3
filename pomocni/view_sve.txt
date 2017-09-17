@@ -435,3 +435,33 @@ VIEW `rn_stavke_kotlarnica_v` AS
         join `brojilo_vrsta_kolone` `b`)
     where
         (`r`.`brojilo_vrsta_kolone_id` = `b`.`id`);        
+        
+        
+ CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `trafo_view` AS
+    select 
+        `o`.`id` AS `opstina_id`,
+        `o`.`naziv` AS `opstina`,
+        `m`.`id` AS `mesto_id`,
+        `m`.`naziv` AS `mesto`,
+        `t`.`adresa` AS `adresa`,
+        `t`.`gaus_x` AS `gaus_x`,
+        `t`.`gaus_y` AS `gaus_y`,
+        `t`.`lat_d` AS `lat_d`,
+        `t`.`lon_d` AS `lon_d`,
+        ifnull(sum(`sv`.`kom`), 0) AS `brojIntalisanihSvetiljki`,
+        ifnull(sum((`sv`.`kom` * `st`.`snaga`)), 0) AS `snagaIntalisanihSvetiljki`
+    from
+        (((((`trafo` `t`
+        left join `mesto` `m` ON ((`t`.`mesto_id` = `m`.`id`)))
+        join `opstina` `o` ON ((`m`.`opstina_id` = `o`.`id`)))
+        left join `stub` `s` ON ((`s`.`trafo_id` = `t`.`id`)))
+        left join `svetiljka` `sv` ON ((`sv`.`stub_id` = `s`.`id`)))
+        left join `svetiljka_tip` `st` ON ((`sv`.`svetiljka_tip_id` = `st`.`id`)))
+    group by `t`.`id` , `o`.`id` , `o`.`naziv` , `m`.`id` , `m`.`naziv` , `t`.`adresa` , `t`.`gaus_x` , `t`.`gaus_y` , `t`.`lat_d` , `t`.`lon_d`;
+    
+    
+    

@@ -12,42 +12,37 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.isem.mvc.model.Trafo;
-import com.isem.mvc.service.TrafoService;
-import com.isem.mvc.tab.TrafoView;
+import com.isem.mvc.model.Svetiljka;
+import com.isem.mvc.service.SvetiljkaService;
 
 @RestController
-@RequestMapping("/trafo")
-public class TrafoController {
+@RequestMapping("/svetiljka")
+public class SvetiljkaController {	
+
 	@Autowired
-	private TrafoService service;
+	private SvetiljkaService service;
 
 	@RequestMapping(value="/sve", method=RequestMethod.GET)
-	public List<Trafo> getAll() {
+	public List<Svetiljka> getAll() {
 		return service.findAll();
 	}
 
 	@RequestMapping(value="/sve", params = {"str", "vel"}, method=RequestMethod.GET)
-	public Page<Trafo> getAll(@RequestParam(value = "str") int strana, 
+	public Page<Svetiljka> getAll(@RequestParam(value = "str") int strana, 
 								@RequestParam(value = "vel") int velicina ) {
 		
 		Pageable pageable = new PageRequest(strana, velicina);
 		
 		return service.findAll(pageable);
 	}
-	
-	@RequestMapping(value="/tab", method=RequestMethod.GET)
-	public List<TrafoView> getAllView() {
-		return service.findAllView();
-	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
-	public Trafo findById(@RequestParam("id") Long id){
+	public Svetiljka findById(@RequestParam("id") Long id){
 		return service.findById(id);
 	}		
 
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
-	public Trafo add(@RequestBody Trafo obj) {
+	public Svetiljka add(@RequestBody Svetiljka obj) {
 		
 		return service.save(obj);
 	}
