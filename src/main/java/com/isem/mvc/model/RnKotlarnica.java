@@ -93,15 +93,15 @@ public class RnKotlarnica {
 	private Integer version;
 	
 	@OneToMany(mappedBy="rn", orphanRemoval=true, cascade = CascadeType.ALL)
-	private List<RnStavkeKotlarnica> rnStavke;
+	private List<RnKotlarnicaStavke> rnStavke;
 	
-	public void addRnStavke(RnStavkeKotlarnica rnStav) {
+	public void addRnStavke(RnKotlarnicaStavke rnStav) {
        if (rnStav == null) {
            return;
        }
        rnStav.setRn(this);
        if (rnStavke == null) {
-    	   rnStavke = new ArrayList<RnStavkeKotlarnica>();
+    	   rnStavke = new ArrayList<RnKotlarnicaStavke>();
     	   rnStavke.add(rnStav);
        } else if (!rnStavke.contains(rnStav)) {
     	   rnStavke.add(rnStav);
@@ -172,7 +172,7 @@ public class RnKotlarnica {
 		return version;
 	}
 	
-	public List<RnStavkeKotlarnica> getRnStavke() {
+	public List<RnKotlarnicaStavke> getRnStavke() {
 		return rnStavke;
 	}
 
@@ -233,7 +233,7 @@ public class RnKotlarnica {
 		this.stariId = stariId;
 	}
 	
-	public void setRnStavke(List<RnStavkeKotlarnica> rnStavke) {
+	public void setRnStavke(List<RnKotlarnicaStavke> rnStavke) {
 		this.rnStavke = rnStavke;
 	}
 	

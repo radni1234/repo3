@@ -13,7 +13,7 @@ import javax.persistence.Version;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class RnStavkeKotlarnica {
+public class RnKotlarnicaStavke {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
@@ -21,13 +21,13 @@ public class RnStavkeKotlarnica {
 	@JsonIgnore
 	@ManyToOne
     @JoinColumn(name = "RN_KOTLARNICA_ID",
-            foreignKey = @ForeignKey(name = "RN_STAVKE_KOTLARNICA_FK1")
+            foreignKey = @ForeignKey(name = "RN_KOTLARNICA_STAVKE_FK1")
     )
 	private RnKotlarnica rn;
 
 	@ManyToOne
     @JoinColumn(name = "BROJILO_VRSTA_KOLONE_ID",
-            foreignKey = @ForeignKey(name = "RN_STAVKE_KOTLARNICA_FK2")
+            foreignKey = @ForeignKey(name = "RN_KOTLARNICA_STAVKE_FK2")
     )
 	private BrojiloVrstaKolone brojiloVrstaKolone;
 	
