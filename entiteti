@@ -126,4 +126,9 @@ GET /sve?params = {"kotlarnica_id"}
 GET /tab?params = {"kotlarnica_id"}
 
 
+STUB - stub
+GET /tab?params = {"trafo_id"}
+
+
+
 

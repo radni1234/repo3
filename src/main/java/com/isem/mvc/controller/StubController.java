@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isem.mvc.model.Stub;
 import com.isem.mvc.service.StubService;
+import com.isem.mvc.tab.StubView;
 
 @RestController
 @RequestMapping("/stub")
@@ -33,6 +34,16 @@ public class StubController {
 		Pageable pageable = new PageRequest(strana, velicina);
 		
 		return service.findAll(pageable);
+	}
+	
+	@RequestMapping(value="/tab", method=RequestMethod.GET)
+	public List<StubView> getAllView() {
+		return service.findAllView();
+	}
+	
+	@RequestMapping(value="/tab", params = {"trafo_id"}, method=RequestMethod.GET)
+	public List<StubView> findStubViewByTrafo(@RequestParam(value = "trafo_id") Long trafo_id) {		
+		return service.findStubViewByTrafo(trafo_id);
 	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)

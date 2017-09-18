@@ -8,12 +8,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.isem.mvc.dao.StubTipDao;
+import com.isem.mvc.lov.Lov;
+import com.isem.mvc.lov.LovDao;
 import com.isem.mvc.model.StubTip;
 
 @Service
 public class StubTipService {
 	@Autowired
 	private StubTipDao dao;
+	
+	@Autowired
+	private LovDao daoLov;
 		
 	public StubTip findById (Long id) {
 		return dao.findById(id);
@@ -25,6 +30,10 @@ public class StubTipService {
 
 	public Page<StubTip> findAll (Pageable pageRequest) {
 		return dao.findAll(pageRequest);
+	}
+	
+	public List<Lov> stubTipLov () {
+		return daoLov.stubTipLov();
 	}
 
 	public StubTip save(StubTip obj) {

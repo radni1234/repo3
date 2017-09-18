@@ -185,4 +185,13 @@ public class LovDao {
 
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Lov> stubTipLov() {
+		Query query = entityManager.createNativeQuery(
+				"select id, naziv as name from stub_tip order by naziv",
+					"Lov");
+	
+		return query.getResultList();
+	}
+	
 }

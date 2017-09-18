@@ -437,23 +437,24 @@ VIEW `rn_stavke_kotlarnica_v` AS
         (`r`.`brojilo_vrsta_kolone_id` = `b`.`id`);        
         
         
- CREATE 
+CREATE 
     ALGORITHM = UNDEFINED 
     DEFINER = `root`@`localhost` 
     SQL SECURITY DEFINER
 VIEW `trafo_view` AS
     select 
+        `t`.`id` AS `id`,
         `o`.`id` AS `opstina_id`,
         `o`.`naziv` AS `opstina`,
         `m`.`id` AS `mesto_id`,
         `m`.`naziv` AS `mesto`,
         `t`.`adresa` AS `adresa`,
-        `t`.`gaus_x` AS `gaus_x`,
-        `t`.`gaus_y` AS `gaus_y`,
-        `t`.`lat_d` AS `lat_d`,
-        `t`.`lon_d` AS `lon_d`,
-        ifnull(sum(`sv`.`kom`), 0) AS `brojIntalisanihSvetiljki`,
-        ifnull(sum((`sv`.`kom` * `st`.`snaga`)), 0) AS `snagaIntalisanihSvetiljki`
+        `t`.`gaus_x` AS `gausx`,
+        `t`.`gaus_y` AS `gausy`,
+        `t`.`lat_d` AS `latd`,
+        `t`.`lon_d` AS `lond`,
+        ifnull(sum(`sv`.`kom`), 0) AS `broj_intalisanih_svetiljki`,
+        ifnull(sum((`sv`.`kom` * `st`.`snaga`)), 0) AS `snaga_intalisanih_svetiljki`
     from
         (((((`trafo` `t`
         left join `mesto` `m` ON ((`t`.`mesto_id` = `m`.`id`)))
@@ -462,6 +463,28 @@ VIEW `trafo_view` AS
         left join `svetiljka` `sv` ON ((`sv`.`stub_id` = `s`.`id`)))
         left join `svetiljka_tip` `st` ON ((`sv`.`svetiljka_tip_id` = `st`.`id`)))
     group by `t`.`id` , `o`.`id` , `o`.`naziv` , `m`.`id` , `m`.`naziv` , `t`.`adresa` , `t`.`gaus_x` , `t`.`gaus_y` , `t`.`lat_d` , `t`.`lon_d`;
+    
+    
+    CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `stub_view` AS
+    select 
+        `s`.`id` AS `id`,
+        `s`.`adresa` AS `adresa`,
+        `s`.`adresa_slike` AS `adresa_slike`,
+        `s`.`gaus_x` AS `gaus_x`,
+        `s`.`gaus_y` AS `gaus_y`,
+        `s`.`lat_d` AS `lat_d`,
+        `s`.`lon_d` AS `lon_d`,
+        `s`.`rbr` AS `rbr`,
+        `st`.`naziv` AS `stub_tip`,
+        `t`.`adresa` AS `adresa_trafoa`
+    from
+        ((`stub` `s`
+        left join `stub_tip` `st` ON ((`s`.`stub_tip_id` = `st`.`id`)))
+        left join `trafo` `t` ON ((`s`.`trafo_id` = `t`.`id`)));
     
     
     

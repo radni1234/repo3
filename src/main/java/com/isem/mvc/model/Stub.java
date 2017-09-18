@@ -32,22 +32,10 @@ public class Stub {
 	private String adresa;
 	
 	@Column(name = "LON_D", columnDefinition = "numeric(18,15)")
-	private Double lonD;
-	
-	@Column(name = "LON_M", columnDefinition = "numeric(18,15)")
-	private Double lonM;
-	
-	@Column(name = "LON_S", columnDefinition = "numeric(18,15)")
-	private Double lonS;
+	private Double lonD;	
 	
 	@Column(name = "LAT_D", columnDefinition = "numeric(18,15)")
-	private Double latD;
-	
-	@Column(name = "LAT_M", columnDefinition = "numeric(18,15)")
-	private Double latM;
-	
-	@Column(name = "LAT_S", columnDefinition = "numeric(18,15)")
-	private Double latS;
+	private Double latD;	
 	
 	@Column(name = "GAUS_X", columnDefinition = "numeric(18)")
 	private Double gausX;
@@ -103,23 +91,7 @@ public class Stub {
 
 	public void setLonD(Double lonD) {
 		this.lonD = lonD;
-	}
-
-	public Double getLonM() {
-		return lonM;
-	}
-
-	public void setLonM(Double lonM) {
-		this.lonM = lonM;
-	}
-
-	public Double getLonS() {
-		return lonS;
-	}
-
-	public void setLonS(Double lonS) {
-		this.lonS = lonS;
-	}
+	}	
 
 	public Double getLatD() {
 		return latD;
@@ -127,22 +99,6 @@ public class Stub {
 
 	public void setLatD(Double latD) {
 		this.latD = latD;
-	}
-
-	public Double getLatM() {
-		return latM;
-	}
-
-	public void setLatM(Double latM) {
-		this.latM = latM;
-	}
-
-	public Double getLatS() {
-		return latS;
-	}
-
-	public void setLatS(Double latS) {
-		this.latS = latS;
 	}
 
 	public Double getGausX() {
@@ -188,9 +144,8 @@ public class Stub {
 	@Override
 	public String toString() {
 		return "Stub [id=" + id + ", trafo=" + trafo + ", stubTip=" + stubTip + ", adresa=" + adresa + ", lonD=" + lonD
-				+ ", lonM=" + lonM + ", lonS=" + lonS + ", latD=" + latD + ", latM=" + latM + ", latS=" + latS
-				+ ", gausX=" + gausX + ", gausY=" + gausY + ", rbr=" + rbr + ", adresaSlike=" + adresaSlike
-				+ ", version=" + version + "]";
+				+ ", latD=" + latD + ", gausX=" + gausX + ", gausY=" + gausY + ", rbr=" + rbr + ", adresaSlike="
+				+ adresaSlike + ", version=" + version + "]";
 	}
 	
 	
