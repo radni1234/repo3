@@ -120,6 +120,7 @@ GET /sve?params = {"kotlarnica_id"}
 
 POTROSNJA PODSTANICE - potrosnja_podstanice
 GET /sve?params = {"podstanica_id"}
+GET /provera?params = {"datum", "podstanica_id"}
 
 BROJILO KOTLARNICA - brojilo_kotlarnica
 GET /sve?params = {"kotlarnica_id"}

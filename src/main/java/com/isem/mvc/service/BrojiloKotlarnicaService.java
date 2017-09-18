@@ -48,8 +48,8 @@ public class BrojiloKotlarnicaService {
 		return daoView.findAll(pageRequest);
 	}
 		
-	public List<BrojiloKotlarnicaView> findBrojiloViewByKotlarnica(Long obj_id) {		
-		return daoView.findBrojiloViewByKotlarnica(obj_id);
+	public List<BrojiloKotlarnicaView> findBrojiloViewByKotlarnica(Long kotlarnica_id) {		
+		return daoView.findBrojiloViewByKotlarnica(kotlarnica_id);
 	}
 
 	public BrojiloKotlarnica save(BrojiloKotlarnica obj) {
