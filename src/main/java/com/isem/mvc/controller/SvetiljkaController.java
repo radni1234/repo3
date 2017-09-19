@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isem.mvc.model.Svetiljka;
 import com.isem.mvc.service.SvetiljkaService;
+import com.isem.mvc.tab.SvetiljkaView;
 
 @RestController
 @RequestMapping("/svetiljka")
@@ -34,6 +35,16 @@ public class SvetiljkaController {
 		Pageable pageable = new PageRequest(strana, velicina);
 		
 		return service.findAll(pageable);
+	}
+	
+	@RequestMapping(value="/tab", method=RequestMethod.GET)
+	public List<SvetiljkaView> getAllView() {
+		return service.findAllView();
+	}
+	
+	@RequestMapping(value="/tab", params = {"stub_id"}, method=RequestMethod.GET)
+	public List<SvetiljkaView> findSvetiljkaViewByStub(@RequestParam(value = "stub_id") Long stub_id) {		
+		return service.findSvetiljkaViewByStub(stub_id);
 	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)

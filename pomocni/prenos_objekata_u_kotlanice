@@ -1,0 +1,92 @@
+select id, naziv from objekat where naziv like 'Blokovska kotlarnica%';
+
+721	Blokovska kotlarnica "Blok 106" 7
+723	Blokovska kotlarnica "Blok 18" 8
+724	Blokovska kotlarnica "Blok Save Kovacevica" 11
+725	Blokovska kotlarnica "Blok Vasilja Koprivice" 12
+726	Blokovska kotlarnica "Soliter" 13
+
+SELECT
+`brojilo`.`id`,
+`brojilo`.`automatski`,
+`brojilo`.`sifra_brojila`,
+`brojilo`.`obracunski_period`,
+`brojilo`.`opis`,
+`brojilo`.`procenat`,
+`brojilo`.`version`,
+`brojilo`.`brojilo_tip_id`,
+
+case 
+	when objekat_id = 721 then 7
+	when objekat_id = 723 then 8
+	when objekat_id = 724 then 11
+	when objekat_id = 725 then 12
+	when objekat_id = 726 then 13
+end as kotlarnica_id,
+
+`brojilo`.`rezim_merenja_id`,
+`brojilo`.`vodece_brojilo_id`,
+`brojilo`.`brojilo_vrsta_id`
+FROM `heroku_75858eca71cd74b`.`brojilo`
+where objekat_id in (
+721,
+723,
+724,
+725,
+726);
+
+
+SELECT
+`rn`.`id`,
+`rn`.`broj_rn`,
+`rn`.`datumm`,
+`rn`.`datumr`,
+`rn`.`datumu`,
+`rn`.`menjao`,
+`rn`.`napomena`,
+`rn`.`stari_id`,
+`rn`.`uneo`,
+`rn`.`version`,
+`rn`.`brojilo_id` brojilo_kotlarnica_id,
+`rn`.`dobavljac_id`,
+`rn`.`energent_id`,
+`rn`.`rn_tip_id`,
+`rn`.`iznos`,
+`rn`.`kolicina`
+FROM `heroku_75858eca71cd74b`.`rn`
+where brojilo_id in (1361,
+1365,
+1366,
+1403,
+1367,
+1401,
+1368,
+1402,
+1369,
+1404);
+
+
+SELECT
+`rn_stavke`.`id`,
+`rn_stavke`.`version`,
+`rn_stavke`.`vrednost`,
+`rn_stavke`.`brojilo_vrsta_kolone_id`,
+`rn_stavke`.rn_id rn_kotlarnica_id
+FROM `heroku_75858eca71cd74b`.`rn_stavke`
+where rn_id in (
+SELECT
+`rn`.`id`
+FROM `heroku_75858eca71cd74b`.`rn`
+where brojilo_id in (1361,
+1365,
+1366,
+1403,
+1367,
+1401,
+1368,
+1402,
+1369,
+1404))
+;
+
+

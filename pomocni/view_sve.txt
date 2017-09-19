@@ -487,4 +487,19 @@ VIEW `stub_view` AS
         left join `trafo` `t` ON ((`s`.`trafo_id` = `t`.`id`)));
     
     
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `svetiljka_view` AS
+    select 
+        `s`.`id` AS `id`,
+        `s`.`kom` AS `kom`,
+		`st`.`id` AS `stub_id`,
+        `st`.`adresa` AS `stub_adresa`,
+        `t`.`naziv` AS `svetiljka_tip`
+    from
+        ((`svetiljka` `s`
+        join `stub` `st` ON ((`s`.`stub_id` = `st`.`id`)))
+        join `svetiljka_tip` `t` ON ((`s`.`svetiljka_tip_id` = `t`.`id`)));
     
