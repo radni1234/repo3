@@ -1,0 +1,25 @@
+SELECT ID,
+  MESTO_ID,
+  ADRESA,
+  LON_D,
+  LAT_D,
+  NOVI_REDOSLED
+FROM TRAFO ;
+
+
+SELECT ID,
+  TRAFO_ID,
+  LON_D,
+   LAT_D,
+  ADRESA,
+  STUB_TIP_ID,
+  RBR,
+  ADRESA_SLIKE
+FROM STUB;
+
+SELECT ID, STUB_ID, SVETILJKA_TIP_ID, KOM FROM SVETILJKA ;
+
+SELECT TRAFO_ID, POTROSNJA, IZNOS, 
+g.god||'-'||lpad(mesec_id,2,'0')||'-15' datumr
+FROM TRAFO_RN t, godina g
+where t.godina_id = g.id;

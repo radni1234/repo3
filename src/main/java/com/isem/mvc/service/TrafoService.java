@@ -32,6 +32,10 @@ public class TrafoService {
 		return dao.findAll(pageRequest);
 	}
 	
+	public List<Trafo> findTrafoByMesto(Long mesto_id) {		
+		return dao.findTrafoByMesto(mesto_id);
+	}
+	
 	public TrafoView findByIdView (Long id) {
 		return daoView.findById(id);
 	}
