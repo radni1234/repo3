@@ -25,4 +25,7 @@ public interface RnTrafoDao extends PagingAndSortingRepository<RnTrafo, Long> {
 	
 	@Query("SELECT r FROM RnTrafo r where r.trafo.mesto.id = :mesto_id and DATE(datumr) = :datumr")
     public List<RnTrafo> findRnTrafoByMesto(@Param("mesto_id") Long mesto_id, @Param("datumr") Date datumr);
+	
+	@Query("SELECT count(*) FROM RnTrafo r where r.trafo.id = :trafo_id and DATE(r.datumr) = :datumr")
+	Long proveriRacun(@Param("datumr") Date datumr, @Param("trafo_id") Long trafo_id);
 }

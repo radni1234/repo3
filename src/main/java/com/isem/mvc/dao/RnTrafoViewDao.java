@@ -9,16 +9,16 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.isem.mvc.model.Trafo;
+import com.isem.mvc.tab.RnTrafoView;
 
 @Repository
-public interface TrafoDao extends PagingAndSortingRepository<Trafo, Long> {
-	Trafo findById(Long id);
+public interface RnTrafoViewDao extends PagingAndSortingRepository<RnTrafoView, Long> {
+	RnTrafoView findById(Long id);
 	
-	List<Trafo> findAll();
+	List<RnTrafoView> findAll();
 
-	Page<Trafo> findAll(Pageable pageRequest);
+	Page<RnTrafoView> findAll(Pageable pageRequest);
 	
-	@Query("SELECT t FROM Trafo t  where t.mesto.id = :mesto_id order by t.redosled")
-    public List<Trafo> findTrafoByMesto(@Param("mesto_id") Long mesto_id);
+	@Query("SELECT r FROM RnTrafoView r where r.trafoId = :trafo_id")
+    public List<RnTrafoView> findRnTrafoViewByTrafo(@Param("trafo_id") Long trafo_id);
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isem.mvc.model.RnTrafo;
 import com.isem.mvc.service.RnTrafoService;
+import com.isem.mvc.tab.RnTrafoView;
 
 @RestController
 @RequestMapping("/rn_trafo")
@@ -47,6 +48,16 @@ public class RnTrafoController {
 	public List<RnTrafo> findRnTrafoByTrafo(@RequestParam(value = "trafo_id") Long trafo_id) {	
 		return service.findRnTrafoByTrafo(trafo_id);
 	}
+	
+	@RequestMapping(value="/tab", method=RequestMethod.GET)
+	public List<RnTrafoView> getAllView() {
+		return service.findAllView();
+	}
+	
+	@RequestMapping(value = "/tab", params = {"trafo_id"}, method=RequestMethod.GET)
+	public List<RnTrafoView> findRnTrafoViewByTrafo(@RequestParam(value = "trafo_id") Long trafo_id) {	
+		return service.findRnTrafoViewByTrafo(trafo_id);
+	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
 	public RnTrafo findById(@RequestParam("id") Long id){
@@ -62,5 +73,12 @@ public class RnTrafoController {
 	@RequestMapping(value="/obrisi", params = {"id"}, method=RequestMethod.DELETE)
 	public void delete(@RequestParam("id") Long id) {
 		service.delete(id);
+	}
+	
+	@RequestMapping(value="/provera", params = {"datumr", "trafo_id"}, method=RequestMethod.GET)
+	public Long proveriRacun(@RequestParam(value = "datumr") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datumr, 
+								@RequestParam(value = "trafo_id") Long trafo_id ) {
+
+		return service.proveriRacun(datumr, trafo_id);
 	}
 }

@@ -37,6 +37,9 @@ public class Trafo {
 	@Column(name = "GAUS_Y", columnDefinition = "numeric(18)")
 	private Double gausY;
 	
+	@Column(name = "REDOSLED", columnDefinition = "int(11)")
+	private Integer redosled;
+	
 	@Version
 	@Column(name = "VERSION", columnDefinition = "int(11) default 0")
 	private Integer version;
@@ -91,6 +94,14 @@ public class Trafo {
 
 	public void setGausY(Double gausY) {
 		this.gausY = gausY;
+	}	
+
+	public Integer getRedosled() {
+		return redosled;
+	}
+
+	public void setRedosled(Integer redosled) {
+		this.redosled = redosled;
 	}
 
 	public Integer getVersion() {

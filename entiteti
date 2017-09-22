@@ -130,6 +130,13 @@ GET /tab?params = {"kotlarnica_id"}
 STUB - stub
 GET /tab?params = {"trafo_id"}
 
+TRAFO RACUN - rn_trafo
+GET /sve?params = {"mesto_id", "datumr"}
+GET /sve?params = {"trafo_id"}
+GET /tab?params = {"trafo_id"}
+GET /provera?params = {"datumr", "trafo_id"}
+
+
 
 
 
