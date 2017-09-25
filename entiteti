@@ -137,6 +137,9 @@ GET /tab?params = {"trafo_id"}
 GET /provera?params = {"datumr", "trafo_id"}
 
 
+KATEGORIJA VOZILA - kat_vozila
+
+
 
 
 
