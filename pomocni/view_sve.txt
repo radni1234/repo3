@@ -449,8 +449,6 @@ VIEW `trafo_view` AS
         `m`.`id` AS `mesto_id`,
         `m`.`naziv` AS `mesto`,
         `t`.`adresa` AS `adresa`,
-        `t`.`gaus_x` AS `gausx`,
-        `t`.`gaus_y` AS `gausy`,
         `t`.`lat_d` AS `latd`,
         `t`.`lon_d` AS `lond`,
         ifnull(sum(`sv`.`kom`), 0) AS `broj_intalisanih_svetiljki`,
@@ -474,8 +472,6 @@ VIEW `stub_view` AS
         `s`.`id` AS `id`,
         `s`.`adresa` AS `adresa`,
         `s`.`adresa_slike` AS `adresa_slike`,
-        `s`.`gaus_x` AS `gaus_x`,
-        `s`.`gaus_y` AS `gaus_y`,
         `s`.`lat_d` AS `lat_d`,
         `s`.`lon_d` AS `lon_d`,
         `s`.`rbr` AS `rbr`,
@@ -497,7 +493,8 @@ VIEW `svetiljka_view` AS
         `s`.`kom` AS `kom`,
 		`st`.`id` AS `stub_id`,
         `st`.`adresa` AS `stub_adresa`,
-        `t`.`naziv` AS `svetiljka_tip`
+        `t`.`naziv` AS `svetiljka_tip`,
+        `t`.`snaga` AS `svetiljka_snaga`
     from
         ((`svetiljka` `s`
         join `stub` `st` ON ((`s`.`stub_id` = `st`.`id`)))

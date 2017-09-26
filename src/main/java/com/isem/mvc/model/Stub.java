@@ -37,12 +37,6 @@ public class Stub {
 	@Column(name = "LAT_D", columnDefinition = "numeric(18,15)")
 	private Double latD;	
 	
-	@Column(name = "GAUS_X", columnDefinition = "numeric(18)")
-	private Double gausX;
-	
-	@Column(name = "GAUS_Y", columnDefinition = "numeric(18)")
-	private Double gausY;
-	
 	@Column(name = "RBR", columnDefinition = "int(11)")
 	private Double rbr;	
 	
@@ -101,22 +95,6 @@ public class Stub {
 		this.latD = latD;
 	}
 
-	public Double getGausX() {
-		return gausX;
-	}
-
-	public void setGausX(Double gausX) {
-		this.gausX = gausX;
-	}
-
-	public Double getGausY() {
-		return gausY;
-	}
-
-	public void setGausY(Double gausY) {
-		this.gausY = gausY;
-	}
-
 	public Double getRbr() {
 		return rbr;
 	}
@@ -144,9 +122,9 @@ public class Stub {
 	@Override
 	public String toString() {
 		return "Stub [id=" + id + ", trafo=" + trafo + ", stubTip=" + stubTip + ", adresa=" + adresa + ", lonD=" + lonD
-				+ ", latD=" + latD + ", gausX=" + gausX + ", gausY=" + gausY + ", rbr=" + rbr + ", adresaSlike="
-				+ adresaSlike + ", version=" + version + "]";
+				+ ", latD=" + latD + ", rbr=" + rbr + ", adresaSlike=" + adresaSlike + ", version=" + version + "]";
 	}
+
 	
 	
 }

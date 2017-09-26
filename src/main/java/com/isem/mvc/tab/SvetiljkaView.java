@@ -10,6 +10,7 @@ public class SvetiljkaView {
 	private Long stubId;
 	private String stubAdresa;
 	private String svetiljkaTip;
+	private Double svetiljkaSnaga;
 	private Long kom;
 	
 	public Long getId() {
@@ -26,6 +27,9 @@ public class SvetiljkaView {
 	}
 	public Long getKom() {
 		return kom;
+	}
+	public Double getSvetiljkaSnaga() {
+		return svetiljkaSnaga;
 	}
 	
 		

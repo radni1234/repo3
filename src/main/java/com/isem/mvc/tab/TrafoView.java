@@ -14,8 +14,6 @@ public class TrafoView {
 	private String adresa;
 	private String lonD;
 	private String latD;
-	private String gausX;
-	private String gausY;
 	private Long brojIntalisanihSvetiljki;
 	private Long snagaIntalisanihSvetiljki;
 	
@@ -42,12 +40,6 @@ public class TrafoView {
 	}
 	public String getLatD() {
 		return latD;
-	}
-	public String getGausX() {
-		return gausX;
-	}
-	public String getGausY() {
-		return gausY;
 	}
 	public Long getBrojIntalisanihSvetiljki() {
 		return brojIntalisanihSvetiljki;

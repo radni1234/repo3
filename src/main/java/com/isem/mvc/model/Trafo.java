@@ -30,12 +30,6 @@ public class Trafo {
 	
 	@Column(name = "LAT_D", columnDefinition = "numeric(18,15)")
 	private Double latD;
-		
-	@Column(name = "GAUS_X", columnDefinition = "numeric(18)")
-	private Double gausX;
-	
-	@Column(name = "GAUS_Y", columnDefinition = "numeric(18)")
-	private Double gausY;
 	
 	@Column(name = "REDOSLED", columnDefinition = "int(11)")
 	private Integer redosled;
@@ -80,22 +74,6 @@ public class Trafo {
 		this.latD = latD;
 	}
 
-	public Double getGausX() {
-		return gausX;
-	}
-
-	public void setGausX(Double gausX) {
-		this.gausX = gausX;
-	}
-
-	public Double getGausY() {
-		return gausY;
-	}
-
-	public void setGausY(Double gausY) {
-		this.gausY = gausY;
-	}	
-
 	public Integer getRedosled() {
 		return redosled;
 	}
@@ -111,8 +89,10 @@ public class Trafo {
 	@Override
 	public String toString() {
 		return "Trafo [id=" + id + ", mesto=" + mesto + ", adresa=" + adresa + ", lonD=" + lonD + ", latD=" + latD
-				+ ", gausX=" + gausX + ", gausY=" + gausY + ", version=" + version + "]";
+				+ ", redosled=" + redosled + ", version=" + version + "]";
 	}
+
+	
 
 	
 	

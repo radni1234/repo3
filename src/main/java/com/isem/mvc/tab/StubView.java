@@ -12,9 +12,7 @@ public class StubView {
 	private String stubTip;
 	private String adresa;
 	private Double lonD;
-	private Double latD;	
-	private Double gausX;
-	private Double gausY;
+	private Double latD;
 	private Double rbr;	
 	private String adresaSlike;
 	
@@ -38,12 +36,6 @@ public class StubView {
 	}
 	public Double getLatD() {
 		return latD;
-	}
-	public Double getGausX() {
-		return gausX;
-	}
-	public Double getGausY() {
-		return gausY;
 	}
 	public Double getRbr() {
 		return rbr;
