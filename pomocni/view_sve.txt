@@ -499,4 +499,27 @@ VIEW `svetiljka_view` AS
         ((`svetiljka` `s`
         join `stub` `st` ON ((`s`.`stub_id` = `st`.`id`)))
         join `svetiljka_tip` `t` ON ((`s`.`svetiljka_tip_id` = `t`.`id`)));
+        
+        
+
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `vozilo_view` AS
+    select 
+        `v`.`id` AS `id`,
+        `v`.`emisiona_klasa` AS `emisiona_klasa`,
+        `v`.`godiste` AS `godiste`,
+        `v`.`kubikaza` AS `kubikaza`,
+        `v`.`marka` AS `marka`,
+        `v`.`model` AS `model`,
+        `v`.`javno_preduzece_id` AS `javno_preduzece_id`,
+        `j`.`naziv` AS `javno_preduzece`,
+        `v`.`kategorija_vozila_id` AS `kategorija_vozila_id`,
+        `k`.`naziv` AS `kategorija_vozila`
+    from
+        ((`vozilo` `v`
+        left join `javno_preduzece` `j` ON ((`v`.`javno_preduzece_id` = `j`.`id`)))
+        left join `kategorija_vozila` `k` ON ((`v`.`kategorija_vozila_id` = `k`.`id`)));
     

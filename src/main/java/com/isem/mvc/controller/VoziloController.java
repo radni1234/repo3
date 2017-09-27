@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isem.mvc.model.Vozilo;
 import com.isem.mvc.service.VoziloService;
+import com.isem.mvc.tab.VoziloView;
 
 @RestController
 @RequestMapping("/vozilo")
@@ -33,6 +34,11 @@ public class VoziloController {
 		Pageable pageable = new PageRequest(strana, velicina);
 		
 		return service.findAll(pageable);
+	}
+	
+	@RequestMapping(value="/tab", method=RequestMethod.GET)
+	public List<VoziloView> getAllView() {
+		return service.findAllView();
 	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
