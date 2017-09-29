@@ -34,6 +34,11 @@ public class VoziloKilometrazaController {
 		
 		return service.findAll(pageable);
 	}
+	
+	@RequestMapping(value="/sve", params = {"vozilo_id"}, method=RequestMethod.GET)
+	public List<VoziloKilometraza> findVoziloKilometrazaByVozilo(@RequestParam(value = "vozilo_id") Long vozilo_id) {		
+		return service.findVoziloKilometrazaByVozilo(vozilo_id);
+	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
 	public VoziloKilometraza findById(@RequestParam("id") Long id){

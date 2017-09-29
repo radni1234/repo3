@@ -26,6 +26,10 @@ public class VoziloKilometrazaService {
 	public Page<VoziloKilometraza> findAll (Pageable pageRequest) {
 		return dao.findAll(pageRequest);
 	}
+	
+	public List<VoziloKilometraza> findVoziloKilometrazaByVozilo(Long vozilo_id) {		
+		return dao.findVoziloKilometrazaByVozilo(vozilo_id);
+	}
 
 	public VoziloKilometraza save(VoziloKilometraza obj) {
 		return dao.save(obj);

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isem.mvc.model.VoziloPotrosnja;
 import com.isem.mvc.service.VoziloPotrosnjaService;
+import com.isem.mvc.tab.VoziloPotrosnjaView;
 
 @RestController
 @RequestMapping("/vozilo_potrosnja")
@@ -33,6 +34,16 @@ public class VoziloPotrosnjaController {
 		Pageable pageable = new PageRequest(strana, velicina);
 		
 		return service.findAll(pageable);
+	}
+	
+	@RequestMapping(value="/tab", method=RequestMethod.GET)
+	public List<VoziloPotrosnjaView> getAllView() {
+		return service.findAllView();
+	}
+	
+	@RequestMapping(value="/tab", params = {"vozilo_id"}, method=RequestMethod.GET)
+	public List<VoziloPotrosnjaView> findPotrosnjaViewByVozilo(@RequestParam(value = "vozilo_id") Long vozilo_id) {		
+		return service.findPotrosnjaViewByVozilo(vozilo_id);
 	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)

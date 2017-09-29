@@ -11,6 +11,7 @@ public class VoziloView {
 	private String javnoPreduzece;
 	private Long kategorijaVozilaId;
 	private String kategorijaVozila;
+	private String registracija;
 	private Integer godiste;
 	private String marka;
 	private String model;
@@ -46,6 +47,9 @@ public class VoziloView {
 	}
 	public String getEmisiona_klasa() {
 		return emisiona_klasa;
+	}
+	public String getRegistracija() {
+		return registracija;
 	}
 	
 	

@@ -53,6 +53,9 @@ public class Vozilo {
 	
 	@Column(name = "EMISIONA_KLASA", length = 100)
 	private String emisiona_klasa;
+	
+	@Column(name = "REGISTRACIJA", length = 50)
+	private String registracija;
 
 	@Version
 	@Column(name = "VERSION", columnDefinition = "int(11) default 0")
@@ -128,15 +131,23 @@ public class Vozilo {
 
 	public void setEnergenti(Set<Energent> energenti) {
 		this.energenti = energenti;
+	}	
+
+	public String getRegistracija() {
+		return registracija;
+	}
+
+	public void setRegistracija(String registracija) {
+		this.registracija = registracija;
 	}
 
 	@Override
 	public String toString() {
 		return "Vozilo [id=" + id + ", javnoPreduzece=" + javnoPreduzece + ", kategorijaVozila=" + kategorijaVozila
-				+ ", godiste=" + godiste + ", marka=" + marka + ", model=" + model + ", kubikaza=" + kubikaza
-				+ ", emisiona_klasa=" + emisiona_klasa + ", version=" + version + "]";
+				+ ", energenti=" + energenti + ", godiste=" + godiste + ", marka=" + marka + ", model=" + model
+				+ ", kubikaza=" + kubikaza + ", emisiona_klasa=" + emisiona_klasa + ", registracija=" + registracija
+				+ ", version=" + version + "]";
 	}
-	
 	
 
 }

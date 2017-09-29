@@ -509,6 +509,7 @@ CREATE
 VIEW `vozilo_view` AS
     select 
         `v`.`id` AS `id`,
+        `v`.`registracija` AS `registracija`,
         `v`.`emisiona_klasa` AS `emisiona_klasa`,
         `v`.`godiste` AS `godiste`,
         `v`.`kubikaza` AS `kubikaza`,
@@ -522,4 +523,25 @@ VIEW `vozilo_view` AS
         ((`vozilo` `v`
         left join `javno_preduzece` `j` ON ((`v`.`javno_preduzece_id` = `j`.`id`)))
         left join `kategorija_vozila` `k` ON ((`v`.`kategorija_vozila_id` = `k`.`id`)));
+        
+        
+ 
+ CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `vozilo_potrosnja_view` AS
+    select 
+        `v`.`id` AS `id`,
+        `v`.`datum` AS `datum`,
+        `v`.`iznos` AS `iznos`,
+        `v`.`potrosnja` AS `potrosnja`,
+        `v`.`energent_id` AS `energent_id`,
+        `e`.`naziv` AS `energent`,
+        `v`.`vozilo_id` AS `vozilo_id`,
+        `vo`.`registracija` AS `registracija`
+    from
+        ((`vozilo_potrosnja` `v`
+        join `energent` `e` ON ((`v`.`energent_id` = `e`.`id`)))
+        join `vozilo` `vo` ON ((`v`.`vozilo_id` = `vo`.`id`)));
     
