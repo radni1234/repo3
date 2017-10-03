@@ -43,6 +43,11 @@ public class JavnoPreduzeceController {
 		return service.findAll(pageable, jwtTokenUtil.vratiKorisnikaIzTokena(user));
 	}
 	
+	@RequestMapping(value="/sve", params = {"ops_id"}, method=RequestMethod.GET)
+	public List<JavnoPreduzece> findAllByOpstina(@RequestParam(value = "ops_id") Long ops_id) {
+		return service.findAllByOpstina(ops_id);
+	}
+	
 	@RequestMapping(value="/tab", method=RequestMethod.GET)
 	public List<JavnoPreduzeceView> getAllView(@RequestHeader("Authorization") String user) {
 		return service.findAllView(jwtTokenUtil.vratiKorisnikaIzTokena(user));

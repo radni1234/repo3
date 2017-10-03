@@ -23,6 +23,7 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.isem.mvc.model.JavnoPreduzece;
 import com.isem.mvc.model.Mesto;
 import com.isem.mvc.model.Objekat;
 
@@ -87,10 +88,16 @@ public class User {
 	private List<Objekat> objekti = new ArrayList<Objekat>();
 
     @ManyToOne
-    @JoinColumn(name = "mesto_id",
+    @JoinColumn(name = "MESTO_ID",
             foreignKey = @ForeignKey(name = "USER_FK1")
     )
 	private Mesto mesto;
+    
+    @ManyToOne
+    @JoinColumn(name = "JAVNO_PREDUZECE_ID",
+            foreignKey = @ForeignKey(name = "USER_FK2")
+    )
+	private JavnoPreduzece javnoPreduzece;
     
     @Column(name = "NAZIV", length = 200)
 	private String naziv;
@@ -308,5 +315,15 @@ public class User {
     public void setLastPasswordResetDate(Date lastPasswordResetDate) {
         this.lastPasswordResetDate = lastPasswordResetDate;
     }
+
+	public JavnoPreduzece getJavnoPreduzece() {
+		return javnoPreduzece;
+	}
+
+	public void setJavnoPreduzece(JavnoPreduzece javnoPreduzece) {
+		this.javnoPreduzece = javnoPreduzece;
+	}
+    
+    
     
 }

@@ -37,6 +37,10 @@ public class JavnoPreduzeceService {
 		return dao.findAll(pageRequest, user);
 	}
 	
+	public List<JavnoPreduzece> findAllByOpstina (Long ops_id) {
+		return dao.findAllByOpstina(ops_id);
+	}
+	
 	public JavnoPreduzeceView findByIdView (Long id) {
 		return daoView.findById(id);
 	}

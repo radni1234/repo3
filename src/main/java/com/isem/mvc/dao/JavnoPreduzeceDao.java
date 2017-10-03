@@ -37,4 +37,11 @@ public interface JavnoPreduzeceDao extends PagingAndSortingRepository<JavnoPredu
 			+ "or ((select a.id from User u inner join u.authorities a where u.id = "
 				+ "(select u.id from User u where username like :user)) in (1))" )
 	Page<JavnoPreduzece> findAll(Pageable pageRequest, @Param("user") String user);
+	
+	@Query("SELECT j "
+			+ "FROM JavnoPreduzece j "
+			+ "WHERE j.mesto in "
+				+ "(select m2 from Mesto m2 where m2.opstina.id = :ops_id)"
+	       )
+	List<JavnoPreduzece> findAllByOpstina(@Param("ops_id") Long ops_id);
 }
