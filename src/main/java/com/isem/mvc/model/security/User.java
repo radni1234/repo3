@@ -132,6 +132,21 @@ public class User {
 	@Column(name = "ALARM_TREND_START")
 	private Date alarmTrendStart;
 	
+	@Column(name = "PS_OBJEKTI")
+	private Boolean psObjekti;
+	
+	@Column(name = "PS_VOZILA")
+	private Boolean psVozila;
+	
+	@Column(name = "PS_RASVETA")
+	private Boolean psRasveta;
+	
+	@Column(name = "PS_VODOSNABDEVANJE")
+	private Boolean psVodosnabdevanje;
+	
+	@Column(name = "PS_GREJANJE")
+	private Boolean psGrejanje;
+	
 	@Version
     @Column(name = "VERSION", columnDefinition = "int(11) default 0")
     private Integer version;	
@@ -322,6 +337,46 @@ public class User {
 
 	public void setJavnoPreduzece(JavnoPreduzece javnoPreduzece) {
 		this.javnoPreduzece = javnoPreduzece;
+	}
+
+	public Boolean getPsObjekti() {
+		return psObjekti;
+	}
+
+	public void setPsObjekti(Boolean psObjekti) {
+		this.psObjekti = psObjekti;
+	}
+
+	public Boolean getPsVozila() {
+		return psVozila;
+	}
+
+	public void setPsVozila(Boolean psVozila) {
+		this.psVozila = psVozila;
+	}
+
+	public Boolean getPsRasveta() {
+		return psRasveta;
+	}
+
+	public void setPsRasveta(Boolean psRasveta) {
+		this.psRasveta = psRasveta;
+	}
+
+	public Boolean getPsVodosnabdevanje() {
+		return psVodosnabdevanje;
+	}
+
+	public void setPsVodosnabdevanje(Boolean psVodosnabdevanje) {
+		this.psVodosnabdevanje = psVodosnabdevanje;
+	}
+
+	public Boolean getPsGrejanje() {
+		return psGrejanje;
+	}
+
+	public void setPsGrejanje(Boolean psGrejanje) {
+		this.psGrejanje = psGrejanje;
 	}
     
     
