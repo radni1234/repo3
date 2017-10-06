@@ -20,9 +20,15 @@ public interface JavnoPreduzeceViewDao extends PagingAndSortingRepository<JavnoP
 				+ "(select m.opstina.id from Mesto m where m = "
 	 				+ "(select u.mesto from User u where username like :user)) "
 	 				+ "and (select a.id from User u inner join u.authorities a where u.id = "
-		 	 		+ "(select u.id from User u where username like :user)) in (2))"
-		 	 		+ "or ((select a.id from User u inner join u.authorities a where u.id = "
-		 	 		+ "(select u.id from User u where username like :user)) in (1))")
+		 	 		+ "(select u.id from User u where username like :user)) in (2,4))"
+		 	 		+ "or "
+		 	 		+ "((select a.id from User u inner join u.authorities a where u.id = "
+		 	 		+ "(select u.id from User u where username like :user)) in (1))"
+		 	 		+ "or "
+		 	 		+ "(j.id = (select u.javnoPreduzece.id from User u where username like :user) "
+		 	 		+ "and ((select a.id from User u inner join u.authorities a where u.id = "
+		 	 		+ "(select u.id from User u where username like :user)) in (3)))"
+			)
 	List<JavnoPreduzeceView> findAll(@Param("user") String user);
 	
 	@Query("SELECT j FROM JavnoPreduzeceView j "
@@ -30,8 +36,14 @@ public interface JavnoPreduzeceViewDao extends PagingAndSortingRepository<JavnoP
 				+ "(select m.opstina.id from Mesto m where m = "
 	 				+ "(select u.mesto from User u where username like :user)) "
 	 				+ "and (select a.id from User u inner join u.authorities a where u.id = "
-		 	 		+ "(select u.id from User u where username like :user)) in (2))"
-		 	 		+ "or ((select a.id from User u inner join u.authorities a where u.id = "
-		 	 		+ "(select u.id from User u where username like :user)) in (1))")
+		 	 		+ "(select u.id from User u where username like :user)) in (2,4))"
+		 	 		+ "or "
+		 	 		+ "((select a.id from User u inner join u.authorities a where u.id = "
+		 	 		+ "(select u.id from User u where username like :user)) in (1))"
+		 	 		+ "or "
+		 	 		+ "(j.id = (select u.javnoPreduzece.id from User u where username like :user) "
+		 	 		+ "and ((select a.id from User u inner join u.authorities a where u.id = "
+		 	 		+ "(select u.id from User u where username like :user)) in (3)))"
+			)
 	Page<JavnoPreduzeceView> findAll(Pageable pageRequest, @Param("user") String user);
 }
