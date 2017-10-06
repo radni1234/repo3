@@ -7,12 +7,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isem.mvc.model.Vozilo;
+import com.isem.mvc.security.JwtTokenUtil;
 import com.isem.mvc.service.VoziloService;
 import com.isem.mvc.tab.VoziloView;
 
@@ -21,6 +23,9 @@ import com.isem.mvc.tab.VoziloView;
 public class VoziloController {
 	@Autowired
 	private VoziloService service;
+	
+	@Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
 	@RequestMapping(value="/sve", method=RequestMethod.GET)
 	public List<Vozilo> getAll() {
@@ -37,8 +42,8 @@ public class VoziloController {
 	}
 	
 	@RequestMapping(value="/tab", method=RequestMethod.GET)
-	public List<VoziloView> getAllView() {
-		return service.findAllView();
+	public List<VoziloView> getAllView(@RequestHeader("Authorization") String user) {
+		return service.findAllView(jwtTokenUtil.vratiKorisnikaIzTokena(user));
 	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)

@@ -31,17 +31,13 @@ public class VoziloService {
 	public Page<Vozilo> findAll (Pageable pageRequest) {
 		return dao.findAll(pageRequest);
 	}
-	
-	public VoziloView findByIdView (Long id) {
-		return daoView.findById(id);
+
+	public List<VoziloView> findAllView (String user) {
+		return daoView.findAll(user);
 	}
 
-	public List<VoziloView> findAllView () {
-		return daoView.findAll();
-	}
-
-	public Page<VoziloView> findAllView (Pageable pageRequest) {
-		return daoView.findAll(pageRequest);
+	public Page<VoziloView> findAllView (Pageable pageRequest, String user) {
+		return daoView.findAll(user, pageRequest);
 	}
 
 	public Vozilo save(Vozilo obj) {
