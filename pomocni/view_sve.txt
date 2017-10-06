@@ -544,4 +544,22 @@ VIEW `vozilo_potrosnja_view` AS
         ((`vozilo_potrosnja` `v`
         join `energent` `e` ON ((`v`.`energent_id` = `e`.`id`)))
         join `vozilo` `vo` ON ((`v`.`vozilo_id` = `vo`.`id`)));
+        
+        
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `korisnik_meni_view` AS
+    select 
+        `user`.`id` AS `id`,
+        `user`.`username` AS `username`,
+        `user`.`ps_admin` AS `ps_admin`,
+        `user`.`ps_grejanje` AS `ps_grejanje`,
+        `user`.`ps_objekti` AS `ps_objekti`,
+        `user`.`ps_rasveta` AS `ps_rasveta`,
+        `user`.`ps_vodosnabdevanje` AS `ps_vodosnabdevanje`,
+        `user`.`ps_vozila` AS `ps_vozila`
+    from
+        `user`;
     

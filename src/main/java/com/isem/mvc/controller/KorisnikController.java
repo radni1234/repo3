@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isem.mvc.model.security.User;
 import com.isem.mvc.security.JwtTokenUtil;
 import com.isem.mvc.service.KorisnikService;
+import com.isem.mvc.tab.KorisnikMeniView;
 import com.isem.mvc.tab.KorisnikView;
 
 @RestController
@@ -73,6 +74,11 @@ public class KorisnikController {
 	@RequestMapping(value="/jedan", params = {"username"}, method=RequestMethod.GET)
 	public User findByUsername(@RequestParam("username") String username){
 		return service.findByUsername(username);
+	}
+	
+	@RequestMapping(value="/meni", params = {"username"}, method=RequestMethod.GET)
+	public KorisnikMeniView findByUsernameMeni(@RequestParam("username") String username){
+		return service.findByUsernameMeni(username);
 	}
 
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)

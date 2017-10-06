@@ -132,6 +132,9 @@ public class User {
 	@Column(name = "ALARM_TREND_START")
 	private Date alarmTrendStart;
 	
+	@Column(name = "PS_ADMIN")
+	private Boolean psAdmin;
+	
 	@Column(name = "PS_OBJEKTI")
 	private Boolean psObjekti;
 	
@@ -337,6 +340,14 @@ public class User {
 
 	public void setJavnoPreduzece(JavnoPreduzece javnoPreduzece) {
 		this.javnoPreduzece = javnoPreduzece;
+	}	
+
+	public Boolean getPsAdmin() {
+		return psAdmin;
+	}
+
+	public void setPsAdmin(Boolean psAdmin) {
+		this.psAdmin = psAdmin;
 	}
 
 	public Boolean getPsObjekti() {

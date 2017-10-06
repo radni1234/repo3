@@ -8,8 +8,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.isem.mvc.dao.KorisnikDao;
+import com.isem.mvc.dao.KorisnikMeniViewDao;
 import com.isem.mvc.dao.KorisnikViewDao;
 import com.isem.mvc.model.security.User;
+import com.isem.mvc.tab.KorisnikMeniView;
 import com.isem.mvc.tab.KorisnikView;
 
 @Service
@@ -20,12 +22,19 @@ public class KorisnikService {
 	@Autowired
 	private KorisnikViewDao korisnikViewDao;
 	
+	@Autowired
+	private KorisnikMeniViewDao korisnikMeniViewDao;
+	
 	public User findById (Long id) {
 		return korisnikDao.findById(id);
 	}
 	
 	public User findByUsername (String userName) {	
 		return korisnikDao.findByUsername(userName);
+	}
+	
+	public KorisnikMeniView findByUsernameMeni (String userName) {	
+		return korisnikMeniViewDao.findByUsername(userName);
 	}
 	
 	public List<User> findAll (String user) {
