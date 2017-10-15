@@ -199,6 +199,9 @@ public class Objekat {
 //	@OneToMany(mappedBy = "objekat", cascade = CascadeType.ALL, fetch=FetchType.EAGER)	
 //	private Set<KorisnikObjekat> korisnici = new HashSet<KorisnikObjekat>();
 	
+	@Column(name = "SLIKA_NAZIV", length = 100)
+	private String slikaNaziv;
+	
 	@Version
 	@Column(name = "VERSION", columnDefinition = "int(11) default 0")
 	private Integer version;
@@ -629,6 +632,14 @@ public class Objekat {
 
 	public void setKorisnici(List<User> korisnici) {
 		this.korisnici = korisnici;
+	}	
+
+	public String getSlikaNaziv() {
+		return slikaNaziv;
+	}
+
+	public void setSlikaNaziv(String slikaNaziv) {
+		this.slikaNaziv = slikaNaziv;
 	}
 
 	@Override
