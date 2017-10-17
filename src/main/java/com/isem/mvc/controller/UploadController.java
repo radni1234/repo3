@@ -65,7 +65,6 @@ public class UploadController {
 	@GetMapping("/files/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> getFile(@PathVariable String filename) {
-		String message = "";
 		try {
 			Resource file = storageService.loadFile(filename);
 			return ResponseEntity.ok()

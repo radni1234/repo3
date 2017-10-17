@@ -1,5 +1,6 @@
 package com.isem.mvc.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -35,20 +36,22 @@ public class StorageService {
  
 	public void store(MultipartFile file, Long id) {
 		try {
+			logger.info("upload service!!!");			
+						
+			Objekat o = objekatService.findById(id);
 			
-			logger.info("upload service!!!");
-			logger.info(file.getOriginalFilename());
-			logger.info(file.getContentType());
-			logger.info("1."+file.getContentType());
-			logger.info(file.getOriginalFilename().indexOf("."));
-			logger.info(file.getOriginalFilename().substring(file.getOriginalFilename().indexOf(".")));
-	
+			if (o.getSlikaNaziv() != null){
+		
+				delete(rootLocation.resolve(o.getSlikaNaziv()).toString());
+				
+			}
+			
+			String ekstenzija = file.getOriginalFilename().substring(file.getOriginalFilename().indexOf("."));
 
-//			Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
-			Files.copy(file.getInputStream(), this.rootLocation.resolve(id+file.getOriginalFilename().substring(file.getOriginalFilename().indexOf("."))));
+			Files.copy(file.getInputStream(), this.rootLocation.resolve(id+ekstenzija));
 			
-			snimiNazivSlike(id, file.getOriginalFilename().substring(file.getOriginalFilename().indexOf(".")));
-			
+			o.setSlikaNaziv(id+ekstenzija);
+			objekatService.save(o);	
 			
 		} catch (Exception e) {
 			throw new RuntimeException("FAIL!");
@@ -70,7 +73,27 @@ public class StorageService {
 	}
  
 	public void deleteAll() {
-		FileSystemUtils.deleteRecursively(rootLocation.toFile());
+		FileSystemUtils.deleteRecursively(rootLocation.toFile());		
+	}
+	
+	public void delete(String filename) {
+				
+		
+		try{
+			File file = new File(filename);	
+			
+    		if(file.delete()){
+    			System.out.println(file.getName() + " is deleted!");
+    		}else{
+    			System.out.println("Delete operation is failed.");
+    		}
+
+    	} catch(Exception e){
+
+    		e.printStackTrace();
+
+    	}
+
 	}
  
 	public void init() {
@@ -79,11 +102,6 @@ public class StorageService {
 		} catch (IOException e) {
 			throw new RuntimeException("Could not initialize storage!");
 		}
-	}
-	
-	private void snimiNazivSlike(Long id, String naziv){
-		Objekat o = objekatService.findById(id);
-		o.setSlikaNaziv(id+naziv);
-		objekatService.save(o);	
-	}
+	}	
+
 }
