@@ -12,49 +12,36 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.isem.mvc.lov.Lov;
-import com.isem.mvc.model.Trafo;
-import com.isem.mvc.service.TrafoService;
-import com.isem.mvc.tab.TrafoView;
+import com.isem.mvc.model.Vodozahvat;
+import com.isem.mvc.service.VodozahvatService;
 
 @RestController
-@RequestMapping("/trafo")
-public class TrafoController {
+@RequestMapping("/vodozahvat")
+public class VodozahvatController {
 	@Autowired
-	private TrafoService service;
+	private VodozahvatService service;
 
 	@RequestMapping(value="/sve", method=RequestMethod.GET)
-	public List<Trafo> getAll() {
+	public List<Vodozahvat> getAll() {
 		return service.findAll();
 	}
 
 	@RequestMapping(value="/sve", params = {"str", "vel"}, method=RequestMethod.GET)
-	public Page<Trafo> getAll(@RequestParam(value = "str") int strana, 
+	public Page<Vodozahvat> getAll(@RequestParam(value = "str") int strana, 
 								@RequestParam(value = "vel") int velicina ) {
 		
 		Pageable pageable = new PageRequest(strana, velicina);
 		
 		return service.findAll(pageable);
 	}
-	
-	@RequestMapping(value = "/sve", params = {"mesto_id"}, method=RequestMethod.GET)
-	public List<Trafo> findTrafoByMesto(@RequestParam(value = "mesto_id") Long mesto_id) {	
-		return service.findTrafoByMesto(mesto_id);
-	}
-	
-	@RequestMapping(value="/tab", method=RequestMethod.GET)
-	public List<TrafoView> getAllView() {
-		return service.findAllView();
-	}
-
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
-	public Trafo findById(@RequestParam("id") Long id){
+	public Vodozahvat findById(@RequestParam("id") Long id){
 		return service.findById(id);
 	}		
 
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
-	public Trafo add(@RequestBody Trafo obj) {
+	public Vodozahvat add(@RequestBody Vodozahvat obj) {
 		
 		return service.save(obj);
 	}
@@ -63,10 +50,4 @@ public class TrafoController {
 	public void delete(@RequestParam("id") Long id) {
 		service.delete(id);
 	}
-	
-	@RequestMapping(value="/lov", params = {"ops_id", "mes_id"}, method=RequestMethod.GET)
-	public List<Lov> getObjekatLov(@RequestParam(value = "ops_id") Long opsId, 
-								   @RequestParam(value = "mes_id") Long mesId) {
-		return service.trafoLov(opsId, mesId);
-	}
-}
+}	

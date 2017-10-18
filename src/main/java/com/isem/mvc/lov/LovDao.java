@@ -194,4 +194,21 @@ public class LovDao {
 		return query.getResultList();
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Lov> trafoLov(Long opsId, Long mesId) {
+		
+		Query query = entityManager.createNativeQuery(
+				"select t.id, t.adresa as name "
+				+ "from trafo t join mesto m on t.mesto_id = m.id "			
+				+ "		join opstina op on m.opstina_id = op.id "		
+				+ "where (op.id = :opsId or :opsId = 0) "
+				+ "		and (m.id = :mesId or :mesId = 0) "
+				,"Lov"
+				).setParameter("opsId", opsId)
+				 .setParameter("mesId", mesId)
+	;
+	
+		return query.getResultList();
+	}
+	
 }

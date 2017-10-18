@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.isem.mvc.dao.TrafoDao;
 import com.isem.mvc.dao.TrafoViewDao;
+import com.isem.mvc.lov.Lov;
+import com.isem.mvc.lov.LovDao;
 import com.isem.mvc.model.Trafo;
 import com.isem.mvc.tab.TrafoView;
 
@@ -19,6 +21,9 @@ public class TrafoService {
 	
 	@Autowired
 	private TrafoViewDao daoView;
+	
+	@Autowired
+	private LovDao lovDao;
 		
 	public Trafo findById (Long id) {
 		return dao.findById(id);
@@ -54,6 +59,10 @@ public class TrafoService {
 
 	public void delete (Long id) {
 		dao.delete(id);
+	}
+	
+	public List<Lov> trafoLov (Long opsId, Long mesId){
+		return lovDao.trafoLov(opsId, mesId);
 	}
 
 }
