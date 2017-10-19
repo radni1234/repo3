@@ -35,6 +35,9 @@ public class Vodozahvat {
     )
 	private Mesto mesto;	
 	
+	@Column(name = "NAPOMENA", length = 1000)
+	private String napomena;
+	
 	@Version
 	@Column(name = "VERSION", columnDefinition = "int(11) default 0")
 	private Integer version;
@@ -77,6 +80,14 @@ public class Vodozahvat {
 
 	public void setMesto(Mesto mesto) {
 		this.mesto = mesto;
+	}	
+
+	public String getNapomena() {
+		return napomena;
+	}
+
+	public void setNapomena(String napomena) {
+		this.napomena = napomena;
 	}
 
 	@Override

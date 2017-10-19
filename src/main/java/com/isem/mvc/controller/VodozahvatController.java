@@ -7,19 +7,25 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isem.mvc.model.Vodozahvat;
+import com.isem.mvc.security.JwtTokenUtil;
 import com.isem.mvc.service.VodozahvatService;
+import com.isem.mvc.tab.VodozahvatView;
 
 @RestController
 @RequestMapping("/vodozahvat")
 public class VodozahvatController {
 	@Autowired
 	private VodozahvatService service;
+	
+	@Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
 	@RequestMapping(value="/sve", method=RequestMethod.GET)
 	public List<Vodozahvat> getAll() {
@@ -34,6 +40,21 @@ public class VodozahvatController {
 		
 		return service.findAll(pageable);
 	}
+	
+	@RequestMapping(value="/tab", method=RequestMethod.GET)
+	public List<VodozahvatView> getAllView(@RequestHeader("Authorization") String user) {
+		return service.findAllView(jwtTokenUtil.vratiKorisnikaIzTokena(user));
+	}
+
+	@RequestMapping(value="/tab", params = {"str", "vel"}, method=RequestMethod.GET)
+	public Page<VodozahvatView> getAllView(@RequestParam(value = "str") int strana, 
+								@RequestParam(value = "vel") int velicina,
+								@RequestHeader("Authorization") String user) {
+		
+		Pageable pageable = new PageRequest(strana, velicina);
+		
+		return service.findAllView(pageable, jwtTokenUtil.vratiKorisnikaIzTokena(user));
+	}	
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
 	public Vodozahvat findById(@RequestParam("id") Long id){
