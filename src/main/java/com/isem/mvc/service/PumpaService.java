@@ -26,7 +26,7 @@ public class PumpaService {
 	
 	public Page<Pumpa> findAll (Pageable pageRequest) {
 		return dao.findAll(pageRequest);
-	}
+	}	
 	
 	public Pumpa save(Pumpa obj) {
 		return dao.save(obj);

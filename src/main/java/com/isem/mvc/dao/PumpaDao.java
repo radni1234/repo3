@@ -17,4 +17,5 @@ public interface PumpaDao extends PagingAndSortingRepository<Pumpa, Long> {
 
 	Page<Pumpa> findAll(Pageable pageRequest);
 
+
 }

@@ -26,6 +26,10 @@ public class RezervoarService {
 	public Page<Rezervoar> findAll (Pageable pageRequest) {
 		return dao.findAll(pageRequest);
 	}
+	
+	public List<Rezervoar> findRezervoarByVodozahvat(Long id){
+		return dao.findRezervoarByVodozahvat(id);
+	}
 
 	public Rezervoar save(Rezervoar obj) {
 		return dao.save(obj);

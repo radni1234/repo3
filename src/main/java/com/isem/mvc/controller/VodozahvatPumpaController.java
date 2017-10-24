@@ -34,6 +34,11 @@ public class VodozahvatPumpaController {
 		
 		return service.findAll(pageable);
 	}
+	
+	@RequestMapping(value = "/sve", params = {"vodozahvat_id"}, method=RequestMethod.GET)
+	public List<VodozahvatPumpa> findPumpaByVodozahvat(@RequestParam(value = "vodozahvat_id") Long id) {	
+		return service.findPumpaByVodozahvat(id);
+	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
 	public VodozahvatPumpa findById(@RequestParam("id") Long id){

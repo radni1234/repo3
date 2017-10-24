@@ -34,6 +34,11 @@ public class RezervoarController {
 		
 		return service.findAll(pageable);
 	}
+	
+	@RequestMapping(value = "/sve", params = {"vodozahvat_id"}, method=RequestMethod.GET)
+	public List<Rezervoar> findRezervoarByVodozahvat(@RequestParam(value = "vodozahvat_id") Long id) {	
+		return service.findRezervoarByVodozahvat(id);
+	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
 	public Rezervoar findById(@RequestParam("id") Long id){

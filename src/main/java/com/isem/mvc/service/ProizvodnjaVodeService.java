@@ -26,6 +26,10 @@ public class ProizvodnjaVodeService {
 	public Page<ProizvodnjaVode> findAll (Pageable pageRequest) {
 		return dao.findAll(pageRequest);
 	}
+	
+	public List<ProizvodnjaVode> findProizvodnjaVodeByVodozahvat(Long id){
+		return dao.findProizvodnjaVodeByVodozahvat(id);
+	}
 
 	public ProizvodnjaVode save(ProizvodnjaVode obj) {
 		return dao.save(obj);

@@ -26,6 +26,10 @@ public class VodozahvatPumpaService {
 	public Page<VodozahvatPumpa> findAll (Pageable pageRequest) {
 		return dao.findAll(pageRequest);
 	}
+	
+	public List<VodozahvatPumpa> findPumpaByVodozahvat(Long id){
+		return dao.findPumpaByVodozahvat(id);
+	}
 
 	public VodozahvatPumpa save(VodozahvatPumpa obj) {
 		return dao.save(obj);

@@ -34,7 +34,7 @@ public class PumpaController {
 		
 		return service.findAll(pageable);
 	}
-
+	
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
 	public Pumpa findById(@RequestParam("id") Long id){
 		return service.findById(id);
