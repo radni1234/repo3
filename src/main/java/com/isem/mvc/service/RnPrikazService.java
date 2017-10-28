@@ -20,4 +20,8 @@ public class RnPrikazService {
 	public List<RnPrikaz> rnPrikazKotlarnica (String kot_id) {
 		return dao.rnPrikazKotlarnica(kot_id);
 	}
+	
+	public List<RnPrikaz> rnPrikazVodozahvat (String vod_id) {
+		return dao.rnPrikazVodozahvat(vod_id);
+	}
 }

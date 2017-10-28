@@ -44,6 +44,18 @@ public class RnPrikazDao {
         return generisiPrikaz(rows);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<RnPrikaz> rnPrikazVodozahvat(String vod_id) {
+		StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("rn_prikaz_vodozahvat")
+                .registerStoredProcedureParameter(0 , String.class , ParameterMode.IN);
+         
+        storedProcedure .setParameter(0, vod_id);
+         
+        List<Object[]> rows = storedProcedure.getResultList();
+        
+        return generisiPrikaz(rows);
+	}
+	
 	
 	private List<RnPrikaz> generisiPrikaz(List<Object[]> rows){
 		List<RnPrikaz> result = new ArrayList<>(rows.size());
