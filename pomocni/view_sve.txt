@@ -581,3 +581,31 @@ VIEW `korisnik_meni_view` AS
         left join `javno_preduzece` `jp` ON ((`v`.`javno_preduzece_id` = `jp`.`id`)))
         left join `mesto` `m` ON ((`jp`.`mesto_id` = `m`.`id`)))
         left join `opstina` `o` ON ((`m`.`opstina_id` = `o`.`id`)));
+        
+        
+        
+ CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `brojilo_vodozahvat_view` AS
+    select 
+        `brojilo_vodozahvat`.`id` AS `id`,
+        `brojilo_vodozahvat`.`sifra_brojila` AS `sifra_brojila`,
+        `brojilo_vodozahvat`.`opis` AS `opis`,
+        `vodozahvat`.`id` AS `vodozahvat_id`,
+        `vodozahvat`.`naziv` AS `vodozahvat`,
+        `brojilo_tip`.`naziv` AS `brojilo_tip`,
+        `brojilo_vrsta`.`naziv` AS `brojilo_vrsta`,
+        `rezim_merenja`.`naziv` AS `rezim_merenja`,
+        `brojilo_2`.`sifra_brojila` AS `vodece_brojilo`,
+        `brojilo_vodozahvat`.`procenat` AS `procenat`,
+        `brojilo_vodozahvat`.`obracunski_period` AS `obracunski_period`,
+        `brojilo_vodozahvat`.`automatski` AS `automatski`
+    from
+        (((((`brojilo_vodozahvat`
+        left join `vodozahvat` ON ((`brojilo_vodozahvat`.`vodozahvat_id` = `vodozahvat`.`id`)))
+        left join `brojilo_tip` ON ((`brojilo_vodozahvat`.`brojilo_tip_id` = `brojilo_tip`.`id`)))
+        left join `brojilo_vrsta` ON ((`brojilo_vodozahvat`.`brojilo_vrsta_id` = `brojilo_vrsta`.`id`)))
+        left join `rezim_merenja` ON ((`brojilo_vodozahvat`.`rezim_merenja_id` = `rezim_merenja`.`id`)))
+        left join `brojilo_vodozahvat` `brojilo_2` ON ((`brojilo_vodozahvat`.`vodece_brojilo_id` = `brojilo_2`.`id`)));

@@ -47,7 +47,7 @@ public class BrojiloKotlarnicaController {
 	}
 	
 	@RequestMapping(value="/tab", params = {"kotlarnica_id"}, method=RequestMethod.GET)
-	public List<BrojiloKotlarnicaView> findBrojiloViewByObjekat(@RequestParam(value = "kotlarnica_id") Long kotlarnica_id) {		
+	public List<BrojiloKotlarnicaView> findBrojiloViewByKotlarnica(@RequestParam(value = "kotlarnica_id") Long kotlarnica_id) {		
 		return service.findBrojiloViewByKotlarnica(kotlarnica_id);
 	}
 

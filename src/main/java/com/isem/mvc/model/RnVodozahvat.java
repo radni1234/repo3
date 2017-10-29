@@ -229,11 +229,11 @@ public class RnVodozahvat {
 		this.rnStavke = rnStavke;
 	}
 
-	public BrojiloVodozahvat getBrojilVodozahvat() {
+	public BrojiloVodozahvat getBrojiloVodozahvat() {
 		return brojiloVodozahvat;
 	}
 
-	public void setBrojilVodozahvat(BrojiloVodozahvat brojiloVodozahvat) {
+	public void setBrojiloVodozahvat(BrojiloVodozahvat brojiloVodozahvat) {
 		this.brojiloVodozahvat = brojiloVodozahvat;
 	}
 	

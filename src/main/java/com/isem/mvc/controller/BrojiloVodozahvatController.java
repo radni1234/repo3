@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isem.mvc.model.BrojiloVodozahvat;
 import com.isem.mvc.service.BrojiloVodozahvatService;
+import com.isem.mvc.tab.BrojiloVodozahvatView;
 
 @RestController
 @RequestMapping("/brojilo_vodozahvat")
@@ -33,6 +34,21 @@ public class BrojiloVodozahvatController {
 		Pageable pageable = new PageRequest(strana, velicina);
 		
 		return service.findAll(pageable);
+	}
+	
+	@RequestMapping(value = "/sve", params = {"vodozahvat_id"}, method=RequestMethod.GET)
+	public List<BrojiloVodozahvat> getAllBrojiloByVodozahvat(@RequestParam(value = "vodozahvat_id") Long vod_id) {	
+		return service.findBrojiloByVodozahvat(vod_id);
+	}
+	
+	@RequestMapping(value="/tab", method=RequestMethod.GET)
+	public List<BrojiloVodozahvatView> getAllView() {
+		return service.findAllView();
+	}
+	
+	@RequestMapping(value="/tab", params = {"vodozahvat_id"}, method=RequestMethod.GET)
+	public List<BrojiloVodozahvatView> findBrojiloViewByVodozahvat(@RequestParam(value = "vodozahvat_id") Long vodozahvat_id) {		
+		return service.findBrojiloViewByVodozahvat(vodozahvat_id);
 	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
