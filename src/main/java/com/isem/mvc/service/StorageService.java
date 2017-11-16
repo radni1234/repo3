@@ -18,40 +18,57 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.isem.mvc.controller.ObjekatController;
 import com.isem.mvc.model.Objekat;
+import com.isem.mvc.model.ObjekatDokument;
  
 @Service
 public class StorageService {
-	@Autowired
-	ObjekatController objekatController;
+
 	
 	@Autowired
 	ObjekatService objekatService;
+	
+	@Autowired
+	ObjekatDokumentService objekatDokumentService;
 	
 	Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	private final Log logger = LogFactory.getLog(this.getClass());
 	private final Path rootLocation = Paths.get("upload-dir");
 	
  
-	public void store(MultipartFile file, Long id) {
+	public void store(MultipartFile file, Long tip, Long id) {
 		try {
 			logger.info("upload service!!!");			
 						
 			Objekat o = objekatService.findById(id);
 			
-			if (o.getSlikaNaziv() != null){
-		
-				delete(rootLocation.resolve(o.getSlikaNaziv()).toString());
+			if (tip == 1){
+			
+				if (o.getSlikaNaziv() != null){
+			
+					delete(rootLocation.resolve(o.getSlikaNaziv()).toString());
+					
+				}
+				
+				String ekstenzija = file.getOriginalFilename().substring(file.getOriginalFilename().indexOf("."));
+	
+				Files.copy(file.getInputStream(), this.rootLocation.resolve(id+ekstenzija));
+				
+				o.setSlikaNaziv(id+ekstenzija);
+				objekatService.save(o);	
+				
+			} else if (tip == 2){
+				
+				String naziv = file.getOriginalFilename();
+				Files.copy(file.getInputStream(), this.rootLocation.resolve(naziv));
+				
+				ObjekatDokument od = new ObjekatDokument();
+				od.setDokument(naziv);
+				od.setObjekat(o);
+				
+				objekatDokumentService.save(od);
 				
 			}
-			
-			String ekstenzija = file.getOriginalFilename().substring(file.getOriginalFilename().indexOf("."));
-
-			Files.copy(file.getInputStream(), this.rootLocation.resolve(id+ekstenzija));
-			
-			o.setSlikaNaziv(id+ekstenzija);
-			objekatService.save(o);	
 			
 		} catch (Exception e) {
 			throw new RuntimeException("FAIL!");

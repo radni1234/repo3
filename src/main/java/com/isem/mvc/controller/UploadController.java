@@ -36,12 +36,13 @@ public class UploadController {
  
 	@PostMapping("/post")
 	public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file,
+													@RequestParam("tip") Long tip,
 													@RequestParam("id") Long id) {
 		logger.info("upload controller!!!");
 		
 		String message = "";
 		try {
-			storageService.store(file, id);
+			storageService.store(file, tip, id);
 			files.add(file.getOriginalFilename());
  
 			message = "You successfully uploaded " + file.getOriginalFilename() + "!";
