@@ -18,6 +18,10 @@ public class ObjekatDokumentService {
 	public ObjekatDokument findById (Long id) {
 		return dao.findById(id);
 	}
+	
+	public ObjekatDokument findByDokument (String dokument) {
+		return dao.findByDokument(dokument);
+	}
 
 	public List<ObjekatDokument> findAll () {
 		return dao.findAll();
@@ -37,6 +41,10 @@ public class ObjekatDokumentService {
 
 	public void delete (Long id) {
 		dao.delete(id);
+	}
+	
+	public void deleteByDokument (String dokument) {
+		dao.deleteByDokument(dokument);
 	}
 
 }

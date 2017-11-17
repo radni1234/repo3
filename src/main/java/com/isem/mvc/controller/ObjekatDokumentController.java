@@ -44,6 +44,11 @@ public class ObjekatDokumentController {
 	public ObjekatDokument findById(@RequestParam("id") Long id){
 		return service.findById(id);
 	}		
+	
+	@RequestMapping(value="/jedan", params = {"dokument"}, method=RequestMethod.GET)
+	public ObjekatDokument findByDokument(@RequestParam("dokument") String dokument){
+		return service.findByDokument(dokument);
+	}		
 
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
 	public ObjekatDokument add(@RequestBody ObjekatDokument obj) {

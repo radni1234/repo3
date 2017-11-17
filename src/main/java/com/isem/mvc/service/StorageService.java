@@ -60,7 +60,6 @@ public class StorageService {
 			} else if (tip == 2){
 				
 				String naziv = file.getOriginalFilename();
-				Files.copy(file.getInputStream(), this.rootLocation.resolve(naziv));
 				
 				ObjekatDokument od = new ObjekatDokument();
 				od.setDokument(naziv);
@@ -68,6 +67,12 @@ public class StorageService {
 				
 				objekatDokumentService.save(od);
 				
+				ObjekatDokument od2 = new ObjekatDokument();
+				od2 = objekatDokumentService.findByDokument(naziv);
+				
+				Files.copy(file.getInputStream(), this.rootLocation.resolve(od2.getId()+"."+naziv));
+				
+								
 			}
 			
 		} catch (Exception e) {
@@ -77,7 +82,10 @@ public class StorageService {
  
 	public Resource loadFile(String filename) {
 		try {
-			Path file = rootLocation.resolve(filename);
+			ObjekatDokument od = new ObjekatDokument();
+			od = objekatDokumentService.findByDokument(filename);
+			
+			Path file = rootLocation.resolve(od.getId() + "." + filename);
 			Resource resource = new UrlResource(file.toUri());
 			if (resource.exists() || resource.isReadable()) {
 				return resource;
@@ -93,17 +101,26 @@ public class StorageService {
 		FileSystemUtils.deleteRecursively(rootLocation.toFile());		
 	}
 	
-	public void delete(String filename) {
+	public void delete(String naziv) {
 				
 		
 		try{
-			File file = new File(filename);	
+			ObjekatDokument od = new ObjekatDokument();
+			od = objekatDokumentService.findByDokument(naziv);
+			
+			File file = new File(rootLocation.toString() + "/" + od.getId() + "." + naziv);
+			
+			logger.info("upload service file!!!");		
+			logger.info(file);		
 			
     		if(file.delete()){
     			System.out.println(file.getName() + " is deleted!");
     		}else{
     			System.out.println("Delete operation is failed.");
     		}
+    		
+    				
+			objekatDokumentService.deleteByDokument(naziv);
 
     	} catch(Exception e){
 
