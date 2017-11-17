@@ -32,6 +32,7 @@ public class ObjekatDokument {
 	public Long getId() {
 		return id;
 	}
+	
 
 	public Objekat getObjekat() {
 		return objekat;
