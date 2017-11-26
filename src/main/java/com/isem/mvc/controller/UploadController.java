@@ -61,6 +61,22 @@ public class UploadController {
 //		return ResponseEntity.ok().body(fileNames);
 //	}
 // 
+	
+	@GetMapping("/files/slika/{filename:.+}")
+	@ResponseBody
+	public ResponseEntity<Resource> getSliku(@PathVariable String filename) {
+		try {
+			Resource file = storageService.loadSliku(filename);
+			return ResponseEntity.ok()
+					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+					.body(file);
+		} catch (Exception e) {
+			
+			logger.info(e);
+	  		 return new ResponseEntity<Resource>(null, null, HttpStatus.NO_CONTENT);
+		}	
+	}
+	
 	@GetMapping("/files/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> getFile(@PathVariable String filename) {

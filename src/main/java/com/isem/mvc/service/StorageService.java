@@ -46,7 +46,7 @@ public class StorageService {
 			
 				if (o.getSlikaNaziv() != null){
 			
-					delete(rootLocation.resolve(o.getSlikaNaziv()).toString());
+					deleteSliku(rootLocation.resolve(o.getSlikaNaziv()).toString());
 					
 				}
 				
@@ -79,6 +79,21 @@ public class StorageService {
 			throw new RuntimeException("FAIL!");
 		}
 	}
+	
+	public Resource loadSliku(String filename) {
+		try {
+			
+			Path file = rootLocation.resolve(filename);
+			Resource resource = new UrlResource(file.toUri());
+			if (resource.exists() || resource.isReadable()) {
+				return resource;
+			} else {
+				throw new RuntimeException("FAIL!");
+			}
+		} catch (MalformedURLException e) {
+			throw new RuntimeException("FAIL!");
+		}
+	}
  
 	public Resource loadFile(String filename) {
 		try {
@@ -99,6 +114,30 @@ public class StorageService {
  
 	public void deleteAll() {
 		FileSystemUtils.deleteRecursively(rootLocation.toFile());		
+	}
+	
+	public void deleteSliku(String naziv) {				
+		
+		try{
+			
+			File file = new File(naziv);
+			
+			logger.info("delete sliku!!!");		
+			logger.info(file);		
+			
+    		if(file.delete()){
+    			System.out.println(file.getName() + " is deleted!");
+    		}else{
+    			System.out.println("Delete operation is failed.");
+    		}
+
+
+    	} catch(Exception e){
+
+    		e.printStackTrace();
+
+    	}
+
 	}
 	
 	public void delete(String naziv) {
