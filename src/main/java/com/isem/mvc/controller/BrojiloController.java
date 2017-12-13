@@ -41,6 +41,12 @@ public class BrojiloController {
 		return service.findBrojiloByObjekat(obj_id);
 	}
 	
+	@RequestMapping(value = "/sve", params = {"obj_id", "ene_tip_id"}, method=RequestMethod.GET)
+	public List<Brojilo> getAllBrojiloByObjekatEnergentTip(@RequestParam(value = "obj_id") Long obj_id,
+												@RequestParam(value = "ene_tip_id") Long ene_tip_id) {	
+		return service.findBrojiloByObjekatEnergentTip(obj_id, ene_tip_id);
+	}
+	
 	@RequestMapping(value="/tab", method=RequestMethod.GET)
 	public List<BrojiloView> getAllView() {
 		return service.findAllView();

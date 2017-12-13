@@ -27,6 +27,10 @@ public class BrojiloService {
 	public List<Brojilo> findBrojiloByObjekat(Long id){
 		return dao.findBrojiloByObjekat(id);
 	}
+	
+	public List<Brojilo> findBrojiloByObjekatEnergentTip(Long obj_id, Long ene_tip_id){
+		return dao.findBrojiloByObjekatEnergentTip(obj_id, ene_tip_id);
+	}
 
 	public List<Brojilo> findAll () {
 		return dao.findAll();

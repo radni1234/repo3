@@ -21,4 +21,7 @@ public interface BrojiloDao extends PagingAndSortingRepository<Brojilo, Long> {
 	
 	@Query("SELECT b FROM Brojilo b where b.objekat.id = :id")
     public List<Brojilo> findBrojiloByObjekat(@Param("id") Long id);
+	
+	@Query("SELECT b FROM Brojilo b where b.objekat.id = :obj_id and b.brojiloVrsta.energentTip.id = :ene_tip_id" )
+    public List<Brojilo> findBrojiloByObjekatEnergentTip(@Param("obj_id") Long obj_id, @Param("ene_tip_id") Long ene_tip_id);
 }
