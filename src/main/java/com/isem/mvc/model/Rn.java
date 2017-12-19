@@ -88,6 +88,9 @@ public class Rn {
 	@Column(name = "STARI_ID")
 	private Long stariId;
 	
+	@Column(name = "TREND_ISKLJUCITI")
+	private Boolean trendIskljuciti;
+	
 	@Version
 	@Column(name = "VERSION", columnDefinition = "int(11) default 0")
 	private Integer version;
@@ -236,5 +239,14 @@ public class Rn {
 	public void setRnStavke(List<RnStavke> rnStavke) {
 		this.rnStavke = rnStavke;
 	}
+
+	public Boolean getTrendIskljuciti() {
+		return trendIskljuciti;
+	}
+
+	public void setTrendIskljuciti(Boolean trendIskljuciti) {
+		this.trendIskljuciti = trendIskljuciti;
+	}
+	
 	
 }

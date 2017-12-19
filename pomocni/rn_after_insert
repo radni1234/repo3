@@ -1,0 +1,157 @@
+USE `heroku_75858eca71cd74b`;
+DELIMITER $$
+
+CREATE TRIGGER `rn_AFTER_INSERT` AFTER INSERT ON rn FOR EACH ROW
+-- Edit trigger body code below this line. Do not edit lines above this one
+BEGIN
+	DECLARE p_kwh_jm, p_emisija, p_primarna_ene, p_finalna_ene DOUBLE;
+      DECLARE p_grej_po_korisna, p_grej_za, p_op_br_kor DOUBLE;
+      DECLARE p_koef DOUBLE;
+      DECLARE p_id BIGINT(20);   
+      DECLARE done BOOLEAN;
+      
+      DECLARE cur CURSOR FOR SELECT id FROM brojilo_koef_v WHERE vodece_brojilo_id = NEW.brojilo_id;
+	  DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+      
+      -- koeficijenti za energent --
+      select kwh_jm, emisija, primarna_energija, finalna_energija
+      into p_kwh_jm, p_emisija, p_primarna_ene, p_finalna_ene
+      from energent
+      where id = NEW.`energent_id`;
+      
+      
+      -- glavno brojilo --           
+      select grej_po_korisna, grej_za, op_br_kor
+      into p_grej_po_korisna, p_grej_za, p_op_br_kor
+      from objekat o, brojilo b
+      where o.id = b.objekat_id
+			and b.id = NEW.`brojilo_id`;
+            
+	  select koef into p_koef
+      from brojilo_koef_v
+      where id = NEW.`brojilo_id`;
+	
+      INSERT INTO rn_bilans(`rn_id`,
+						  `datumr`,
+						  `brojilo_id`,
+						  `dobavljac_id`,
+						  `energent_id`, 
+						  `rn_tip_id`,
+						  `iznos`,
+                          `iznos_pov`,
+                          `iznos_zap`,
+                          `iznos_kor`,
+						  `kolicina`,
+                          `kolicina_pov`,
+						  `kolicina_zap`,
+						  `kolicina_kor`,
+						  `kolicina_kwh`,
+						  `kolicina_kwh_pov`,
+						  `kolicina_kwh_zap`,
+						  `kolicina_kwh_kor`,
+						  `kolicina_fin_ene`,
+						  `kolicina_prim_ene`,
+						  `emisija_co2`,
+                          `emisija_co2_pov`,
+                          `emisija_co2_zap`,
+                          `emisija_co2_kor`,
+                          `trend_iskljuciti`
+                          )
+		VALUES(NEW.`id`,
+			  NEW.`datumr`,
+			  NEW.`brojilo_id`,
+			  NEW.`dobavljac_id`,
+			  NEW.`energent_id`, 
+			  NEW.`rn_tip_id`,
+			  NEW.`iznos` * p_koef,
+              NEW.`iznos` / p_grej_po_korisna * p_koef,
+              NEW.`iznos` / p_grej_za * p_koef,
+              NEW.`iznos` / p_op_br_kor * p_koef,
+			  NEW.`kolicina` * p_koef,
+              NEW.`kolicina` / p_grej_po_korisna * p_koef,
+              NEW.`kolicina` / p_grej_za * p_koef,
+              NEW.`kolicina` / p_op_br_kor * p_koef,
+			  NEW.`kolicina` * p_kwh_jm * p_koef,
+			  NEW.`kolicina` * p_kwh_jm / p_grej_po_korisna * p_koef,
+			  NEW.`kolicina` * p_kwh_jm / p_grej_za * p_koef,
+			  NEW.`kolicina` * p_kwh_jm / p_op_br_kor * p_koef,
+			  NEW.`kolicina` * p_finalna_ene * p_koef,
+			  NEW.`kolicina` * p_primarna_ene * p_koef,
+			  NEW.`kolicina` * p_emisija * p_koef,
+              NEW.`kolicina` * p_emisija / p_grej_po_korisna * p_koef,
+              NEW.`kolicina` * p_emisija / p_grej_za * p_koef,
+              NEW.`kolicina` * p_emisija / p_op_br_kor * p_koef,
+              NEW.`trend_iskljuciti`);
+              
+		-- virtuelna brojila --        
+        OPEN cur;
+        ins_loop: LOOP
+            FETCH cur INTO p_id;
+            IF done THEN
+                LEAVE ins_loop;
+            END IF;
+            
+            select grej_po_korisna, grej_za, op_br_kor
+		    into p_grej_po_korisna, p_grej_za, p_op_br_kor
+		    from objekat o, brojilo b
+		    where o.id = b.objekat_id
+				 and b.id = p_id;
+				
+		    select koef into p_koef
+		    from brojilo_koef_v
+		    where id = p_id;
+            
+            INSERT INTO rn_bilans(`rn_id`,
+						  `datumr`,
+						  `brojilo_id`,
+						  `dobavljac_id`,
+						  `energent_id`, 
+						  `rn_tip_id`,
+						  `iznos`,
+                          `iznos_pov`,
+                          `iznos_zap`,
+                          `iznos_kor`,
+						  `kolicina`,
+                          `kolicina_pov`,
+						  `kolicina_zap`,
+						  `kolicina_kor`,
+						  `kolicina_kwh`,
+						  `kolicina_kwh_pov`,
+						  `kolicina_kwh_zap`,
+						  `kolicina_kwh_kor`,
+						  `kolicina_fin_ene`,
+						  `kolicina_prim_ene`,
+						  `emisija_co2`,
+                          `emisija_co2_pov`,
+                          `emisija_co2_zap`,
+                          `emisija_co2_kor`,
+                          `trend_iskljuciti`)
+		VALUES(NEW.`id`,
+			  NEW.`datumr`,
+			  NEW.`brojilo_id`,
+			  NEW.`dobavljac_id`,
+			  NEW.`energent_id`, 
+			  NEW.`rn_tip_id`,
+			  NEW.`iznos` * p_koef,
+              NEW.`iznos` / p_grej_po_korisna * p_koef,
+              NEW.`iznos` / p_grej_za * p_koef,
+              NEW.`iznos` / p_op_br_kor * p_koef,
+			  NEW.`kolicina` * p_koef,
+              NEW.`kolicina` / p_grej_po_korisna * p_koef,
+              NEW.`kolicina` / p_grej_za * p_koef,
+              NEW.`kolicina` / p_op_br_kor * p_koef,
+			  NEW.`kolicina` * p_kwh_jm * p_koef,
+			  NEW.`kolicina` * p_kwh_jm / p_grej_po_korisna * p_koef,
+			  NEW.`kolicina` * p_kwh_jm / p_grej_za * p_koef,
+			  NEW.`kolicina` * p_kwh_jm / p_op_br_kor * p_koef,
+			  NEW.`kolicina` * p_finalna_ene * p_koef,
+			  NEW.`kolicina` * p_primarna_ene * p_koef,
+			  NEW.`kolicina` * p_emisija * p_koef,
+              NEW.`kolicina` * p_emisija / p_grej_po_korisna * p_koef,
+              NEW.`kolicina` * p_emisija / p_grej_za * p_koef,
+              NEW.`kolicina` * p_emisija / p_op_br_kor * p_koef,
+              NEW.`trend_iskljuciti`);            
+            
+        END LOOP;
+		CLOSE cur;
+END
