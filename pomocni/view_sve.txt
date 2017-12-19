@@ -157,7 +157,8 @@ VIEW `energent_view` AS
         `t`.`naziv` AS `energent_tip`,
         `j`.`naziv` AS `jed_mere`,
         `e`.`primarna_energija` AS `primarna_energija`,
-        `e`.`finalna_energija` AS `finalna_energija`
+        `e`.`finalna_energija` AS `finalna_energija`,
+        `e`.`vozilo` AS `vozilo`
     FROM
         ((`energent` `e`
         LEFT JOIN `energent_tip` `t` ON ((`e`.`energent_tip_id` = `t`.`id`)))

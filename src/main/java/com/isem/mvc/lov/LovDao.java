@@ -122,6 +122,15 @@ public class LovDao {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public List<Lov> energentVoziloLov() {
+		Query query = entityManager.createNativeQuery(
+				"select id, naziv as name from energent where vozilo = 1 order by naziv",
+					"Lov");
+	
+		return query.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<Lov> energentTipLov() {
 		Query query = entityManager.createNativeQuery(
 				    "SELECT id, naziv as name from energent_tip order by naziv",

@@ -57,7 +57,10 @@ public class Energent {
 	private Double sifra;
 	
 	@Column(name = "RACUN", length = 1)
-	private String racun;
+	private Boolean racun;
+	
+	@Column(name = "VOZILO")
+	private Boolean vozilo;
 
 	@Version
 	@Column(name = "VERSION", columnDefinition = "int(11) default 0")
@@ -100,7 +103,7 @@ public class Energent {
 		return sifra;
 	}
 
-	public String getRacun() {
+	public Boolean getRacun() {
 		return racun;
 	}
 
@@ -140,8 +143,16 @@ public class Energent {
 		this.sifra = sifra;
 	}
 
-	public void setRacun(String racun) {
+	public void setRacun(Boolean racun) {
 		this.racun = racun;
+	}	
+
+	public Boolean getVozilo() {
+		return vozilo;
+	}
+
+	public void setVozilo(Boolean vozilo) {
+		this.vozilo = vozilo;
 	}
 
 	@Override

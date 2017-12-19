@@ -77,6 +77,11 @@ public class EnergentController {
 	public List<Lov> energentLov(@RequestParam(value = "obj_id") Long objId) {
 		return service.energentLov(objId);
 	}
+	
+	@RequestMapping(value="/lov_vozilo", method=RequestMethod.GET)
+	public List<Lov> energentVoziloLov() {
+		return service.energentVoziloLov();
+	}
 
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
 	public Energent add(@RequestBody Energent obj) {

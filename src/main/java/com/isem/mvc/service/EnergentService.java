@@ -64,6 +64,10 @@ public class EnergentService {
 	public List<Lov> energentLov (Long objId) {
 		return daoLov.energentLov(objId);
 	}
+	
+	public List<Lov> energentVoziloLov () {
+		return daoLov.energentVoziloLov();
+	}
 
 	public Energent save(Energent obj) {
 		return dao.save(obj);
