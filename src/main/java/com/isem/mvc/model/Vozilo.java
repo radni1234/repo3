@@ -51,8 +51,11 @@ public class Vozilo {
 	@Column(name = "KUBIKAZA", columnDefinition = "int(10)")
 	private Integer kubikaza;
 	
-	@Column(name = "EMISIONA_KLASA", length = 100)
-	private String emisiona_klasa;
+	@ManyToOne
+    @JoinColumn(name = "VOZILO_EMISIONA_KLASA_ID",
+            foreignKey = @ForeignKey(name = "VOZILO_FK3")
+    )
+	private VoziloEmisionaKlasa voziloEmisionaKlasa;
 	
 	@Column(name = "REGISTRACIJA", length = 50)
 	private String registracija;
@@ -89,9 +92,6 @@ public class Vozilo {
 		return kubikaza;
 	}
 
-	public String getEmisiona_klasa() {
-		return emisiona_klasa;
-	}
 
 	public Integer getVersion() {
 		return version;
@@ -121,9 +121,6 @@ public class Vozilo {
 		this.kubikaza = kubikaza;
 	}
 
-	public void setEmisiona_klasa(String emisiona_klasa) {
-		this.emisiona_klasa = emisiona_klasa;
-	}	
 
 	public Set<Energent> getEnergenti() {
 		return energenti;
@@ -141,12 +138,12 @@ public class Vozilo {
 		this.registracija = registracija;
 	}
 
-	@Override
-	public String toString() {
-		return "Vozilo [id=" + id + ", javnoPreduzece=" + javnoPreduzece + ", kategorijaVozila=" + kategorijaVozila
-				+ ", energenti=" + energenti + ", godiste=" + godiste + ", marka=" + marka + ", model=" + model
-				+ ", kubikaza=" + kubikaza + ", emisiona_klasa=" + emisiona_klasa + ", registracija=" + registracija
-				+ ", version=" + version + "]";
+	public VoziloEmisionaKlasa getVoziloEmisionaKlasa() {
+		return voziloEmisionaKlasa;
+	}
+
+	public void setVoziloEmisionaKlasa(VoziloEmisionaKlasa voziloEmisionaKlasa) {
+		this.voziloEmisionaKlasa = voziloEmisionaKlasa;
 	}
 	
 

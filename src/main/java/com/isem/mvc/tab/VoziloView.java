@@ -16,7 +16,7 @@ public class VoziloView {
 	private String marka;
 	private String model;
 	private Integer kubikaza;
-	private String emisiona_klasa;
+	private String emisionaKlasa;
 	
 	public Long getId() {
 		return id;
@@ -45,8 +45,8 @@ public class VoziloView {
 	public Integer getKubikaza() {
 		return kubikaza;
 	}
-	public String getEmisiona_klasa() {
-		return emisiona_klasa;
+	public String getEmisionaKlasa() {
+		return emisionaKlasa;
 	}
 	public String getRegistracija() {
 		return registracija;
