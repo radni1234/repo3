@@ -37,8 +37,26 @@ public interface KorisnikDao extends PagingAndSortingRepository<User, Long>{
 	 				+ " and (select a.id from User u inner join u.authorities a where u.id = "
 		 	 		+ "(select u.id from User u where username like :user)) in (2)) "
 			+ "or ((select a.id from User u inner join u.authorities a where u.id = "
-				+ "(select u.id from User u where username like :user)) in (1))" )
+				+ "(select u.id from User u where username like :user)) in (1) )" )
 	Page<User> findAll(Pageable pageRequest, @Param("user") String user);	
+	
+	@Query("SELECT u FROM User u JOIN u.authorities a "
+			+ "where a.id = 3 and u.alarmRacunStart <= current_date()")
+	List<User> korisnikAlarm();
+	
+	@Query("SELECT u FROM User u JOIN u.authorities a "
+			+ "where a.id in (1,2) and u.alarmRacunStart <= current_date()")
+	List<User> menadzerAlarm();
+	
+	@Query("SELECT u FROM User u JOIN u.authorities a "
+			+ "where a.id = 3 "
+			+ " and u.alarmRacunStart <= current_date() "
+			+ " and u.mesto in "
+			+ "(select m2 from Mesto m2 where m2.opstina = "
+			+ "(select m.opstina from Mesto m where m = "
+				+ "(select u.mesto from User u where username like :user))) "
+			)
+	List<User> menadzerKorisnikAlarm(@Param("user") String user);
 
 }
 

@@ -23,6 +23,8 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.isem.mvc.model.JavnoPreduzece;
 import com.isem.mvc.model.Mesto;
 import com.isem.mvc.model.Objekat;
@@ -44,6 +46,7 @@ public class User {
     @Column(name = "PASSWORD", length = 100)
     @NotNull
     @Size(min = 4, max = 100)
+    @JsonIgnore
     private String password;
 
 //    @Column(name = "FIRSTNAME", length = 50)
@@ -169,11 +172,13 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
-
+    
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
-
+    
+    @JsonProperty
     public void setPassword(String password) {
         this.password = password;
     }
@@ -325,12 +330,12 @@ public class User {
 	public void setAlarmTrendStart(Date alarmTrendStart) {
 		this.alarmTrendStart = alarmTrendStart;
 	}
-
-    public Date getLastPasswordResetDate() {
+	
+	public Date getLastPasswordResetDate() {
         return lastPasswordResetDate;
     }
-
-    public void setLastPasswordResetDate(Date lastPasswordResetDate) {
+	
+	public void setLastPasswordResetDate(Date lastPasswordResetDate) {
         this.lastPasswordResetDate = lastPasswordResetDate;
     }
 

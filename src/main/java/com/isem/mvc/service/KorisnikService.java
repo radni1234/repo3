@@ -45,6 +45,18 @@ public class KorisnikService {
 		return korisnikDao.findAll(pageRequest, user);
 	}
 	
+	public List<User> korisnikAlarm () {
+		return korisnikDao.korisnikAlarm();
+	}
+	
+	public List<User> menadzerAlarm () {
+		return korisnikDao.menadzerAlarm();
+	}
+	
+	public List<User> menadzerKorisnikAlarm (String menadzer) {
+		return korisnikDao.menadzerKorisnikAlarm(menadzer);
+	}
+	
 	public List<KorisnikView> findAllView(String user){
 		return korisnikViewDao.findAll(user);
 	};

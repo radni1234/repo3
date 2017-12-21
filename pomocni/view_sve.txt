@@ -508,10 +508,10 @@ CREATE
     DEFINER = `root`@`localhost` 
     SQL SECURITY DEFINER
 VIEW `vozilo_view` AS
-    select 
+    SELECT 
         `v`.`id` AS `id`,
         `v`.`registracija` AS `registracija`,
-        `v`.`emisiona_klasa` AS `emisiona_klasa`,
+        `e`.`naziv` AS `emisiona_klasa`,
         `v`.`godiste` AS `godiste`,
         `v`.`kubikaza` AS `kubikaza`,
         `v`.`marka` AS `marka`,
@@ -520,10 +520,11 @@ VIEW `vozilo_view` AS
         `j`.`naziv` AS `javno_preduzece`,
         `v`.`kategorija_vozila_id` AS `kategorija_vozila_id`,
         `k`.`naziv` AS `kategorija_vozila`
-    from
-        ((`vozilo` `v`
-        left join `javno_preduzece` `j` ON ((`v`.`javno_preduzece_id` = `j`.`id`)))
-        left join `kategorija_vozila` `k` ON ((`v`.`kategorija_vozila_id` = `k`.`id`)));
+    FROM
+        (((`vozilo` `v`
+        LEFT JOIN `javno_preduzece` `j` ON ((`v`.`javno_preduzece_id` = `j`.`id`)))
+        LEFT JOIN `kategorija_vozila` `k` ON ((`v`.`kategorija_vozila_id` = `k`.`id`)))
+        LEFT JOIN `vozilo_emisiona_klasa` `e` ON ((`v`.`vozilo_emisiona_klasa_id` = `e`.`id`)));
         
         
  

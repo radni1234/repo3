@@ -65,6 +65,21 @@ public class KorisnikController {
 		
 		return service.findAllView(pageable, jwtTokenUtil.vratiKorisnikaIzTokena(user));
 	}
+	
+	@RequestMapping(value="/alarm", method=RequestMethod.GET)
+	public List<User> korisnikAlarm() {
+		return service.korisnikAlarm();
+	}
+	
+	@RequestMapping(value="/alarm_ma", method=RequestMethod.GET)
+	public List<User> menadzerAlarm() {
+		return service.menadzerAlarm();
+	}
+	
+	@RequestMapping(value="/alarm", params = {"menadzer"}, method=RequestMethod.GET)
+	public List<User> menadzerKorisnikAlarm(@RequestParam(value = "menadzer") String menadzer) {
+		return service.menadzerKorisnikAlarm(menadzer);
+	}	
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
 	public User findById(@RequestParam("id") Long id){
@@ -89,9 +104,12 @@ public class KorisnikController {
 		} else {
 			User u = service.findById(obj.getId());
 
-			if (!u.getPassword().equals(obj.getPassword())){
+			if (obj.getPassword() != null && !u.getPassword().equals(obj.getPassword())){
 				
 				obj.setPassword(passwordEncoder.encode(obj.getPassword()));
+			} else {
+				
+				obj.setPassword(u.getPassword());
 			}
 		}
 		
