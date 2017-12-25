@@ -17,16 +17,29 @@ public class MailDao {
 	private final Log logger = LogFactory.getLog(this.getClass());
 	
 
-	public String alarmKorisnik(String kor_id) {
+	public String alarmKorisnik(Long kor_id) {
 
 		StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("alarm_korisnik");
 		storedProcedure.registerStoredProcedureParameter(0 , String.class , ParameterMode.IN);
          
         storedProcedure.setParameter(0, kor_id);
         
-        logger.info("MailDao");
+        logger.info("MailDao - korisnik");
         
         return (String) storedProcedure.getSingleResult();    
 
 	}   
+	
+	public String alarmMenadzer(Long men_id) {
+
+		StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("alarm_menadzer");
+		storedProcedure.registerStoredProcedureParameter(0 , String.class , ParameterMode.IN);
+         
+        storedProcedure.setParameter(0, men_id);
+        
+        logger.info("MailDao - menadzer");
+        
+        return (String) storedProcedure.getSingleResult();    
+
+	} 
 }

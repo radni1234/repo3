@@ -1,0 +1,59 @@
+CREATE DEFINER=`isem`@`%` PROCEDURE `alarm_menadzer`(i_menadzer_id numeric)
+BEGIN
+
+    
+    DECLARE p_pocetak, p_kraj, p_naziv varchar(200);
+    DECLARE p_poruka, p_poruka_svi, p_poruka_kraj longtext;   
+    DECLARE p_id numeric;
+    
+    DECLARE done BOOL DEFAULT FALSE; 
+    
+    -- korisnici iz opstine kojoj pripada menadzer, a kojima su aktivirani alarmi --
+	DECLARE cur_kor_men CURSOR FOR
+	  select u.id, u.naziv
+		from user u join user_authority ua on u.id = ua.user_id
+		where alarm_racun_start <= current_date()
+			  and ua.authority_id = 3
+			  and u.mesto_id in (select id
+								 from mesto
+								 where opstina_id = (select opstina_id
+													 from mesto
+													 where id = (select mesto_id
+																from user
+																where id = i_menadzer_id)));
+   
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done := TRUE;      
+    
+    
+    SET p_poruka := '';
+    SET p_poruka_svi := '';    
+    SET p_poruka_kraj := '';    
+    
+    SET p_pocetak := '<html><body>';
+    SET p_kraj := '</body></html>';
+    
+    
+    OPEN cur_kor_men;
+    korMenLoop: LOOP
+
+	  FETCH cur_kor_men INTO p_id, p_naziv;
+
+	  IF done THEN
+		CLOSE cur_kor_men;
+	    LEAVE korMenLoop;
+	  END IF;		
+    
+		SET p_poruka := alarm_korisnik_osnova(p_id);       
+        
+        IF p_poruka > '' THEN
+			SET p_poruka_svi := CONCAT(p_poruka_svi, ' <br />Korisnik ', p_naziv,' nije uneo sledeće račune: </b><hr><br /> ', p_poruka, '<br /> '); 
+		END IF;
+ 
+	END LOOP korMenLoop; 
+    
+    IF p_poruka_svi > '' THEN
+		SET p_poruka_kraj := CONCAT(p_pocetak, p_poruka_svi, p_kraj);
+	END IF;
+
+	select p_poruka_kraj;
+END
