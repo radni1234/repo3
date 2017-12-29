@@ -10,17 +10,17 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class MailDao {
+public class MailTekstDao {
 	@PersistenceContext
 	EntityManager entityManager;
 	
 	private final Log logger = LogFactory.getLog(this.getClass());
 	
 
-	public String alarmKorisnik(Long kor_id) {
+	public String alarmKorisnikProc(Long kor_id) {
 
 		StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("alarm_korisnik");
-		storedProcedure.registerStoredProcedureParameter(0 , String.class , ParameterMode.IN);
+		storedProcedure.registerStoredProcedureParameter(0 , Long.class , ParameterMode.IN);
          
         storedProcedure.setParameter(0, kor_id);
         
@@ -30,10 +30,10 @@ public class MailDao {
 
 	}   
 	
-	public String alarmMenadzer(Long men_id) {
+	public String alarmMenadzerProc(Long men_id) {
 
 		StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("alarm_menadzer");
-		storedProcedure.registerStoredProcedureParameter(0 , String.class , ParameterMode.IN);
+		storedProcedure.registerStoredProcedureParameter(0 , Long.class , ParameterMode.IN);
          
         storedProcedure.setParameter(0, men_id);
         

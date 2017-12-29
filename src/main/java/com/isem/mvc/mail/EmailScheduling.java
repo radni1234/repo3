@@ -22,21 +22,38 @@ public class EmailScheduling {
 	@Autowired
     public KorisnikDao korisnikDao;
 	
+	@Autowired
+	private MailTekstDao mailTekstDao;
+	
 
-	@Scheduled(cron = "0 0 6 ? * MON-FRI")
+	@Scheduled(cron = "0 37 11 ? * MON-FRI")
     public void reportCurrentTime() {
 		logger.info("@Scheduled radi!!!");
 		
 		List<User> korisnici = korisnikDao.korisnikAlarm();		
 
 	    for (User u : korisnici) {
-	    	mailClient.SendKorisnik(u);
+	    	logger.info("@korisnik " + u.getId() + " pocetak!!!");
+	    	String content =  mailTekstDao.alarmKorisnikProc(u.getId());  
+	    	logger.info(content);
+	    	
+	    	logger.info(content.length());
+	    	
+	    	if (content.length() > 1) {
+	    		mailClient.SendKorisnik(u, content);
+	    	}
 	    }
 		
 	    List<User> menadzeri = korisnikDao.menadzerAlarm();	
 	    
 	    for (User u : menadzeri) {
-	    	mailClient.SendMenadzer(u);
+	    	logger.info("@menadzer " + u.getId() + " pocetak!!!");
+	    	String content =  mailTekstDao.alarmMenadzerProc(u.getId());
+	    	logger.info(content);
+	    	logger.info(content.length());
+	    	if (content.length() > 1) {
+	    		mailClient.SendMenadzer(u, content);
+	    	}
 	    }
 
     }	
