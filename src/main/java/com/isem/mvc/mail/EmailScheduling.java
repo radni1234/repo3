@@ -26,7 +26,7 @@ public class EmailScheduling {
 	private MailTekstDao mailTekstDao;
 	
 
-	@Scheduled(cron = "0 37 11 ? * MON-FRI")
+	@Scheduled(cron = "0 0 6 ? * MON-FRI")
     public void reportCurrentTime() {
 		logger.info("@Scheduled radi!!!");
 		

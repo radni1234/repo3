@@ -1,0 +1,4 @@
+select objekat_id, ltrim(rtrim(god))||ltrim(rtrim(to_char(mesec_id,'00'))) period
+from trend_iskljuceno t, godina g, mesec m
+where t.godina_id = g.id
+      and t.mesec_id = m.id;
