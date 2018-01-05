@@ -22,8 +22,8 @@ public class TrendIskljuceno {
     )
 	private Objekat objekat;
 	
-	@Column(name = "PERIOD", nullable = false, length = 6)
-	private String period;
+	@Column(name = "PERIOD", nullable = false,  columnDefinition = "int(6)")
+	private Integer period;
 
 	@Version
 	@Column(name = "VERSION", columnDefinition = "int(11) default 0")
@@ -37,7 +37,7 @@ public class TrendIskljuceno {
 		return objekat;
 	}
 
-	public String getPeriod() {
+	public Integer getPeriod() {
 		return period;
 	}
 
@@ -49,7 +49,7 @@ public class TrendIskljuceno {
 		this.objekat = objekat;
 	}
 
-	public void setPeriod(String period) {
+	public void setPeriod(Integer period) {
 		this.period = period;
 	}
 	
