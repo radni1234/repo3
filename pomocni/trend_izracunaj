@@ -1,0 +1,46 @@
+delimiter //
+
+drop PROCEDURE trend_izracunaj;
+//
+
+CREATE PROCEDURE trend_izracunaj (i_obj_id numeric, i_period numeric)
+BEGIN
+
+    DECLARE p_sd_iznos, p_slope, p_intercept, p_potrosnja, p_ocekivana_potrosnja, p_odstupanje, p_odstupanje_kwh, p_trend_tolerancija double;  
+	
+    
+    select trend_tolerancija 
+	into p_trend_tolerancija
+	from objekat
+	where id = i_obj_id;	
+    
+    select sd_iznos
+    into p_sd_iznos
+    from stepen_dan
+    where opstina_id = (select opstina_id
+							from mesto
+							where id = (select mesto_id
+										from objekat
+										where id = i_obj_id))
+		  and CONCAT(godina,LPAD(mesec,2,0)) = i_period;
+      
+	select sum(r.kolicina_kwh) 
+	into p_potrosnja
+	from rn_bilans r
+	where r.brojilo_id in (select id
+							from brojilo b
+							where objekat_id = i_obj_id
+								  and brojilo_vrsta_id in (select id from brojilo_vrsta where energent_tip_id in (11,13)))
+			and CONCAT(DATE_FORMAT(r.datumr, "%Y"),LPAD(DATE_FORMAT(r.datumr, "%c"),2,0)) = i_period;
+  
+  call trend_izracunaj_parametare(i_obj_id, i_period, p_slope, p_intercept);
+  
+  set p_ocekivana_potrosnja = p_sd_iznos * p_slope + p_intercept;
+  set p_odstupanje = ((p_potrosnja - p_ocekivana_potrosnja)*100)/p_ocekivana_potrosnja;
+  set p_odstupanje_kwh = p_potrosnja - p_ocekivana_potrosnja;
+	
+  insert into trend_obracunato(objekat_id, period, formula, potrosnja, ocekivana_potrosnja, trend_tolerancija, odstupanje)
+  values(i_obj_id, i_period, concat(p_sd_iznos, ' * ',  p_slope, ' + ',  p_intercept), p_potrosnja, p_ocekivana_potrosnja, p_trend_tolerancija, p_odstupanje);
+   	
+END
+//

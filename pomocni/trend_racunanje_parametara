@@ -1,0 +1,60 @@
+delimiter //
+drop procedure trend_racunanje_parametara;
+//
+
+CREATE PROCEDURE trend_izracunaj_parametare (i_obj_id numeric, i_period numeric, out o_slope double, out o_intercept double)
+BEGIN	
+	DROP TEMPORARY TABLE IF EXISTS temp;
+    
+    CREATE TEMPORARY TABLE temp(sd double,
+                                pot double) ENGINE=MEMORY;
+
+	select @period_od := min(CONCAT(DATE_FORMAT(datumr, "%Y"),LPAD(DATE_FORMAT(datumr, "%c"),2,0)))
+	from rn_bilans
+	where brojilo_id in (select id
+						from brojilo b
+						where objekat_id = i_obj_id
+							  and brojilo_vrsta_id in (select id from brojilo_vrsta where energent_tip_id in (11,13)));
+                              
+	select @period_do := max(CONCAT(DATE_FORMAT(datumr, "%Y"),LPAD(DATE_FORMAT(datumr, "%c"),2,0)))
+	from rn_bilans
+	where brojilo_id in (select id
+						from brojilo b
+						where objekat_id = i_obj_id
+							  and brojilo_vrsta_id in (select id from brojilo_vrsta where energent_tip_id in (11,13)))
+		  and CONCAT(DATE_FORMAT(datumr, "%Y"),LPAD(DATE_FORMAT(datumr, "%c"),2,0)) < i_period;    
+    
+
+	insert into temp(sd, pot)        
+	select s.sd_iznos sd, sum(r.kolicina_kwh) p
+	from stepen_dan s, rn_bilans r
+	where opstina_id = (select opstina_id
+								from mesto
+								where id = (select mesto_id
+											from objekat
+											where id = i_obj_id))
+			and CONCAT(s.godina,LPAD(s.mesec,2,0)) between @period_od and @period_do
+			and s.sd_iznos > 0
+			and r.brojilo_id in (select id
+							from brojilo b
+							where objekat_id = i_obj_id
+								  and brojilo_vrsta_id in (select id from brojilo_vrsta where energent_tip_id in (11,13)))
+			and CONCAT(DATE_FORMAT(r.datumr, "%Y"),LPAD(DATE_FORMAT(r.datumr, "%c"),2,0)) = CONCAT(s.godina,LPAD(s.mesec,2,0))
+	group by CONCAT(s.godina,LPAD(s.mesec,2,0));    
+
+	SELECT @n := COUNT(pot) AS N, 
+		   @meanX := AVG(sd) AS 'X mean', 
+           @sumX := SUM(sd) AS 'X sum',
+           @sumXX := SUM(sd*sd) AS 'X sum of squares',
+           @meanY := AVG(pot) AS 'Y mean',
+           @sumY := SUM(pot) AS 'Y sum',
+           @sumYY := SUM(pot*pot) AS 'Y sum of squares', 
+           @sumXY := SUM(sd*pot) AS 'X*Y sum'
+    FROM temp;
+    
+    SET o_slope := (@n*@sumXY - @sumX*@sumY) / (@n*@sumXX - @sumX*@sumX); 
+    SET o_intercept := (@meanY - o_slope*@meanX); 
+    
+	SELECT CONCAT('Y = ',o_slope,'X + ',o_intercept) AS 'least-squares regression'; 
+END
+//

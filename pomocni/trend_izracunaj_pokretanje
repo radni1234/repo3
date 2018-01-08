@@ -1,0 +1,80 @@
+delimiter //
+
+drop PROCEDURE trend_izracunaj_pokretanje;
+//
+
+CREATE PROCEDURE trend_izracunaj_pokretanje()
+BEGIN
+	DECLARE p_period, p_obj_id numeric;
+    DECLARE p_sd_iznos double;
+
+	DECLARE done BOOL DEFAULT FALSE; 
+    
+    DECLARE cur_objekat CURSOR FOR
+		select id
+		from objekat
+		where alarm_trend_start < sysdate();
+    
+    /* 
+		1. unet stepen dan za datu opstinu
+        2. nije vec obracunat
+        3. nije iskljucen period za dati objekat
+        4. uneti svi racuni 
+        5. period je nakon datuma za pokretanje alarma
+    */
+	DECLARE cur_period CURSOR FOR
+	 select CONCAT(godina,LPAD(mesec,2,0))
+		from stepen_dan s
+		where opstina_id = (select opstina_id
+							from mesto
+							where id = (select mesto_id
+										from objekat
+										where id = p_obj_id))
+			 and CONCAT(godina,LPAD(mesec,2,0)) not in (select period
+														 from trend_obracunato
+														 where objekat_id = p_obj_id)
+			 and CONCAT(godina,LPAD(mesec,2,0)) not in (select period
+														 from trend_iskljuceno
+														 where objekat_id = p_obj_id)
+			 and not exists (select id
+							from brojilo b
+							where objekat_id = p_obj_id
+								  and brojilo_vrsta_id in (select id from brojilo_vrsta where energent_tip_id in (11,13))
+								  and not exists (select 1
+													from rn_bilans r
+													where CONCAT(DATE_FORMAT(datumr, "%Y"),LPAD(DATE_FORMAT(datumr, "%c"),2,0)) = CONCAT(s.godina,LPAD(s.mesec,2,0))
+														  and r.brojilo_id = b.id))   
+			 and CONCAT(godina,LPAD(mesec,2,0)) > (select CONCAT(DATE_FORMAT(alarm_trend_start, "%Y"),LPAD(DATE_FORMAT(alarm_trend_start, "%c"),2,0)) from objekat where id = p_obj_id);
+    
+    
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done := TRUE;
+    
+    OPEN cur_objekat;
+	objekatLoop: LOOP
+
+	  FETCH cur_objekat INTO p_obj_id;      
+
+	  IF done THEN
+		CLOSE cur_objekat;
+		LEAVE objekatLoop;
+	  END IF;
+    
+		OPEN cur_period;
+		periodLoop: LOOP
+
+		  FETCH cur_period INTO p_period;      
+
+		  IF done THEN
+			SET done := false;
+			CLOSE cur_period;
+			LEAVE periodLoop;
+		  END IF;
+		  
+		  call trend_izracunaj(p_obj_id, p_period);
+		  
+		END LOOP periodLoop; 
+    
+    END LOOP objekatLoop; 
+    commit;
+END;
+//
