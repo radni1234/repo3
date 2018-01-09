@@ -611,3 +611,35 @@ VIEW `brojilo_vodozahvat_view` AS
         left join `brojilo_vrsta` ON ((`brojilo_vodozahvat`.`brojilo_vrsta_id` = `brojilo_vrsta`.`id`)))
         left join `rezim_merenja` ON ((`brojilo_vodozahvat`.`rezim_merenja_id` = `rezim_merenja`.`id`)))
         left join `brojilo_vodozahvat` `brojilo_2` ON ((`brojilo_vodozahvat`.`vodece_brojilo_id` = `brojilo_2`.`id`)));
+        
+        
+ CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `isem`@`%` 
+    SQL SECURITY DEFINER
+VIEW `ops_mes_obj_view` AS
+    SELECT 
+        `o`.`id` AS `opstina_id`,
+        `m`.`id` AS `mesto_id`,
+        `ob`.`id` AS `objekat_id`
+    FROM
+        ((`opstina` `o`
+        JOIN `mesto` `m` ON ((`o`.`id` = `m`.`opstina_id`)))
+        JOIN `objekat` `ob` ON ((`ob`.`mesto_id` = `m`.`id`)));
+		
+		
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `isem`@`%` 
+    SQL SECURITY DEFINER
+VIEW `ops_mes_kor_ulo_view` AS
+    SELECT 
+        `u`.`id` AS `user_id`,
+        `a`.`authority_id` AS `authority_id`,
+        `m`.`id` AS `mesto_id`,
+        `o`.`id` AS `opstina_id`
+    FROM
+        (((`user` `u`
+        JOIN `user_authority` `a` ON ((`u`.`id` = `a`.`user_id`)))
+        JOIN `mesto` `m` ON ((`u`.`mesto_id` = `m`.`id`)))
+        JOIN `opstina` `o` ON ((`m`.`opstina_id` = `o`.`id`)));

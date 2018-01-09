@@ -27,7 +27,7 @@ public class EmailScheduling {
 	
 
 	@Scheduled(cron = "0 0 6 ? * MON-FRI")
-    public void reportCurrentTime() {
+    public void alarmRacuni() {
 		logger.info("@Scheduled radi!!!");
 		
 		List<User> korisnici = korisnikDao.korisnikAlarm();		
@@ -56,6 +56,25 @@ public class EmailScheduling {
 	    	}
 	    }
 
-    }	
+    }
+	
+	
+	@Scheduled(cron = "0 30 6 ? * MON-FRI")
+    public void alarmTrend() {
+		mailTekstDao.alarmTrendIzracunajProc();
+		
+		List<User> menadzeri = korisnikDao.trendAlarm();	
+	    
+	    for (User u : menadzeri) {
+	    	logger.info("@menadzer trend " + u.getId() + " pocetak!!!");
+	    	String content =  mailTekstDao.alarmTrendPorukaProc(u.getId());
+	    	logger.info(content);
+	    	logger.info(content.length());
+	    	if (content.length() > 1) {
+	    		mailClient.SendMenadzer(u, content);
+	    	}
+	    }
+	}
+	
 
 }

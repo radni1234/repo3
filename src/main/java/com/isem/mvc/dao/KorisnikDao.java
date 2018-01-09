@@ -57,6 +57,10 @@ public interface KorisnikDao extends PagingAndSortingRepository<User, Long>{
 				+ "(select u.mesto from User u where username like :user))) "
 			)
 	List<User> menadzerKorisnikAlarm(@Param("user") String user);
+	
+	@Query("SELECT u FROM User u JOIN u.authorities a "
+			+ "where a.id in (1,2) and u.alarmTrendStart <= current_date()")
+	List<User> trendAlarm();
 
 }
 

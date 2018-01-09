@@ -42,4 +42,27 @@ public class MailTekstDao {
         return (String) storedProcedure.getSingleResult();    
 
 	} 
+	
+	public void alarmTrendIzracunajProc() {
+
+		StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("trend_izracunaj_pokretanje");
+	        
+        logger.info("trend_izracunaj");
+        storedProcedure.execute();
+//        return (String) storedProcedure.getSingleResult();    
+
+	} 
+	
+	public String alarmTrendPorukaProc(Long kor_id) {
+
+		StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("trend_poruka");
+		storedProcedure.registerStoredProcedureParameter(0 , Long.class , ParameterMode.IN);
+         
+        storedProcedure.setParameter(0, kor_id);
+        
+        logger.info("trend_poruka");
+        
+        return (String) storedProcedure.getSingleResult();    
+
+	} 
 }
