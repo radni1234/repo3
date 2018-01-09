@@ -30,6 +30,7 @@ BEGIN
 							where id = (select mesto_id
 										from objekat
 										where id = p_obj_id))
+			 and s.sd_iznos > 0
 			 and CONCAT(godina,LPAD(mesec,2,0)) not in (select period
 														 from trend_obracunato
 														 where objekat_id = p_obj_id)

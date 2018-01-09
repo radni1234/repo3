@@ -1,0 +1,76 @@
+delimiter //
+
+drop PROCEDURE trend_poruka;
+//
+
+CREATE PROCEDURE trend_poruka(i_user_id numeric)
+BEGIN
+	
+    DECLARE p_pocetak, p_kraj, p_objekat, p_mesec varchar(200);
+    DECLARE p_poruka, p_poruka_kraj longtext; 
+    DECLARE p_godina, p_trend_obracunato_id numeric;
+    DECLARE p_odstupanje double;
+    
+	DECLARE done BOOL DEFAULT FALSE; 
+    
+    /* 
+		* nije poslato korisniku
+        * posle datuma starta alarma
+        * preko tolerancije
+        * korisnik ima pravo pristupa objektu
+    */
+    DECLARE cur_trend CURSOR FOR
+		select t.id, o.naziv objekat, SUBSTR(period,1,4) godina, m.naziv mesec, odstupanje
+		from trend_obracunato t, objekat o, mesec m
+		where t.id not in (select trend_obracunato_id
+						  from trend_poslato
+						  where user_id = i_user_id)
+			  and period > (select CONCAT(DATE_FORMAT(alarm_trend_start, "%Y"),LPAD(DATE_FORMAT(alarm_trend_start, "%c"),2,0))
+							from user
+							where id = i_user_id)
+			  and abs(odstupanje) > t.trend_tolerancija
+			  and (
+					(1 = (select authority_id from user_authority where user_id = i_user_id))
+					or (2 = (select authority_id from user_authority where user_id = i_user_id)
+						and objekat_id in (select objekat_id
+											from ops_mes_obj_view
+											where opstina_id = (select opstina_id
+																from ops_mes_kor_ulo_view
+																where user_id = i_user_id)))
+			  )
+              and t.objekat_id = o.id
+              and SUBSTR(t.period,5) = m.id;
+
+	
+    
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done := TRUE;
+    
+    SET p_poruka := '';
+    SET p_poruka_kraj := ''; 
+    
+    SET p_pocetak := '<html><body>Alarm trend: <hr><br /> ';
+    SET p_kraj := '</body></html>';
+    
+    OPEN cur_trend;
+	trendLoop: LOOP
+
+	  FETCH cur_trend INTO p_trend_obracunato_id, p_objekat, p_godina, p_mesec, p_odstupanje;      
+
+	  IF done THEN
+		CLOSE cur_trend;
+		LEAVE trendLoop;
+	  END IF;
+			
+      SET p_poruka = CONCAT('Potrošnja objekta ', p_objekat, ' u periodu ', p_mesec, ' ', p_godina, '. godine odstupa ', round(p_odstupanje), '% od ocekivane potrošnje.');
+		
+	  SET p_poruka_kraj := CONCAT(p_poruka_kraj, ' <br /> ', p_poruka); 
+      
+      insert into trend_poslato(trend_obracunato_id, user_id)
+      values(p_trend_obracunato_id, i_user_id);
+      
+	END LOOP trendLoop; 
+    
+    commit; 
+    
+    SELECT p_poruka_kraj;
+END;
