@@ -7,19 +7,25 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isem.mvc.model.TrendIskljuceno;
+import com.isem.mvc.security.JwtTokenUtil;
 import com.isem.mvc.service.TrendIskljucenoService;
+import com.isem.mvc.tab.TrendIskljucenoView;
 
 @RestController
 @RequestMapping("trend_isklj")
 public class TrendIskljucenoController {
 	@Autowired
 	private TrendIskljucenoService service;
+	
+	@Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
 	@RequestMapping(value="/sve", method=RequestMethod.GET)
 	public List<TrendIskljuceno> getAll() {
@@ -33,6 +39,12 @@ public class TrendIskljucenoController {
 		Pageable pageable = new PageRequest(strana, velicina);
 		
 		return service.findAll(pageable);
+	}
+	
+	@RequestMapping(value="/tab", method=RequestMethod.GET)
+	public List<TrendIskljucenoView> getAllTab(@RequestHeader("Authorization") String user) {
+		
+		return service.findAllView(jwtTokenUtil.vratiKorisnikaIzTokena(user));
 	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)

@@ -8,13 +8,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.isem.mvc.dao.TrendIskljucenoDao;
+import com.isem.mvc.dao.TrendIskljucenoViewDao;
 import com.isem.mvc.model.TrendIskljuceno;
+import com.isem.mvc.tab.TrendIskljucenoView;
 
 @Service
 public class TrendIskljucenoService {
 	
 	@Autowired
 	private TrendIskljucenoDao dao;
+	
+	@Autowired
+	private TrendIskljucenoViewDao viewDao;
 		
 	public TrendIskljuceno findById (Long id) {
 		return dao.findById(id);
@@ -26,6 +31,10 @@ public class TrendIskljucenoService {
 	
 	public Page<TrendIskljuceno> findAll (Pageable pageRequest) {
 		return dao.findAll(pageRequest);
+	}
+	
+	public List<TrendIskljucenoView> findAllView (String user) {
+		return viewDao.findAll(user);
 	}
 	
 	public TrendIskljuceno save(TrendIskljuceno obj) {
