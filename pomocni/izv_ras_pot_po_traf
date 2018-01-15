@@ -1,0 +1,53 @@
+delimiter //
+
+drop procedure izv_ras_pot_po_traf;
+//
+
+create procedure izv_ras_pot_po_traf(i_trafo_id varchar(10000), i_datum_od date, i_datum_do date)
+begin
+	DECLARE p_emisija DOUBLE;
+    
+    select emisija into p_emisija
+    from energent
+    where id = 16; -- el. energija
+
+	CALL upisi_id_u_temp(i_trafo_id, 't1');
+    
+    
+    DROP TEMPORARY TABLE IF EXISTS temp;
+	CREATE TEMPORARY TABLE temp(id int,								
+                                trafo varchar(1000),                          
+                                potrosnja double,
+                                emisija double,
+                                iznos double) ENGINE=MEMORY;
+    
+    SET @row_number = 0;
+    
+    -- po trafoima --
+    insert into temp(id, trafo, potrosnja, emisija, iznos)
+    select (@row_number:=@row_number + 1), adresa, potrosnja, emisija, iznos
+    from (
+			select t.adresa, t.mesto_id, t.redosled, sum(potrosnja) potrosnja, sum(potrosnja)*0.8 emisija, sum(iznos) iznos
+			from rn_trafo rn, trafo t
+			where datumr between i_datum_od and i_datum_do
+				  and rn.trafo_id in (select k1 from t1)
+				  and rn.trafo_id = t.id
+			group by trafo_id
+		) t1
+    order by mesto_id, redosled;
+    
+    -- ukupno --
+	insert into temp(id, trafo, potrosnja, emisija, iznos)
+    select (@row_number:=@row_number + 1), 'Ukupno:', sum(potrosnja) potrosnja, sum(potrosnja)*0.8 emisija, sum(iznos) iznos
+	from rn_trafo rn
+	where datumr between i_datum_od and i_datum_do
+		  and rn.trafo_id in (select k1 from t1)
+		  ;
+          
+	select id, trafo, potrosnja, emisija, iznos
+    from temp
+    order by id;
+    
+      
+end;
+//

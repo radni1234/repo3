@@ -7,23 +7,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.isem.mvc.izvestaj.ApsGodPot;
-import com.isem.mvc.izvestaj.SpecGodPot;
-import com.isem.mvc.izvestaj.SpecMesPot;
 import com.isem.mvc.izvestaj.ApsMesPot;
-import com.isem.mvc.izvestaj.UkPotObj;
-import com.isem.mvc.izvestaj.UkPotEneObj;
-import com.isem.mvc.izvestaj.SpecPotEneObj;
 import com.isem.mvc.izvestaj.EfikObj;
 import com.isem.mvc.izvestaj.PregObj;
+import com.isem.mvc.izvestaj.RasGodPot;
+import com.isem.mvc.izvestaj.RasMesPot;
+import com.isem.mvc.izvestaj.RasPotPoTraf;
+import com.isem.mvc.izvestaj.SpecGodPot;
+import com.isem.mvc.izvestaj.SpecMesPot;
+import com.isem.mvc.izvestaj.SpecPotEneObj;
+import com.isem.mvc.izvestaj.UkPotEneObj;
+import com.isem.mvc.izvestaj.UkPotObj;
 import com.isem.mvc.izvestaj.dao.ApsGodPotDao;
-import com.isem.mvc.izvestaj.dao.SpecGodPotDao;
-import com.isem.mvc.izvestaj.dao.SpecMesPotDao;
 import com.isem.mvc.izvestaj.dao.ApsMesPotDao;
-import com.isem.mvc.izvestaj.dao.UkPotObjDao;
-import com.isem.mvc.izvestaj.dao.UkPotEneObjDao;
-import com.isem.mvc.izvestaj.dao.SpecPotEneObjDao;
 import com.isem.mvc.izvestaj.dao.EfikObjDao;
 import com.isem.mvc.izvestaj.dao.PregObjDao;
+import com.isem.mvc.izvestaj.dao.RasGodPotDao;
+import com.isem.mvc.izvestaj.dao.RasMesPotDao;
+import com.isem.mvc.izvestaj.dao.RasPotPoTrafDao;
+import com.isem.mvc.izvestaj.dao.SpecGodPotDao;
+import com.isem.mvc.izvestaj.dao.SpecMesPotDao;
+import com.isem.mvc.izvestaj.dao.SpecPotEneObjDao;
+import com.isem.mvc.izvestaj.dao.UkPotEneObjDao;
+import com.isem.mvc.izvestaj.dao.UkPotObjDao;
 
 @Service
 public class IzvestajService {
@@ -53,6 +59,15 @@ public class IzvestajService {
 	
 	@Autowired
 	private PregObjDao dao9;
+	
+	@Autowired
+	private RasGodPotDao dao10;
+	
+	@Autowired
+	private RasMesPotDao dao11;
+	
+	@Autowired
+	private RasPotPoTrafDao dao12;
 	
 	public List<ApsMesPot> apsMesPot (String obj_id, String ene_tip_id, Date datum_od, Date datum_do) {
 		return dao.apsMesPot(obj_id, ene_tip_id, datum_od, datum_do);
@@ -88,6 +103,18 @@ public class IzvestajService {
 	
 	public List<PregObj> pregObj (String obj_id) {
 		return dao9.pregObj(obj_id);
+	}
+	
+	public List<RasGodPot> rasGodPot (String trafo_id, Date datum_od, Date datum_do) {
+		return dao10.rasGodPot(trafo_id, datum_od, datum_do);
+	}
+	
+	public List<RasMesPot> rasMesPot (String trafo_id, Date datum_od, Date datum_do) {
+		return dao11.rasMesPot(trafo_id, datum_od, datum_do);
+	}
+	
+	public List<RasPotPoTraf> rasPotPoTraf (String trafo_id, Date datum_od, Date datum_do) {
+		return dao12.rasPotPoTraf(trafo_id, datum_od, datum_do);
 	}
 
 }

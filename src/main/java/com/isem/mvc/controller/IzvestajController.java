@@ -11,14 +11,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isem.mvc.izvestaj.ApsGodPot;
-import com.isem.mvc.izvestaj.UkPotObj;
-import com.isem.mvc.izvestaj.SpecGodPot;
-import com.isem.mvc.izvestaj.SpecMesPot;
 import com.isem.mvc.izvestaj.ApsMesPot;
-import com.isem.mvc.izvestaj.UkPotEneObj;
-import com.isem.mvc.izvestaj.SpecPotEneObj;
 import com.isem.mvc.izvestaj.EfikObj;
 import com.isem.mvc.izvestaj.PregObj;
+import com.isem.mvc.izvestaj.RasGodPot;
+import com.isem.mvc.izvestaj.RasMesPot;
+import com.isem.mvc.izvestaj.RasPotPoTraf;
+import com.isem.mvc.izvestaj.SpecGodPot;
+import com.isem.mvc.izvestaj.SpecMesPot;
+import com.isem.mvc.izvestaj.SpecPotEneObj;
+import com.isem.mvc.izvestaj.UkPotEneObj;
+import com.isem.mvc.izvestaj.UkPotObj;
 import com.isem.mvc.service.IzvestajService;
 
 @RestController
@@ -99,5 +102,26 @@ public class IzvestajController {
 	@RequestMapping(value="/preg_obj", params = {"obj_id"}, method=RequestMethod.GET)
 	public List<PregObj> pregObj(@RequestParam("obj_id") String obj_id) {
 		return service.pregObj(obj_id);
+	}
+	
+	@RequestMapping(value="/ras_god_pot", params = {"trafo_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
+	public List<RasGodPot> rasGodPot(@RequestParam("trafo_id") String trafo_id,
+			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
+			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
+		return service.rasGodPot(trafo_id, datum_od, datum_do);
+	}
+	
+	@RequestMapping(value="/ras_mes_pot", params = {"trafo_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
+	public List<RasMesPot> rasMesPot(@RequestParam("trafo_id") String trafo_id,
+			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
+			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
+		return service.rasMesPot(trafo_id, datum_od, datum_do);
+	}
+	
+	@RequestMapping(value="/ras_pot_po_traf", params = {"trafo_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
+	public List<RasPotPoTraf> rasPotPoTraf(@RequestParam("trafo_id") String trafo_id,
+			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
+			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
+		return service.rasPotPoTraf(trafo_id, datum_od, datum_do);
 	}
 }
