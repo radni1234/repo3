@@ -40,7 +40,7 @@ begin
 	where rn.datumr between i_datum_od and i_datum_do		
 		  and trafo_id in (select k1 from t1);
           
-	select id, godina, potrosnja, emisija, iznos
+	select id, godina, ROUND(potrosnja,2) potrosnja, ROUND(emisija,2) emisija, ROUND(iznos,2) iznos
     from temp
     order by id;
     

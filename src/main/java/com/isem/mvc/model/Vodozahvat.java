@@ -35,6 +35,12 @@ public class Vodozahvat {
     )
 	private Mesto mesto;	
 	
+	@ManyToOne
+    @JoinColumn(name = "VODOZAHVAT_GRUPA_ID",
+            foreignKey = @ForeignKey(name = "VODOZAHVAT_FK3")
+    )
+	private VodozahvatGrupa vodozahvatGrupa;
+	
 	@Column(name = "NAPOMENA", length = 1000)
 	private String napomena;
 	
@@ -88,6 +94,14 @@ public class Vodozahvat {
 
 	public void setNapomena(String napomena) {
 		this.napomena = napomena;
+	}	
+
+	public VodozahvatGrupa getVodozahvatGrupa() {
+		return vodozahvatGrupa;
+	}
+
+	public void setVodozahvatGrupa(VodozahvatGrupa vodozahvatGrupa) {
+		this.vodozahvatGrupa = vodozahvatGrupa;
 	}
 
 	@Override
