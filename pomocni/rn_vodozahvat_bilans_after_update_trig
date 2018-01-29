@@ -1,0 +1,67 @@
+CREATE TRIGGER `rn_vodozahvat_AFTER_UPDATE` AFTER UPDATE ON `rn_vodozahvat` FOR EACH ROW
+BEGIN
+	DECLARE p_kwh_jm, p_emisija, p_primarna_ene, p_finalna_ene DOUBLE;
+      DECLARE p_koef DOUBLE;
+      DECLARE p_id BIGINT(20);   
+      DECLARE done BOOLEAN;
+      
+      DECLARE cur CURSOR FOR SELECT id FROM brojilo_vodozahvat_koef_v WHERE vodece_brojilo_id = NEW.brojilo_vodozahvat_id;
+	  DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+      
+      -- koeficijenti za energent --
+      select kwh_jm, emisija, primarna_energija, finalna_energija
+      into p_kwh_jm, p_emisija, p_primarna_ene, p_finalna_ene
+      from energent
+      where id = NEW.`energent_id`;
+      
+           
+	  select koef into p_koef
+      from brojilo_vodozahvat_koef_v
+      where id = NEW.`brojilo_vodozahvat_id`;           
+        
+      UPDATE rn_vodozahvat_bilans 
+      SET `rn_vodozahvat_id` = NEW.`id`,
+		  `datumr` = NEW.`datumr`,
+		  `brojilo_vodozahvat_id` = NEW.`brojilo_vodozahvat_id`,
+		  `dobavljac_id` = NEW.`dobavljac_id`,
+		  `energent_id` = NEW.`energent_id`, 
+		  `rn_tip_id` = NEW.`rn_tip_id`,
+		  `iznos` = NEW.`iznos` * p_koef,
+		  `kolicina` = NEW.`kolicina` * p_koef,
+		  `kolicina_kwh` = NEW.`kolicina` * p_kwh_jm * p_koef,
+		  `kolicina_fin_ene` = NEW.`kolicina` * p_finalna_ene * p_koef,
+		  `kolicina_prim_ene` = NEW.`kolicina` * p_primarna_ene * p_koef,
+		  `emisija_co2` = NEW.`kolicina` * p_emisija * p_koef
+      WHERE rn_vodozahvat_id = NEW.id and brojilo_vodozahvat_id = NEW.`brojilo_vodozahvat_id`;
+      
+      -- virtuelna brojila --        
+        OPEN cur;
+        ins_loop: LOOP
+            FETCH cur INTO p_id;
+            IF done THEN
+                LEAVE ins_loop;
+            END IF;
+                      	
+		    select koef into p_koef
+		    from brojilo_vodozahvat_koef_v
+		    where id = p_id;            
+
+                  
+			UPDATE rn_vodozahvat_bilans 
+			  SET `rn_vodozahvat_id` = NEW.`id`,
+				  `datumr` = NEW.`datumr`,
+				  `brojilo_vodozahvat_id` = NEW.`brojilo_vodozahvat_id`,
+				  `dobavljac_id` = NEW.`dobavljac_id`,
+				  `energent_id` = NEW.`energent_id`, 
+				  `rn_tip_id` = NEW.`rn_tip_id`,
+				  `iznos` = NEW.`iznos` * p_koef,
+				  `kolicina` = NEW.`kolicina` * p_koef,
+				  `kolicina_kwh` = NEW.`kolicina` * p_kwh_jm * p_koef,
+				  `kolicina_fin_ene` = NEW.`kolicina` * p_finalna_ene * p_koef,
+				  `kolicina_prim_ene` = NEW.`kolicina` * p_primarna_ene * p_koef,
+				  `emisija_co2` = NEW.`kolicina` * p_emisija * p_koef
+			  WHERE rn_vodozahvat_id = NEW.id and brojilo_vodozahvat_id = NEW.`brojilo_vodozahvat_id`;
+            
+        END LOOP;
+		CLOSE cur;
+END

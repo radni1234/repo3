@@ -255,3 +255,25 @@ select ko.id, ko.korisnik_id, k.naziv korisnik, ko.objekat_id, o.naziv objekat
 from korisnik_objekat ko left join user k on ko.korisnik_id = k.id
 		left join objekat o on ko.objekat_id = o.id
 ;
+
+CREATE 
+VIEW `vodozahvat_view` AS
+    SELECT 
+        `v`.`id` AS `id`,
+        `v`.`adresa` AS `adresa`,
+        `v`.`naziv` AS `naziv`,
+        `v`.`napomena` AS `napomena`,
+        `v`.`javno_preduzece_id` AS `javno_preduzece_id`,
+        `jp`.`naziv` AS `javno_preduzece`,
+        `o`.`id` AS `opstina_id`,
+        `o`.`naziv` AS `opstina`,
+        `m`.`id` AS `mesto_id`,
+        `m`.`naziv` AS `mesto`,
+        `g`.`id` AS `grupa_id`,
+        `g`.`naziv` AS `grupa`
+    FROM
+        ((((`vodozahvat` `v`
+        LEFT JOIN `mesto` `m` ON ((`v`.`mesto_id` = `m`.`id`)))
+        LEFT JOIN `opstina` `o` ON ((`m`.`opstina_id` = `o`.`id`)))
+        LEFT JOIN `javno_preduzece` `jp` ON ((`v`.`javno_preduzece_id` = `jp`.`id`)))
+        LEFT JOIN `vodozahvat_grupa` `g` ON ((`v`.`vodozahvat_grupa_id` = `g`.`id`)));

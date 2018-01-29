@@ -54,8 +54,7 @@ BEGIN
 						  `emisija_co2`,
                           `emisija_co2_pov`,
                           `emisija_co2_zap`,
-                          `emisija_co2_kor`,
-                          `trend_iskljuciti`
+                          `emisija_co2_kor`
                           )
 		VALUES(NEW.`id`,
 			  NEW.`datumr`,
@@ -80,8 +79,7 @@ BEGIN
 			  NEW.`kolicina` * p_emisija * p_koef,
               NEW.`kolicina` * p_emisija / p_grej_po_korisna * p_koef,
               NEW.`kolicina` * p_emisija / p_grej_za * p_koef,
-              NEW.`kolicina` * p_emisija / p_op_br_kor * p_koef,
-              NEW.`trend_iskljuciti`);
+              NEW.`kolicina` * p_emisija / p_op_br_kor * p_koef);
               
 		-- virtuelna brojila --        
         OPEN cur;
@@ -124,8 +122,7 @@ BEGIN
 						  `emisija_co2`,
                           `emisija_co2_pov`,
                           `emisija_co2_zap`,
-                          `emisija_co2_kor`,
-                          `trend_iskljuciti`)
+                          `emisija_co2_kor`)
 		VALUES(NEW.`id`,
 			  NEW.`datumr`,
 			  NEW.`brojilo_id`,
@@ -149,8 +146,7 @@ BEGIN
 			  NEW.`kolicina` * p_emisija * p_koef,
               NEW.`kolicina` * p_emisija / p_grej_po_korisna * p_koef,
               NEW.`kolicina` * p_emisija / p_grej_za * p_koef,
-              NEW.`kolicina` * p_emisija / p_op_br_kor * p_koef,
-              NEW.`trend_iskljuciti`);            
+              NEW.`kolicina` * p_emisija / p_op_br_kor * p_koef);            
             
         END LOOP;
 		CLOSE cur;

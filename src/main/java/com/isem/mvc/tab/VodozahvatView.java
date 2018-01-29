@@ -16,6 +16,8 @@ public class VodozahvatView {
 	private String opstina;
 	private Long mestoId;
 	private String mesto;
+	private Long grupaId;
+	private String grupa;
 	
 	public Long getId() {
 		return id;
@@ -47,6 +49,12 @@ public class VodozahvatView {
 	public String getMesto() {
 		return mesto;
 	}
-	
+	public Long getGrupaId() {
+		return grupaId;
+	}
+	public String getGrupa() {
+		return grupa;
+	}
+
 	
 }
