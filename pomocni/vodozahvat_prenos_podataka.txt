@@ -1,0 +1,125 @@
+set sql_safe_updates = 0;
+
+delete from rn_vodozahvat_stavke;
+delete from rn_vodozahvat;
+delete from brojilo_vodozahvat_dobavljac;
+delete from brojilo_vodozahvat;
+delete from vodozahvat_pumpa;
+delete from proizvodnja_vode;
+delete from rezervoar;
+delete from vodozahvat;
+
+insert into vodozahvat(id, adresa, naziv, mesto_id, vodozahvat_grupa_id)
+select id, adresa, naziv, mesto_id, case when podgrupa_id = 38 then 1 else 2 end 
+from objekat
+where podgrupa_id in (38,40);
+
+INSERT INTO `brojilo_vodozahvat`
+(`id`,
+`automatski`,
+`sifra_brojila`,
+`obracunski_period`,
+`opis`,
+`procenat`,
+`version`,
+`brojilo_tip_id`,
+`vodozahvat_id`,
+`rezim_merenja_id`,
+`vodece_brojilo_id`,
+`brojilo_vrsta_id`)
+select `id`,
+`automatski`,
+`sifra_brojila`,
+`obracunski_period`,
+`opis`,
+`procenat`,
+`version`,
+`brojilo_tip_id`,
+`objekat_id`,
+`rezim_merenja_id`,
+`vodece_brojilo_id`,
+`brojilo_vrsta_id` 
+from brojilo
+where objekat_id in (select id
+						from objekat
+						where podgrupa_id in (38,40));
+                        
+
+
+INSERT INTO `brojilo_vodozahvat_dobavljac`
+(`brojilo_vodozahvat_id`,
+`dobavljac_id`)
+select `brojilo_id`,
+`dobavljac_id`
+from brojilo_dobavljac
+where brojilo_id in (select id 
+					from brojilo 
+                    where objekat_id in (select id
+										from objekat
+										where podgrupa_id in (38,40)));
+                                        
+                                        
+
+INSERT INTO `rn_vodozahvat`
+(`id`,
+`broj_rn`,
+`datumm`,
+`datumr`,
+`datumu`,
+`iznos`,
+`kolicina`,
+`menjao`,
+`napomena`,
+`stari_id`,
+`uneo`,
+`version`,
+`brojilo_vodozahvat_id`,
+`dobavljac_id`,
+`energent_id`,
+`rn_tip_id`)
+select `id`,
+`broj_rn`,
+`datumm`,
+`datumr`,
+`datumu`,
+`iznos`,
+`kolicina`,
+`menjao`,
+`napomena`,
+`stari_id`,
+`uneo`,
+`version`,
+`brojilo_id`,
+`dobavljac_id`,
+`energent_id`,
+`rn_tip_id`
+from rn
+where brojilo_id in (select id 
+					from brojilo 
+                    where objekat_id in (select id
+										from objekat
+										where podgrupa_id in (38,40)));
+
+
+INSERT INTO `rn_vodozahvat_stavke`
+(`id`,
+`version`,
+`vrednost`,
+`brojilo_vrsta_kolone_id`,
+`rn_vodozahvat_id`)
+select `id`,
+`version`,
+`vrednost`,
+`brojilo_vrsta_kolone_id`,
+`rn_id`
+from rn_stavke
+where rn_id in (select id
+				from rn
+                where brojilo_id in (select id 
+					from brojilo 
+                    where objekat_id in (select id
+										from objekat
+										where podgrupa_id in (38,40))));
+
+
+
