@@ -65,7 +65,7 @@ public class TrafoController {
 	}
 	
 	@RequestMapping(value="/lov", params = {"ops_id", "mes_id"}, method=RequestMethod.GET)
-	public List<Lov> getObjekatLov(@RequestParam(value = "ops_id") Long opsId, 
+	public List<Lov> getTrafoLov(@RequestParam(value = "ops_id") Long opsId, 
 								   @RequestParam(value = "mes_id") Long mesId) {
 		return service.trafoLov(opsId, mesId);
 	}

@@ -142,7 +142,7 @@ public class IzvestajController {
 		return service.vodMesPot(vod_id, datum_od, datum_do);
 	}
 	
-	@RequestMapping(value="/vod_pot_po_traf", params = {"vod_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
+	@RequestMapping(value="/vod_pot_po_vod", params = {"vod_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
 	public List<VodPotPoVod> vodPotPoVod(@RequestParam("vod_id") String vod_id,
 			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
 			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.isem.mvc.lov.Lov;
 import com.isem.mvc.model.Vodozahvat;
 import com.isem.mvc.security.JwtTokenUtil;
 import com.isem.mvc.service.VodozahvatService;
@@ -70,5 +71,11 @@ public class VodozahvatController {
 	@RequestMapping(value="/obrisi", params = {"id"}, method=RequestMethod.DELETE)
 	public void delete(@RequestParam("id") Long id) {
 		service.delete(id);
+	}
+	
+	@RequestMapping(value="/lov", params = {"ops_id", "mes_id"}, method=RequestMethod.GET)
+	public List<Lov> getVodozahvatLov(@RequestParam(value = "ops_id") Long opsId, 
+								   @RequestParam(value = "mes_id") Long mesId) {
+		return service.vodozahvatLov(opsId, mesId);
 	}
 }	
