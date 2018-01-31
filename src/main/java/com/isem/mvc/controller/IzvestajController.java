@@ -22,6 +22,9 @@ import com.isem.mvc.izvestaj.SpecMesPot;
 import com.isem.mvc.izvestaj.SpecPotEneObj;
 import com.isem.mvc.izvestaj.UkPotEneObj;
 import com.isem.mvc.izvestaj.UkPotObj;
+import com.isem.mvc.izvestaj.VodGodPot;
+import com.isem.mvc.izvestaj.VodMesPot;
+import com.isem.mvc.izvestaj.VodPotPoVod;
 import com.isem.mvc.service.IzvestajService;
 
 @RestController
@@ -123,5 +126,26 @@ public class IzvestajController {
 			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
 			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
 		return service.rasPotPoTraf(trafo_id, datum_od, datum_do);
+	}
+	
+	@RequestMapping(value="/vod_god_pot", params = {"vod_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
+	public List<VodGodPot> vodGodPot(@RequestParam("vod_id") String vod_id,
+			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
+			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
+		return service.vodGodPot(vod_id, datum_od, datum_do);
+	}
+	
+	@RequestMapping(value="/vod_mes_pot", params = {"vod_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
+	public List<VodMesPot> vodMesPot(@RequestParam("vod_id") String vod_id,
+			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
+			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
+		return service.vodMesPot(vod_id, datum_od, datum_do);
+	}
+	
+	@RequestMapping(value="/vod_pot_po_traf", params = {"vod_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
+	public List<VodPotPoVod> vodPotPoVod(@RequestParam("vod_id") String vod_id,
+			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
+			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
+		return service.vodPotPoVod(vod_id, datum_od, datum_do);
 	}
 }

@@ -1,0 +1,49 @@
+CREATE DEFINER=`isem`@`%` PROCEDURE `izv_vod_mes_pot`(i_vod_id varchar(1000), i_datum_od date, i_datum_do date)
+begin
+	DECLARE p_emisija DOUBLE;
+    
+    select emisija into p_emisija
+    from energent
+    where id = 16; -- el. energija
+
+	CALL upisi_id_u_temp(i_vod_id, 't1');
+    
+    
+    DROP TEMPORARY TABLE IF EXISTS temp;
+	CREATE TEMPORARY TABLE temp(id int,								
+                                godina varchar(4),
+                                mesec varchar(25),
+                                potrosnja double,
+                                emisija double,
+                                iznos double) ENGINE=MEMORY;
+    
+    SET @row_number = 0;
+    
+    -- po mesecima --
+	insert into temp(id, godina, mesec, potrosnja, emisija, iznos)
+    select (@row_number:=@row_number + 1), god, naziv, potrosnja, emisija, iznos
+    from (	
+			select g.god, m.id mid, m.naziv, sum(kolicina_kwh) potrosnja, sum(kolicina_kwh)*p_emisija emisija, sum(iznos) iznos
+			from rn_vodozahvat_bilans rn, godina g, mesec m
+			where rn.datumr between i_datum_od and i_datum_do
+				  and YEAR(rn.datumr) = g.god
+				  and MONTH(rn.datumr) = m.id
+				  and brojilo_vodozahvat_id in (select id from brojilo_vodozahvat where vodozahvat_id in (select k1 from t1)) 
+			group by g.god, m.id
+            ) t1
+	order by god, mid; 
+    
+    -- ukupno --
+    insert into temp(id, mesec, potrosnja, emisija, iznos)
+    select (@row_number:=@row_number + 1), 'Ukupno:', sum(kolicina_kwh), sum(kolicina_kwh)*p_emisija, sum(iznos)
+	from rn_vodozahvat_bilans rn
+	where rn.datumr between i_datum_od and i_datum_do
+		  and brojilo_vodozahvat_id in (select id from brojilo_vodozahvat where vodozahvat_id in (select k1 from t1)) ;
+          
+	select id, godina, mesec, ROUND(potrosnja,2) potrosnja, ROUND(emisija,2) emisija, ROUND(iznos,2) iznos
+    from temp
+    order by id;
+    
+      
+
+end

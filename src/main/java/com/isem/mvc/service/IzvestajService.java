@@ -18,6 +18,9 @@ import com.isem.mvc.izvestaj.SpecMesPot;
 import com.isem.mvc.izvestaj.SpecPotEneObj;
 import com.isem.mvc.izvestaj.UkPotEneObj;
 import com.isem.mvc.izvestaj.UkPotObj;
+import com.isem.mvc.izvestaj.VodGodPot;
+import com.isem.mvc.izvestaj.VodMesPot;
+import com.isem.mvc.izvestaj.VodPotPoVod;
 import com.isem.mvc.izvestaj.dao.ApsGodPotDao;
 import com.isem.mvc.izvestaj.dao.ApsMesPotDao;
 import com.isem.mvc.izvestaj.dao.EfikObjDao;
@@ -30,6 +33,9 @@ import com.isem.mvc.izvestaj.dao.SpecMesPotDao;
 import com.isem.mvc.izvestaj.dao.SpecPotEneObjDao;
 import com.isem.mvc.izvestaj.dao.UkPotEneObjDao;
 import com.isem.mvc.izvestaj.dao.UkPotObjDao;
+import com.isem.mvc.izvestaj.dao.VodGodPotDao;
+import com.isem.mvc.izvestaj.dao.VodMesPotDao;
+import com.isem.mvc.izvestaj.dao.VodPotPoVodDao;
 
 @Service
 public class IzvestajService {
@@ -68,6 +74,15 @@ public class IzvestajService {
 	
 	@Autowired
 	private RasPotPoTrafDao dao12;
+	
+	@Autowired
+	private VodGodPotDao dao13;
+	
+	@Autowired
+	private VodMesPotDao dao14;
+	
+	@Autowired
+	private VodPotPoVodDao dao15;
 	
 	public List<ApsMesPot> apsMesPot (String obj_id, String ene_tip_id, Date datum_od, Date datum_do) {
 		return dao.apsMesPot(obj_id, ene_tip_id, datum_od, datum_do);
@@ -115,6 +130,18 @@ public class IzvestajService {
 	
 	public List<RasPotPoTraf> rasPotPoTraf (String trafo_id, Date datum_od, Date datum_do) {
 		return dao12.rasPotPoTraf(trafo_id, datum_od, datum_do);
+	}
+	
+	public List<VodGodPot> vodGodPot (String vod_id, Date datum_od, Date datum_do) {
+		return dao13.vodGodPot(vod_id, datum_od, datum_do);
+	}
+	
+	public List<VodMesPot> vodMesPot (String vod_id, Date datum_od, Date datum_do) {
+		return dao14.vodMesPot(vod_id, datum_od, datum_do);
+	}
+	
+	public List<VodPotPoVod> vodPotPoVod (String vod_id, Date datum_od, Date datum_do) {
+		return dao15.vodPotPoVod(vod_id, datum_od, datum_do);
 	}
 
 }
