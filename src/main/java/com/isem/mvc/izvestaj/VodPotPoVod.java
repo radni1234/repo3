@@ -31,7 +31,7 @@ public class VodPotPoVod {
 		this.iznos = iznos;
 	}
 
-	public String getVodozahtvat() {
+	public String getVodozahvat() {
 		return vodozahvat;
 	}
 

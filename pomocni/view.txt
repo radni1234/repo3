@@ -277,3 +277,105 @@ VIEW `vodozahvat_view` AS
         LEFT JOIN `opstina` `o` ON ((`m`.`opstina_id` = `o`.`id`)))
         LEFT JOIN `javno_preduzece` `jp` ON ((`v`.`javno_preduzece_id` = `jp`.`id`)))
         LEFT JOIN `vodozahvat_grupa` `g` ON ((`v`.`vodozahvat_grupa_id` = `g`.`id`)));
+        
+        
+  CREATE 
+VIEW `brojilo_kotlarnica_koef_v` AS
+    SELECT 
+        `b1`.`id` AS `id`,
+        `b1`.`vodece_brojilo_id` AS `vodece_brojilo_id`,
+        1 AS `koef`,
+        `b1`.`kotlarnica_id` AS `kotlarnica_id`,
+        `b1`.`brojilo_tip_id` AS `brojilo_tip_id`
+    FROM
+        `brojilo_kotlarnica` `b1`
+    WHERE
+        ((NOT (EXISTS( SELECT 
+                1
+            FROM
+                `brojilo_kotlarnica` `b2`
+            WHERE
+                (`b1`.`id` = `b2`.`vodece_brojilo_id`))))
+            AND (`b1`.`brojilo_tip_id` IN (1 , 2))) 
+    UNION SELECT 
+        `b1`.`id` AS `id`,
+        `b1`.`vodece_brojilo_id` AS `vodece_brojilo_id`,
+        (1 - (SELECT 
+                (SUM(IFNULL(`bb`.`procenat`, 0)) / 100)
+            FROM
+                `brojilo_kotlarnica` `bb`
+            WHERE
+                (`bb`.`vodece_brojilo_id` = `b1`.`id`))) AS `koef`,
+        `b1`.`kotlarnica_id` AS `kotlarnica_id`,
+        `b1`.`brojilo_tip_id` AS `brojilo_tip_id`
+    FROM
+        `brojilo_kotlarnica` `b1`
+    WHERE
+        (EXISTS( SELECT 
+                1
+            FROM
+                `brojilo_kotlarnica` `b2`
+            WHERE
+                (`b1`.`id` = `b2`.`vodece_brojilo_id`))
+            AND (`b1`.`brojilo_tip_id` IN (1 , 2))) 
+    UNION SELECT 
+        `b1`.`id` AS `id`,
+        `b1`.`vodece_brojilo_id` AS `vodece_brojilo_id`,
+        (IFNULL(`b1`.`procenat`, 0) / 100) AS `koef`,
+        `b1`.`kotlarnica_id` AS `kotlarnica_id`,
+        `b1`.`brojilo_tip_id` AS `brojilo_tip_id`
+    FROM
+        `brojilo_kotlarnica` `b1`
+    WHERE
+        (`b1`.`brojilo_tip_id` = 3);
+        
+        
+CREATE 
+VIEW `brojilo_vodozahvat_koef_v` AS
+    SELECT 
+        `b1`.`id` AS `id`,
+        `b1`.`vodece_brojilo_id` AS `vodece_brojilo_id`,
+        1 AS `koef`,
+        `b1`.`vodozahvat_id` AS `vodozahvat_id`,
+        `b1`.`brojilo_tip_id` AS `brojilo_tip_id`
+    FROM
+        `brojilo_vodozahvat` `b1`
+    WHERE
+        ((NOT (EXISTS( SELECT 
+                1
+            FROM
+                `brojilo_vodozahvat` `b2`
+            WHERE
+                (`b1`.`id` = `b2`.`vodece_brojilo_id`))))
+            AND (`b1`.`brojilo_tip_id` IN (1 , 2))) 
+    UNION SELECT 
+        `b1`.`id` AS `id`,
+        `b1`.`vodece_brojilo_id` AS `vodece_brojilo_id`,
+        (1 - (SELECT 
+                (SUM(IFNULL(`bb`.`procenat`, 0)) / 100)
+            FROM
+                `brojilo_vodozahvat` `bb`
+            WHERE
+                (`bb`.`vodece_brojilo_id` = `b1`.`id`))) AS `koef`,
+        `b1`.`vodozahvat_id` AS `vodozahvat_id`,
+        `b1`.`brojilo_tip_id` AS `brojilo_tip_id`
+    FROM
+        `brojilo_vodozahvat` `b1`
+    WHERE
+        (EXISTS( SELECT 
+                1
+            FROM
+                `brojilo_vodozahvat` `b2`
+            WHERE
+                (`b1`.`id` = `b2`.`vodece_brojilo_id`))
+            AND (`b1`.`brojilo_tip_id` IN (1 , 2))) 
+    UNION SELECT 
+        `b1`.`id` AS `id`,
+        `b1`.`vodece_brojilo_id` AS `vodece_brojilo_id`,
+        (IFNULL(`b1`.`procenat`, 0) / 100) AS `koef`,
+        `b1`.`vodozahvat_id` AS `vodozahvat_id`,
+        `b1`.`brojilo_tip_id` AS `brojilo_tip_id`
+    FROM
+        `brojilo_vodozahvat` `b1`
+    WHERE
+        (`b1`.`brojilo_tip_id` = 3);
