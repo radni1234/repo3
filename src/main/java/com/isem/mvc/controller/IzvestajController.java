@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isem.mvc.izvestaj.ApsGodPot;
 import com.isem.mvc.izvestaj.ApsMesPot;
 import com.isem.mvc.izvestaj.EfikObj;
+import com.isem.mvc.izvestaj.KotGodPot;
+import com.isem.mvc.izvestaj.KotMesPot;
+import com.isem.mvc.izvestaj.KotPotPoKot;
 import com.isem.mvc.izvestaj.PregObj;
 import com.isem.mvc.izvestaj.RasGodPot;
 import com.isem.mvc.izvestaj.RasMesPot;
@@ -147,5 +150,29 @@ public class IzvestajController {
 			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
 			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
 		return service.vodPotPoVod(vod_id, datum_od, datum_do);
+	}
+	
+	@RequestMapping(value="/kot_god_pot", params = {"kot_id", "ene_tip_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
+	public List<KotGodPot> izvKotGodPot(@RequestParam("kot_id") String kot_id,
+			@RequestParam("ene_tip_id") String ene_tip_id,
+			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
+			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
+		return service.kotGodPot(kot_id, ene_tip_id, datum_od, datum_do);
+	}
+	
+	@RequestMapping(value="/kot_mes_pot", params = {"kot_id", "ene_tip_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
+	public List<KotMesPot> izvKotMesPot(@RequestParam("kot_id") String kot_id,
+			@RequestParam("ene_tip_id") String ene_tip_id,
+			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
+			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
+		return service.kotMesPot(kot_id, ene_tip_id, datum_od, datum_do);
+	}
+	
+	@RequestMapping(value="/kot_pot_po_kot", params = {"kot_id", "ene_tip_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
+	public List<KotPotPoKot> izvKotPotPoKot(@RequestParam("kot_id") String kot_id,
+			@RequestParam("ene_tip_id") String ene_tip_id,
+			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
+			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
+		return service.kotPotPoKot(kot_id, ene_tip_id, datum_od, datum_do);
 	}
 }

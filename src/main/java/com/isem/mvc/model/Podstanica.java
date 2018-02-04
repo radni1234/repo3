@@ -37,6 +37,15 @@ public class Podstanica {
 	
 	@Column(name = "TIP_KALORIMETRA", length = 300)
 	private String tipKalorimetra;
+	
+	@Column(name = "LON", columnDefinition = "numeric(18,15)")
+	private Double lon;
+	
+	@Column(name = "LAT", columnDefinition = "numeric(18,15)")
+	private Double lat;
+	
+	@Column(name = "PUMPE", length = 2000)
+	private String pumpe;	
 
 	@Version
 	@Column(name = "VERSION", columnDefinition = "int(11) default 0")
@@ -44,10 +53,6 @@ public class Podstanica {
 
 	public Long getId() {
 		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getBrojPodstanice() {
@@ -96,14 +101,34 @@ public class Podstanica {
 
 	public void setTipKalorimetra(String tipKalorimetra) {
 		this.tipKalorimetra = tipKalorimetra;
+	}	
+
+	public Double getLon() {
+		return lon;
+	}
+
+	public void setLon(Double lon) {
+		this.lon = lon;
+	}
+
+	public Double getLat() {
+		return lat;
+	}
+
+	public void setLat(Double lat) {
+		this.lat = lat;
+	}
+
+	public String getPumpe() {
+		return pumpe;
+	}
+
+	public void setPumpe(String pumpe) {
+		this.pumpe = pumpe;
 	}
 
 	public Integer getVersion() {
 		return version;
-	}
-
-	public void setVersion(Integer version) {
-		this.version = version;
 	}
 	
 	

@@ -1,0 +1,79 @@
+
+delimiter $
+DROP PROCEDURE `izv_kot_god_pot`;$
+CREATE PROCEDURE `izv_kot_god_pot`(i_kot_id varchar(1000), i_ene_tip_id varchar(1000), i_datum_od date, i_datum_do date)
+begin
+	
+    CALL upisi_id_u_temp(i_kot_id,'t1');
+	CALL upisi_id_u_temp(i_ene_tip_id,'t2');
+	
+	DROP TEMPORARY TABLE IF EXISTS temp;
+	CREATE TEMPORARY TABLE temp(id int,
+								energent varchar(100),
+                                godina varchar(4),
+                                kolicina double,
+                                kolicina_kwh double,
+                                emisija_co2 double,
+                                iznos double,
+                                sort1 double,
+                                sort2 double) ENGINE=MEMORY;
+    
+        SET @rank=0;
+        
+        insert into temp(energent, sort1) 
+        select concat(e.naziv,' (', j.naziv, ')'), e.id + 0.1			                 
+		from rn_kotlarnica_bilans rn, energent e, jed_mere j	
+		where rn.energent_id = e.id			
+			  and brojilo_kotlarnica_id in (select id from brojilo_kotlarnica where kotlarnica_id in (select k1 from t1)) 
+              and rn.datumr between i_datum_od and i_datum_do
+              and rn.energent_id in (select id from energent where energent_tip_id in (select k1 from t2))
+              and e.jed_mere_id = j.id
+		group by e.naziv;
+        
+        insert into temp(godina, kolicina, kolicina_kwh, emisija_co2, iznos, sort1, sort2) 
+        select god, kolicina, kolicina_kwh, emisija_co2, iznos, eid + 0.2, @rank:=@rank+1
+        from
+			(select e.id eid, g.god,  
+				sum(kolicina) kolicina, sum(kolicina_kwh) kolicina_kwh, sum(emisija_co2) emisija_co2, sum(iznos) iznos                   
+				from rn_kotlarnica_bilans rn, energent e, godina g		
+				where rn.energent_id = e.id
+					  and YEAR(rn.datumr) = g.god					  
+					  and brojilo_kotlarnica_id in (select id from brojilo_kotlarnica where kotlarnica_id in (select k1 from t1))
+					  and rn.datumr between i_datum_od and i_datum_do
+                      and rn.energent_id in (select id from energent where energent_tip_id in (select k1 from t2))
+				group by e.id, g.god) t1
+        order by eid, god; 
+		
+        insert into temp(energent, kolicina, kolicina_kwh, emisija_co2, iznos, sort1) 
+        select 'Ukupno za energent: ', sum(kolicina), sum(kolicina_kwh), sum(emisija_co2), sum(iznos), e.id + 0.3                     
+		from rn_kotlarnica_bilans rn, energent e		
+		where rn.energent_id = e.id			
+			  and brojilo_kotlarnica_id in (select id from brojilo_kotlarnica where kotlarnica_id in (select k1 from t1))
+              and rn.datumr between i_datum_od and i_datum_do
+              and rn.energent_id in (select id from energent where energent_tip_id in (select k1 from t2))
+		group by e.naziv; 		
+        
+        insert into temp(energent, kolicina, kolicina_kwh, emisija_co2, iznos, sort1) 
+		select 'Ukupno: ', null, sum(kolicina_kwh), sum(emisija_co2), sum(iznos), 999                 
+		from rn_kotlarnica_bilans rn
+		where brojilo_kotlarnica_id in (select id from brojilo_kotlarnica where kotlarnica_id in (select k1 from t1))
+			  and rn.datumr between i_datum_od and i_datum_do
+              and rn.energent_id in (select id from energent where energent_tip_id in (select k1 from t2))
+		;  
+        
+
+    commit; 
+	
+    SET @row_number = 0;
+    
+  
+	select (@row_number:=@row_number + 1) AS id, 
+			case sort1
+				when 2 then null
+                else energent
+			end as energent, godina,  
+			kolicina, kolicina_kwh, emisija_co2, iznos
+	from temp
+	order by sort1, sort2;
+ 
+end$

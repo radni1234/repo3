@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import com.isem.mvc.izvestaj.ApsGodPot;
 import com.isem.mvc.izvestaj.ApsMesPot;
 import com.isem.mvc.izvestaj.EfikObj;
+import com.isem.mvc.izvestaj.KotGodPot;
+import com.isem.mvc.izvestaj.KotMesPot;
+import com.isem.mvc.izvestaj.KotPotPoKot;
 import com.isem.mvc.izvestaj.PregObj;
 import com.isem.mvc.izvestaj.RasGodPot;
 import com.isem.mvc.izvestaj.RasMesPot;
@@ -24,6 +27,9 @@ import com.isem.mvc.izvestaj.VodPotPoVod;
 import com.isem.mvc.izvestaj.dao.ApsGodPotDao;
 import com.isem.mvc.izvestaj.dao.ApsMesPotDao;
 import com.isem.mvc.izvestaj.dao.EfikObjDao;
+import com.isem.mvc.izvestaj.dao.KotGodPotDao;
+import com.isem.mvc.izvestaj.dao.KotMesPotDao;
+import com.isem.mvc.izvestaj.dao.KotPotPoKotDao;
 import com.isem.mvc.izvestaj.dao.PregObjDao;
 import com.isem.mvc.izvestaj.dao.RasGodPotDao;
 import com.isem.mvc.izvestaj.dao.RasMesPotDao;
@@ -84,6 +90,15 @@ public class IzvestajService {
 	@Autowired
 	private VodPotPoVodDao dao15;
 	
+	@Autowired
+	private KotGodPotDao dao16;
+	
+	@Autowired
+	private KotMesPotDao dao17;
+	
+	@Autowired
+	private KotPotPoKotDao dao18;
+	
 	public List<ApsMesPot> apsMesPot (String obj_id, String ene_tip_id, Date datum_od, Date datum_do) {
 		return dao.apsMesPot(obj_id, ene_tip_id, datum_od, datum_do);
 	}	
@@ -142,6 +157,18 @@ public class IzvestajService {
 	
 	public List<VodPotPoVod> vodPotPoVod (String vod_id, Date datum_od, Date datum_do) {
 		return dao15.vodPotPoVod(vod_id, datum_od, datum_do);
+	}
+	
+	public List<KotGodPot> kotGodPot (String kot_id, String ene_tip_id, Date datum_od, Date datum_do) {
+		return dao16.kotGodPot(kot_id, ene_tip_id, datum_od, datum_do);
+	}
+	
+	public List<KotMesPot> kotMesPot (String kot_id, String ene_tip_id, Date datum_od, Date datum_do) {
+		return dao17.kotMesPot(kot_id, ene_tip_id, datum_od, datum_do);
+	}
+	
+	public List<KotPotPoKot> kotPotPoKot (String kot_id, String ene_tip_id, Date datum_od, Date datum_do) {
+		return dao18.kotPotPoKot(kot_id, ene_tip_id, datum_od, datum_do);
 	}
 
 }

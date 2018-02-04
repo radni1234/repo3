@@ -27,7 +27,7 @@ public class RnKotlarnicaBilans {
     @JoinColumn(name = "BROJILO_KOTLARNICA_ID",
             foreignKey = @ForeignKey(name = "RN_KOTLARNICA_BILANS_FK2")
     )
-	private BrojiloVodozahvat brojiloVodozahvat;
+	private BrojiloKotlarnica brojiloKotlarnica;
 	
 	@ManyToOne
     @JoinColumn(name = "ENERGENT_ID",

@@ -28,6 +28,12 @@ public class Kotlarnica {
     )
 	private JavnoPreduzece javnoPreduzece;
 	
+	@Column(name = "LON", columnDefinition = "numeric(18,15)")
+	private Double lon;
+	
+	@Column(name = "LAT", columnDefinition = "numeric(18,15)")
+	private Double lat;
+	
 	@Column(name = "NAPOMENA", length = 1000)
 	private String napomena;
 
@@ -37,10 +43,6 @@ public class Kotlarnica {
 
 	public Long getId() {
 		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getNaziv() {
@@ -73,15 +75,26 @@ public class Kotlarnica {
 
 	public void setNapomena(String napomena) {
 		this.napomena = napomena;
+	}	
+
+	public Double getLon() {
+		return lon;
+	}
+
+	public void setLon(Double lon) {
+		this.lon = lon;
+	}
+
+	public Double getLat() {
+		return lat;
+	}
+
+	public void setLat(Double lat) {
+		this.lat = lat;
 	}
 
 	public Integer getVersion() {
 		return version;
 	}
-
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
-	
 	
 }
