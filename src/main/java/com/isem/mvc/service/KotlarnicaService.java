@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.isem.mvc.dao.KotlarnicaDao;
 import com.isem.mvc.dao.KotlarnicaViewDao;
+import com.isem.mvc.lov.Lov;
+import com.isem.mvc.lov.LovDao;
 import com.isem.mvc.model.Kotlarnica;
 import com.isem.mvc.tab.KotlarnicaView;
 
@@ -20,6 +22,9 @@ public class KotlarnicaService {
 	
 	@Autowired
 	private KotlarnicaViewDao daoView;
+	
+	@Autowired
+	private LovDao daoLov;
 	
 		
 	public Kotlarnica findById (Long id) {
@@ -45,6 +50,10 @@ public class KotlarnicaService {
 	public Page<KotlarnicaView> findAllView (Pageable pageRequest, String user) {
 		return daoView.findAll(pageRequest, user);
 	}	
+	
+	public List<Lov> kotlarnicaLov (Long opsId, Long mesId){
+		return daoLov.kotlarnicaLov(opsId, mesId);
+	}
 	
 	public Kotlarnica save(Kotlarnica obj) {
 		return dao.save(obj);

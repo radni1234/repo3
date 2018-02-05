@@ -379,3 +379,25 @@ VIEW `brojilo_vodozahvat_koef_v` AS
         `brojilo_vodozahvat` `b1`
     WHERE
         (`b1`.`brojilo_tip_id` = 3);
+        
+        
+CREATE 
+VIEW `kotlarnica_view` AS
+    SELECT 
+        `k`.`id` AS `id`,
+        `k`.`adresa` AS `adresa`,
+        `k`.`lat` AS `lat`,
+        `k`.`lon` AS `lon`,
+        `k`.`naziv` AS `naziv`,
+        `k`.`napomena` AS `napomena`,
+        `k`.`javno_preduzece_id` AS `javno_preduzece_id`,
+        `jp`.`naziv` AS `javno_preduzece`,
+        `o`.`id` AS `opstina_id`,
+        `o`.`naziv` AS `opstina`,
+        `m`.`id` AS `mesto_id`,
+        `m`.`naziv` AS `mesto`
+    FROM
+        (((`kotlarnica` `k`
+        LEFT JOIN `javno_preduzece` `jp` ON ((`k`.`javno_preduzece_id` = `jp`.`id`)))
+        LEFT JOIN `mesto` `m` ON ((`jp`.`mesto_id` = `m`.`id`)))
+        LEFT JOIN `opstina` `o` ON ((`m`.`opstina_id` = `o`.`id`)))

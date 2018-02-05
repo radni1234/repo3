@@ -28,6 +28,12 @@ public class Kotlarnica {
     )
 	private JavnoPreduzece javnoPreduzece;
 	
+	@ManyToOne
+    @JoinColumn(name = "MESTO_ID",
+            foreignKey = @ForeignKey(name = "KOTLARNICA_FK2")
+    )
+	private Mesto mesto;
+	
 	@Column(name = "LON", columnDefinition = "numeric(18,15)")
 	private Double lon;
 	
@@ -96,5 +102,15 @@ public class Kotlarnica {
 	public Integer getVersion() {
 		return version;
 	}
+
+	public Mesto getMesto() {
+		return mesto;
+	}
+
+	public void setMesto(Mesto mesto) {
+		this.mesto = mesto;
+	}
+	
+	
 	
 }

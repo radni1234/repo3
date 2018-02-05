@@ -154,6 +154,21 @@ public class LovDao {
 		return query.getResultList();
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Lov> energentTipKotLov() {
+		Query query = entityManager.createNativeQuery(
+				    "select id, naziv as name " + 
+					"from energent_tip " + 
+					"where id in (select energent_tip_id " + 
+					"			  from energent e" + 
+					"             where e.id in (select energent_id " + 
+					"             				 from rn_kotlarnica)) " + 			
+					"order by naziv",
+					"Lov");
+	
+		return query.getResultList();
+	}
+	
 
 	@SuppressWarnings("unchecked")
 	public List<Lov> javnoPreduzeceLov(String user) {
@@ -226,6 +241,23 @@ public class LovDao {
 		Query query = entityManager.createNativeQuery(
 				"select v.id, v.adresa as name "
 				+ "from vodozahvat v join mesto m on v.mesto_id = m.id "			
+				+ "		join opstina op on m.opstina_id = op.id "		
+				+ "where (op.id = :opsId or :opsId = 0) "
+				+ "		and (m.id = :mesId or :mesId = 0) "
+				,"Lov"
+				).setParameter("opsId", opsId)
+				 .setParameter("mesId", mesId)
+	;
+	
+		return query.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Lov> kotlarnicaLov(Long opsId, Long mesId) {
+		
+		Query query = entityManager.createNativeQuery(
+				"select k.id, k.naziv as name "
+				+ "from kotlarnica k join mesto m on k.mesto_id = m.id "			
 				+ "		join opstina op on m.opstina_id = op.id "		
 				+ "where (op.id = :opsId or :opsId = 0) "
 				+ "		and (m.id = :mesId or :mesId = 0) "

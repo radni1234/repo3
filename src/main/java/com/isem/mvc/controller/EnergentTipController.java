@@ -56,6 +56,11 @@ public class EnergentTipController {
 	public List<Lov> energentTipLov(@RequestParam(value = "obj_id") Long objId) {
 		return service.energentTipLov(objId);
 	}
+	
+	@RequestMapping(value="/kot_lov", method=RequestMethod.GET)
+	public List<Lov> energentTipKotLov() {
+		return service.energentTipKotLov();
+	}
 
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
 	public EnergentTip add(@RequestBody EnergentTip obj) {

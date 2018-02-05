@@ -9,6 +9,8 @@ public class KotlarnicaView {
 	private Long id;
 	private String naziv;
 	private String adresa;
+	private String lat;
+	private String lon;
 	private String napomena;
 	private Long javnoPreduzeceId;
 	private String javnoPreduzece;
@@ -47,6 +49,13 @@ public class KotlarnicaView {
 	public String getMesto() {
 		return mesto;
 	}
+	public String getLat() {
+		return lat;
+	}
+	public String getLon() {
+		return lon;
+	}
+	
 	
 	
 

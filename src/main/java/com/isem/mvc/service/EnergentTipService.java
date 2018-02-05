@@ -43,6 +43,10 @@ public class EnergentTipService {
 	public List<Lov> energentTipLov (Long objId) {
 		return daoLov.energentTipLov(objId);
 	}
+	
+	public List<Lov> energentTipKotLov () {
+		return daoLov.energentTipKotLov();
+	}
 
 	public EnergentTip save(EnergentTip obj) {
 		return dao.save(obj);
