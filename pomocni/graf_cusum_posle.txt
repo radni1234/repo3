@@ -22,6 +22,7 @@ begin
 						 from brojilo
 						 where objekat_id = p_objekat_id)
 		  and rn.datumr between DATE_ADD(LAST_DAY(p_datum_mere), INTERVAL 1 DAY) and SYSDATE()
+		  and rn.energent_id in (2,14,16)
 	group by YEAR(rn.datumr), MONTH(rn.datumr)) t1
     
     LEFT JOIN

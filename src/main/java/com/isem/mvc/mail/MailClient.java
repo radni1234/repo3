@@ -27,7 +27,7 @@ public class MailClient {
     	     
     	    	 MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
         	     message.setFrom("isem@vrbas.net");
-        	     message.setTo("rkoledin@yahoo.com");
+        	     message.setTo(u.getMail());
 //        	     message.setTo(u.getMail());
         	     message.setSubject("ISEM alarm");
     	    	 message.setText(content, true);
@@ -48,7 +48,7 @@ public class MailClient {
     	   public void prepare(MimeMessage mimeMessage) throws MessagingException {
     	     MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
     	     message.setFrom("isem@vrbas.net");
-    	     message.setTo("rkoledin@yahoo.com");
+    	     message.setTo(u.getMail());
 //    	     message.setTo(u.getMail());
     	     message.setSubject("ISEM alarm");
     	     message.setText(content, true);

@@ -1,4 +1,5 @@
-CREATE DEFINER=`isem`@`%` PROCEDURE `alarm_korisnik_osnova`(i_korisnik_id numeric)
+CREATE DEFINER=`isem`@`%` FUNCTION `alarm_korisnik_osnova`(i_korisnik_id numeric) RETURNS longtext CHARSET utf8
+    DETERMINISTIC
 BEGIN
 	
 
@@ -37,7 +38,7 @@ BEGIN
 	  from god_mes g
 	  where not exists (select 1
 					    from rn
-					    where rn.datumr = g.datum
+					    where DATE(rn.datumr) = g.datum
 							  and rn.energent_id = p_ene_id 
                               and rn.brojilo_id = p_bro_id)
 		    and datum between p_datum_od and p_datum_do; 
@@ -52,7 +53,7 @@ BEGIN
     -- odredjivanje datuma od i do --    
     select alarm_racun_start
     into p_alarm_racun_start
-    from korisnik
+    from user
     where id = i_korisnik_id; 
     
     SET p_datum_od := DATE_FORMAT(p_alarm_racun_start, '%Y-%m-01');
@@ -127,5 +128,5 @@ BEGIN
       
   END LOOP korObjLoop; 
 
-  select p_poruka;
+  RETURN p_poruka;
 END

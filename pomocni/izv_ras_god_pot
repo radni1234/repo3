@@ -25,13 +25,16 @@ begin
     
     -- po godinama --
 	insert into temp(id, godina, potrosnja, emisija, iznos)
-    select (@row_number:=@row_number + 1), g.god, sum(potrosnja), sum(potrosnja)*p_emisija, sum(iznos)
-	from rn_trafo rn, godina g
-	where rn.datumr between i_datum_od and i_datum_do
-		  and YEAR(rn.datumr) = g.god
-		  and trafo_id in (select k1 from t1)
-	group by g.god
-	order by g.god; 
+    select (@row_number:=@row_number + 1), god, potrosnja, emisija, iznos
+    from (
+			select g.god, sum(potrosnja) potrosnja, sum(potrosnja)*p_emisija emisija, sum(iznos) iznos
+			from rn_trafo rn, godina g
+			where rn.datumr between i_datum_od and i_datum_do
+				  and YEAR(rn.datumr) = g.god
+				  and trafo_id in (select k1 from t1)
+			group by g.god
+			) t
+	order by god; 
     
     -- ukupno --
     insert into temp(id, godina, potrosnja, emisija, iznos)
