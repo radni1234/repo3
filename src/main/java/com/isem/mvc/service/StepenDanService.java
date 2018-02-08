@@ -32,12 +32,20 @@ public class StepenDanService {
 		return dao.findAll(pageRequest);
 	}
 	
+	public List<StepenDan> findStepenDanByOpsGod (Long obj_id, Integer god) {
+		return dao.findStepenDanByOpsGod(obj_id, god);
+	}
+	
 	public List<StepenDanView> findAllView () {
 		return daoView.findAll();
 	}
 
 	public Page<StepenDanView> findAllView (Pageable pageRequest) {
 		return daoView.findAll(pageRequest);
+	}
+	
+	public List<StepenDanView> findStepenDanViewByOpsGod (Long obj_id, Integer god) {
+		return daoView.findStepenDanViewByOpsGod(obj_id, god);
 	}
 
 	public StepenDan save(StepenDan obj) {

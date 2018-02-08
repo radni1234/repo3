@@ -13,27 +13,21 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(uniqueConstraints= @UniqueConstraint(columnNames = {"GODINA_ID", "MESEC_ID", "OPSTINA_ID"}) )
+@Table(uniqueConstraints= @UniqueConstraint(columnNames = {"GODINA", "MESEC", "OPSTINA_ID"}) )
 public class StepenDan {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
-	@ManyToOne
-    @JoinColumn(name = "GODINA_ID",
-            foreignKey = @ForeignKey(name = "STEPEN_DAN_FK1")
-    )
-	private Godina godina;
+	@Column(name = "GODINA", columnDefinition = "int(4)")
+	private Integer godina;
 	
-	@ManyToOne
-    @JoinColumn(name = "MESEC_ID",
-            foreignKey = @ForeignKey(name = "STEPEN_DAN_FK2")
-    )
-	private Mesec mesec;	
+	@Column(name = "MESEC", columnDefinition = "int(2)")
+	private Integer mesec;
 	
 	@ManyToOne
     @JoinColumn(name = "OPSTINA_ID",
-            foreignKey = @ForeignKey(name = "STEPEN_DAN_FK3")
+            foreignKey = @ForeignKey(name = "STEPEN_DAN_FK1")
     )
 	private Opstina opstina;
 	
@@ -48,14 +42,6 @@ public class StepenDan {
 		return id;
 	}
 
-	public Godina getGodina() {
-		return godina;
-	}
-
-	public Mesec getMesec() {
-		return mesec;
-	}
-
 	public Opstina getOpstina() {
 		return opstina;
 	}
@@ -68,20 +54,28 @@ public class StepenDan {
 		return version;
 	}
 
-	public void setGodina(Godina godina) {
-		this.godina = godina;
-	}
-
-	public void setMesec(Mesec mesec) {
-		this.mesec = mesec;
-	}
-
 	public void setOpstina(Opstina opstina) {
 		this.opstina = opstina;
 	}
 
 	public void setSdIznos(Double sdIznos) {
 		this.sdIznos = sdIznos;
+	}	
+
+	public Integer getGodina() {
+		return godina;
+	}
+
+	public void setGodina(Integer godina) {
+		this.godina = godina;
+	}
+
+	public Integer getMesec() {
+		return mesec;
+	}
+
+	public void setMesec(Integer mesec) {
+		this.mesec = mesec;
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isem.mvc.model.StepenDan;
 import com.isem.mvc.service.StepenDanService;
+import com.isem.mvc.tab.StepenDanView;
 
 @RestController
 @RequestMapping("/stepen_dan")
@@ -35,18 +36,30 @@ public class StepenDanController {
 		return service.findAll(pageable);
 	}
 	
+	@RequestMapping(value="/sve", params = {"ops_id", "god"}, method=RequestMethod.GET)
+	public List<StepenDan> findStepenDanByOpsGod(@RequestParam(value = "ops_id") long ops_id, 
+			@RequestParam(value = "god") int god ) {
+		return service.findStepenDanByOpsGod(ops_id, god);
+	}
+	
 	@RequestMapping(value="/tab", method=RequestMethod.GET)
-	public List<StepenDan> getAllView() {
-		return service.findAll();
+	public List<StepenDanView> getAllView() {
+		return service.findAllView();
 	}
 
 	@RequestMapping(value="/tab", params = {"str", "vel"}, method=RequestMethod.GET)
-	public Page<StepenDan> getAllView(@RequestParam(value = "str") int strana, 
+	public Page<StepenDanView> getAllView(@RequestParam(value = "str") int strana, 
 								@RequestParam(value = "vel") int velicina ) {
 		
 		Pageable pageable = new PageRequest(strana, velicina);
 		
-		return service.findAll(pageable);
+		return service.findAllView(pageable);
+	}
+	
+	@RequestMapping(value="/tab", params = {"ops_id", "god"}, method=RequestMethod.GET)
+	public List<StepenDanView> findStepenDanViewByOpsGod(@RequestParam(value = "ops_id") long ops_id, 
+			@RequestParam(value = "god") int god ) {
+		return service.findStepenDanViewByOpsGod(ops_id, god);
 	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)

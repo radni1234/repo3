@@ -7,8 +7,9 @@ import javax.persistence.Id;
 public class StepenDanView {
 	@Id
 	private Long id;
+	private Long opstinaId;
 	private String opstina;
-	private String godina;
+	private Integer godina;
 	private String mesec;
 	private Double sd_iznos;
 	
@@ -18,7 +19,7 @@ public class StepenDanView {
 	public String getOpstina() {
 		return opstina;
 	}
-	public String getGodina() {
+	public Integer getGodina() {
 		return godina;
 	}
 	public String getMesec() {
@@ -27,6 +28,8 @@ public class StepenDanView {
 	public Double getSd_iznos() {
 		return sd_iznos;
 	}
-	
-	
+	public Long getOpstinaId() {
+		return opstinaId;
+	}
+		
 }
