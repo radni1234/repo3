@@ -17,6 +17,6 @@ public interface StepenDanViewDao extends Repository<StepenDanView, Long> {
 
 	Page<StepenDanView> findAll(Pageable pageRequest);
 	
-	@Query("SELECT s FROM StepenDanView s where s.opstinaId = :ops_id and s.godina = :god")
+	@Query("SELECT s FROM StepenDanView s where s.opstinaId = :ops_id and s.godina = :god order by s.mesecId")
     public List<StepenDanView> findStepenDanViewByOpsGod(@Param("ops_id") Long ops_id, @Param("god") Integer god);
 }

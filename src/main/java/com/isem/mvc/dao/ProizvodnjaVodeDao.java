@@ -1,5 +1,6 @@
 package com.isem.mvc.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -21,4 +22,7 @@ public interface ProizvodnjaVodeDao extends PagingAndSortingRepository<Proizvodn
 	
 	@Query("SELECT p FROM ProizvodnjaVode p where p.vodozahvat.id = :id")
     public List<ProizvodnjaVode> findProizvodnjaVodeByVodozahvat(@Param("id") Long id);
+	
+	@Query("SELECT count(*) FROM ProizvodnjaVode p where p.vodozahvat.id = :id and DATE(p.datum) = :datum")
+	Long proveriUnos(@Param("datum") Date datumr, @Param("id") Long id);
 }

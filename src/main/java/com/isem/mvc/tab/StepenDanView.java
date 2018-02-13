@@ -10,6 +10,7 @@ public class StepenDanView {
 	private Long opstinaId;
 	private String opstina;
 	private Integer godina;
+	private Long mesecId;
 	private String mesec;
 	private Double sd_iznos;
 	
@@ -31,5 +32,9 @@ public class StepenDanView {
 	public Long getOpstinaId() {
 		return opstinaId;
 	}
+	public Long getMesecId() {
+		return mesecId;
+	}
+	
 		
 }

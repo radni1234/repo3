@@ -49,8 +49,8 @@ public class VodozahvatService {
 		return daoView.findAll(pageRequest, user);
 	}	
 	
-	public List<Lov> vodozahvatLov (Long opsId, Long mesId){
-		return daoLov.vodozahvatLov(opsId, mesId);
+	public List<Lov> vodozahvatLov (Long opsId, Long mesId, Long grupaId){
+		return daoLov.vodozahvatLov(opsId, mesId, grupaId);
 	}
 	
 	public Vodozahvat save(Vodozahvat obj) {

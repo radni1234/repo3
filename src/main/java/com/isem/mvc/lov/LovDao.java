@@ -236,7 +236,7 @@ public class LovDao {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Lov> vodozahvatLov(Long opsId, Long mesId) {
+	public List<Lov> vodozahvatLov(Long opsId, Long mesId, Long grupaId) {
 		
 		Query query = entityManager.createNativeQuery(
 				"select v.id, v.adresa as name "
@@ -244,9 +244,11 @@ public class LovDao {
 				+ "		join opstina op on m.opstina_id = op.id "		
 				+ "where (op.id = :opsId or :opsId = 0) "
 				+ "		and (m.id = :mesId or :mesId = 0) "
+				+ "     and (v.vodozahvat_grupa_id = :grupaId or :grupaId = 0) "
 				,"Lov"
 				).setParameter("opsId", opsId)
 				 .setParameter("mesId", mesId)
+				 .setParameter("grupaId", grupaId)
 	;
 	
 		return query.getResultList();

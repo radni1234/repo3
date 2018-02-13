@@ -73,9 +73,10 @@ public class VodozahvatController {
 		service.delete(id);
 	}
 	
-	@RequestMapping(value="/lov", params = {"ops_id", "mes_id"}, method=RequestMethod.GET)
+	@RequestMapping(value="/lov", params = {"ops_id", "mes_id", "grupa_id"}, method=RequestMethod.GET)
 	public List<Lov> getVodozahvatLov(@RequestParam(value = "ops_id") Long opsId, 
-								   @RequestParam(value = "mes_id") Long mesId) {
-		return service.vodozahvatLov(opsId, mesId);
+								   @RequestParam(value = "mes_id") Long mesId,
+								   @RequestParam(value = "grupa_id") Long grupaId) {
+		return service.vodozahvatLov(opsId, mesId, grupaId);
 	}
 }	

@@ -13,7 +13,7 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(uniqueConstraints= @UniqueConstraint(columnNames = {"GODINA", "MESEC", "OPSTINA_ID"}) )
+@Table(uniqueConstraints= @UniqueConstraint(columnNames = {"GODINA", "MESEC_ID", "OPSTINA_ID"}) )
 public class StepenDan {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -22,12 +22,15 @@ public class StepenDan {
 	@Column(name = "GODINA", columnDefinition = "int(4)")
 	private Integer godina;
 	
-	@Column(name = "MESEC", columnDefinition = "int(2)")
-	private Integer mesec;
+	@ManyToOne
+    @JoinColumn(name = "MESEC_ID",
+            foreignKey = @ForeignKey(name = "STEPEN_DAN_FK1")
+    )
+	private Mesec mesec;
 	
 	@ManyToOne
     @JoinColumn(name = "OPSTINA_ID",
-            foreignKey = @ForeignKey(name = "STEPEN_DAN_FK1")
+            foreignKey = @ForeignKey(name = "STEPEN_DAN_FK2")
     )
 	private Opstina opstina;
 	
@@ -68,13 +71,13 @@ public class StepenDan {
 
 	public void setGodina(Integer godina) {
 		this.godina = godina;
-	}
+	}	
 
-	public Integer getMesec() {
+	public Mesec getMesec() {
 		return mesec;
 	}
 
-	public void setMesec(Integer mesec) {
+	public void setMesec(Mesec mesec) {
 		this.mesec = mesec;
 	}
 
