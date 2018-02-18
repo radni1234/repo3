@@ -52,10 +52,11 @@ BEGIN
 		  `kolicina_kwh_kor` = NEW.`kolicina` * p_kwh_jm / p_op_br_kor * p_koef,
 		  `kolicina_fin_ene` = NEW.`kolicina` * p_finalna_ene * p_koef,
 		  `kolicina_prim_ene` = NEW.`kolicina` * p_primarna_ene * p_koef,
-		  `emisija_co2` = NEW.`kolicina` * p_emisija * p_koef,
-          `emisija_co2_pov` = NEW.`kolicina` * p_emisija / p_grej_po_korisna * p_koef,
-		  `emisija_co2_zap` = NEW.`kolicina` * p_emisija / p_grej_za * p_koef,
-		  `emisija_co2_kor` = NEW.`kolicina` * p_emisija / p_op_br_kor * p_koef
+		  `emisija_co2` = NEW.`kolicina` * p_kwh_jm * p_emisija * p_koef,
+          `emisija_co2_pov` = NEW.`kolicina` * p_kwh_jm * p_emisija / p_grej_po_korisna * p_koef,
+		  `emisija_co2_zap` = NEW.`kolicina` * p_kwh_jm * p_emisija / p_grej_za * p_koef,
+		  `emisija_co2_kor` = NEW.`kolicina` * p_kwh_jm * p_emisija / p_op_br_kor * p_koef,
+          `trend_iskljuciti` = NEW.`trend_iskljuciti`
       WHERE rn_id = NEW.id and brojilo_id = NEW.`brojilo_id`;
       
       -- virtuelna brojila --        
@@ -98,10 +99,11 @@ BEGIN
 				  `kolicina_kwh_kor` = NEW.`kolicina` * p_kwh_jm / p_op_br_kor * p_koef,
 				  `kolicina_fin_ene` = NEW.`kolicina` * p_finalna_ene * p_koef,
 				  `kolicina_prim_ene` = NEW.`kolicina` * p_primarna_ene * p_koef,
-				  `emisija_co2` = NEW.`kolicina` * p_emisija * p_koef,
-				  `emisija_co2_pov` = NEW.`kolicina` * p_emisija / p_grej_po_korisna * p_koef,
-				  `emisija_co2_zap` = NEW.`kolicina` * p_emisija / p_grej_za * p_koef,
-				  `emisija_co2_kor` = NEW.`kolicina` * p_emisija / p_op_br_kor * p_koef
+				  `emisija_co2` = NEW.`kolicina` * p_kwh_jm * p_emisija * p_koef,
+				  `emisija_co2_pov` = NEW.`kolicina` * p_kwh_jm * p_emisija / p_grej_po_korisna * p_koef,
+				  `emisija_co2_zap` = NEW.`kolicina` * p_kwh_jm * p_emisija / p_grej_za * p_koef,
+				  `emisija_co2_kor` = NEW.`kolicina` * p_kwh_jm * p_emisija / p_op_br_kor * p_koef,
+                  `trend_iskljuciti` = NEW.`trend_iskljuciti`
 			  WHERE rn_id = NEW.id and brojilo_id = NEW.`brojilo_id`;
             
         END LOOP;

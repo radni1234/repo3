@@ -29,12 +29,12 @@ public class TrafoService {
 		return dao.findById(id);
 	}
 
-	public List<Trafo> findAll () {
-		return dao.findAll();
+	public List<Trafo> findAll (String user) {
+		return dao.findAll(user);
 	}
 
-	public Page<Trafo> findAll (Pageable pageRequest) {
-		return dao.findAll(pageRequest);
+	public Page<Trafo> findAll (Pageable pageRequest, String user) {
+		return dao.findAll(pageRequest, user);
 	}
 	
 	public List<Trafo> findTrafoByMesto(Long mesto_id) {		
@@ -45,12 +45,12 @@ public class TrafoService {
 		return daoView.findById(id);
 	}
 
-	public List<TrafoView> findAllView () {
-		return daoView.findAll();
+	public List<TrafoView> findAllView (String user) {
+		return daoView.findAll(user);
 	}
 
-	public Page<TrafoView> findAllView (Pageable pageRequest) {
-		return daoView.findAll(pageRequest);
+	public Page<TrafoView> findAllView (Pageable pageRequest, String user) {
+		return daoView.findAll(pageRequest, user);
 	}
 
 	public Trafo save(Trafo obj) {

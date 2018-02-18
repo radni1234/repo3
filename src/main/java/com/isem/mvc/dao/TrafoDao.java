@@ -15,9 +15,27 @@ import com.isem.mvc.model.Trafo;
 public interface TrafoDao extends PagingAndSortingRepository<Trafo, Long> {
 	Trafo findById(Long id);
 	
-	List<Trafo> findAll();
-
-	Page<Trafo> findAll(Pageable pageRequest);
+	@Query("SELECT t FROM Trafo t "
+			+ "where (t.mesto in "
+					+ "(select m2 from Mesto m2 where m2.opstina = "
+						+ "(select m.opstina from Mesto m where m = "
+			 				+ "(select u.mesto from User u where username like :user))) "
+			 				+ " and (select a.id from User u inner join u.authorities a where u.id = "
+				 	 		+ "(select u.id from User u where username like :user)) in (2,3)) "
+	 	 		+ "or ((select a.id from User u inner join u.authorities a where u.id = "
+	 	 			+ "(select u.id from User u where username like :user)) in (1))" )
+	List<Trafo> findAll(@Param("user") String user);
+	
+	@Query("SELECT t FROM Trafo t "
+			+ "where (t.mesto in "
+					+ "(select m2 from Mesto m2 where m2.opstina = "
+						+ "(select m.opstina from Mesto m where m = "
+			 				+ "(select u.mesto from User u where username like :user))) "
+			 				+ " and (select a.id from User u inner join u.authorities a where u.id = "
+				 	 		+ "(select u.id from User u where username like :user)) in (2,3)) "
+	 	 		+ "or ((select a.id from User u inner join u.authorities a where u.id = "
+	 	 			+ "(select u.id from User u where username like :user)) in (1))" )
+	Page<Trafo> findAll(Pageable pageRequest, @Param("user") String user);
 	
 	@Query("SELECT t FROM Trafo t  where t.mesto.id = :mesto_id order by t.redosled")
     public List<Trafo> findTrafoByMesto(@Param("mesto_id") Long mesto_id);

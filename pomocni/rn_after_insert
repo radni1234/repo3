@@ -76,10 +76,10 @@ BEGIN
 			  NEW.`kolicina` * p_kwh_jm / p_op_br_kor * p_koef,
 			  NEW.`kolicina` * p_finalna_ene * p_koef,
 			  NEW.`kolicina` * p_primarna_ene * p_koef,
-			  NEW.`kolicina` * p_emisija * p_koef,
-              NEW.`kolicina` * p_emisija / p_grej_po_korisna * p_koef,
-              NEW.`kolicina` * p_emisija / p_grej_za * p_koef,
-              NEW.`kolicina` * p_emisija / p_op_br_kor * p_koef);
+			  NEW.`kolicina` * p_kwh_jm * p_emisija * p_koef,
+              NEW.`kolicina` * p_kwh_jm * p_emisija / p_grej_po_korisna * p_koef,
+              NEW.`kolicina` * p_kwh_jm * p_emisija / p_grej_za * p_koef,
+              NEW.`kolicina` * p_kwh_jm * p_emisija / p_op_br_kor * p_koef);
               
 		-- virtuelna brojila --        
         OPEN cur;
@@ -143,10 +143,10 @@ BEGIN
 			  NEW.`kolicina` * p_kwh_jm / p_op_br_kor * p_koef,
 			  NEW.`kolicina` * p_finalna_ene * p_koef,
 			  NEW.`kolicina` * p_primarna_ene * p_koef,
-			  NEW.`kolicina` * p_emisija * p_koef,
-              NEW.`kolicina` * p_emisija / p_grej_po_korisna * p_koef,
-              NEW.`kolicina` * p_emisija / p_grej_za * p_koef,
-              NEW.`kolicina` * p_emisija / p_op_br_kor * p_koef);            
+			  NEW.`kolicina` * p_kwh_jm * p_emisija * p_koef,
+              NEW.`kolicina` * p_kwh_jm * p_emisija / p_grej_po_korisna * p_koef,
+              NEW.`kolicina` * p_kwh_jm * p_emisija / p_grej_za * p_koef,
+              NEW.`kolicina` * p_kwh_jm * p_emisija / p_op_br_kor * p_koef);            
             
         END LOOP;
 		CLOSE cur;

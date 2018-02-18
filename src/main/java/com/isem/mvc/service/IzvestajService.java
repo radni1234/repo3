@@ -147,8 +147,8 @@ public class IzvestajService {
 		return dao12.rasPotPoTraf(trafo_id, datum_od, datum_do);
 	}
 	
-	public List<VodGodPot> vodGodPot (String vod_id, Date datum_od, Date datum_do) {
-		return dao13.vodGodPot(vod_id, datum_od, datum_do);
+	public List<VodGodPot> vodGodPot (Integer grupa_id, String vod_id, Date datum_od, Date datum_do) {
+		return dao13.vodGodPot(grupa_id, vod_id, datum_od, datum_do);
 	}
 	
 	public List<VodMesPot> vodMesPot (String vod_id, Date datum_od, Date datum_do) {
