@@ -46,7 +46,8 @@ begin
     insert into temp2(godina, proizvodnja)
     select YEAR(p.datum), sum(proizvodnja)
 	from proizvodnja_vode p
-	where vodozahvat_id in (select k1 from t1)
+	where p.datum between i_datum_od and i_datum_do
+			and vodozahvat_id in (select k1 from t1)
 	group by YEAR(p.datum);
     
      /* You cannot refer to a TEMPORARY table more than once in the same query. For example, the following does not work:
@@ -58,9 +59,10 @@ begin
                         where temp.godina = temp2.godina);
                        
 	update temp
-    set spec_proizvodnja = (select proizvodnja
+    set spec_proizvodnja = potrosnja / 
+							(select proizvodnja
 							from temp2
-							where temp.godina = temp2.godina) / potrosnja;
+							where temp.godina = temp2.godina);
                     
 	insert into temp(godina, proizvodnja)
     select godina, proizvodnja
@@ -77,7 +79,7 @@ begin
     
     -- ukupno --
     insert into temp(godina, potrosnja, emisija, iznos, proizvodnja, spec_proizvodnja)
-    select 'Ukupno:', sum(kolicina_kwh), sum(kolicina_kwh)*p_emisija, sum(iznos), p_proizvodnja, p_proizvodnja / sum(kolicina_kwh)
+    select 'Ukupno:', sum(kolicina_kwh), sum(kolicina_kwh)*p_emisija, sum(iznos), p_proizvodnja, sum(kolicina_kwh) / p_proizvodnja
 	from rn_vodozahvat_bilans rn
 	where rn.datumr between i_datum_od and i_datum_do		
 		  and brojilo_vodozahvat_id in (select id from brojilo_vodozahvat where vodozahvat_id in (select k1 from t1));

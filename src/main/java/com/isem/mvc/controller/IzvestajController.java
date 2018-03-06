@@ -139,18 +139,20 @@ public class IzvestajController {
 		return service.vodGodPot(grupa_id, vod_id, datum_od, datum_do);
 	}
 	
-	@RequestMapping(value="/vod_mes_pot", params = {"vod_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
-	public List<VodMesPot> vodMesPot(@RequestParam("vod_id") String vod_id,
+	@RequestMapping(value="/vod_mes_pot", params = {"grupa_id", "vod_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
+	public List<VodMesPot> vodMesPot(@RequestParam("grupa_id") Integer grupa_id,
+			@RequestParam("vod_id") String vod_id,
 			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
 			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
-		return service.vodMesPot(vod_id, datum_od, datum_do);
+		return service.vodMesPot(grupa_id, vod_id, datum_od, datum_do);
 	}
 	
-	@RequestMapping(value="/vod_pot_po_vod", params = {"vod_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
-	public List<VodPotPoVod> vodPotPoVod(@RequestParam("vod_id") String vod_id,
+	@RequestMapping(value="/vod_pot_po_vod", params = {"grupa_id", "vod_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
+	public List<VodPotPoVod> vodPotPoVod(@RequestParam("grupa_id") Integer grupa_id,
+			@RequestParam("vod_id") String vod_id,
 			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
 			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
-		return service.vodPotPoVod(vod_id, datum_od, datum_do);
+		return service.vodPotPoVod(grupa_id, vod_id, datum_od, datum_do);
 	}
 	
 	@RequestMapping(value="/kot_god_pot", params = {"kot_id", "ene_tip_id", "datum_od", "datum_do"}, method=RequestMethod.GET)

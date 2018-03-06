@@ -1,0 +1,104 @@
+delimiter %
+
+DROP PROCEDURE `izv_vod_mes_pot_proiz`;
+%
+
+CREATE PROCEDURE `izv_vod_mes_pot_proiz`(i_vod_id varchar(1000), i_datum_od date, i_datum_do date)
+begin
+
+
+	DECLARE p_emisija, p_proizvodnja DOUBLE;
+    
+    select emisija into p_emisija
+    from energent
+    where id = 16; -- el. energija
+
+	CALL upisi_id_u_temp(i_vod_id, 't1');
+    
+    
+    DROP TEMPORARY TABLE IF EXISTS temp;
+    DROP TEMPORARY TABLE IF EXISTS temp2;
+    
+	CREATE TEMPORARY TABLE temp(id int,								
+                                godina varchar(10), 
+                                mesec varchar(2),
+                                potrosnja double,
+                                emisija double,
+                                iznos double,
+                                proizvodnja double,
+                                spec_proizvodnja double) ENGINE=MEMORY;
+                                
+                                
+	CREATE TEMPORARY TABLE temp2(godina varchar(4),    
+								 mesec varchar(2),
+                                 proizvodnja double) ENGINE=MEMORY;
+    
+    SET @row_number = 0;
+    SET sql_safe_updates = 0;
+    
+       
+    -- po mesecima --
+	insert into temp(id, godina, mesec, potrosnja, emisija, iznos)
+    select (@row_number:=@row_number + 1), god, mes, potrosnja, emisija, iznos
+    from (	
+			select YEAR(rn.datumr) god, MONTH(rn.datumr) mes, sum(kolicina_kwh) potrosnja, sum(kolicina_kwh)*p_emisija emisija, sum(iznos) iznos
+			from rn_vodozahvat_bilans rn
+			where rn.datumr between i_datum_od and i_datum_do				
+				  and brojilo_vodozahvat_id in (select id from brojilo_vodozahvat where vodozahvat_id in (select k1 from t1)) 
+			group by YEAR(rn.datumr), MONTH(rn.datumr)
+            ) t1
+	order by god, mes; 
+    
+    insert into temp2(godina, mesec, proizvodnja)
+    select YEAR(p.datum), MONTH(p.datum), sum(proizvodnja)
+	from proizvodnja_vode p
+	where p.datum between i_datum_od and i_datum_do
+			and vodozahvat_id in (select k1 from t1)
+	group by YEAR(p.datum), MONTH(p.datum);
+    
+     /* You cannot refer to a TEMPORARY table more than once in the same query. For example, the following does not work:
+			SELECT * FROM temp_table JOIN temp_table AS t2;   	*/  
+    
+    update temp
+    set proizvodnja = (select proizvodnja
+						from temp2
+                        where temp.godina = temp2.godina
+							  and temp.mesec = temp2.mesec);
+                       
+	update temp
+    set spec_proizvodnja = potrosnja / (select proizvodnja
+										from temp2
+										where temp.godina = temp2.godina
+											  and temp.mesec = temp2.mesec);
+                    
+	insert into temp(godina, mesec, proizvodnja)
+    select godina, mesec, proizvodnja
+    from temp2
+    where concat(godina, '-', mesec) not in (select distinct concat(YEAR(rn.datumr), '-', MONTH(rn.datumr)) 
+											from rn_vodozahvat_bilans rn
+											where rn.datumr between i_datum_od and i_datum_do				  
+												  and brojilo_vodozahvat_id in 
+															(select id from brojilo_vodozahvat where vodozahvat_id in (select k1 from t1)));
+
+    
+    select sum(proizvodnja)
+    into p_proizvodnja
+    from temp2;
+    
+    -- ukupno --
+    insert into temp(godina, potrosnja, emisija, iznos, proizvodnja, spec_proizvodnja)
+    select 'Ukupno:', sum(kolicina_kwh), sum(kolicina_kwh)*p_emisija, sum(iznos), p_proizvodnja, sum(kolicina_kwh) / p_proizvodnja
+	from rn_vodozahvat_bilans rn
+	where rn.datumr between i_datum_od and i_datum_do		
+		  and brojilo_vodozahvat_id in (select id from brojilo_vodozahvat where vodozahvat_id in (select k1 from t1));
+    
+    select (@row_number:=@row_number + 1) id, godina, mesec, potrosnja, emisija, iznos, proizvodnja, spec_proizvodnja
+    from (
+			select godina, m.id mid, m.naziv mesec, ROUND(potrosnja,2) potrosnja, ROUND(emisija,2) emisija, 
+					ROUND(iznos,2) iznos, ROUND(proizvodnja,2) proizvodnja, ROUND(spec_proizvodnja,2) spec_proizvodnja
+			from temp left join mesec m on temp.mesec = m.id            
+		 ) t
+    order by godina, mid;
+
+end
+%

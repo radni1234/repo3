@@ -1,0 +1,107 @@
+delimiter %
+
+DROP PROCEDURE `izv_vod_pot_po_vod_proiz`;
+%
+
+CREATE PROCEDURE `izv_vod_pot_po_vod_proiz`(i_vod_id varchar(1000), i_datum_od date, i_datum_do date)
+begin
+
+
+	DECLARE p_emisija, p_proizvodnja DOUBLE;
+    
+    select emisija into p_emisija
+    from energent
+    where id = 16; -- el. energija
+
+	CALL upisi_id_u_temp(i_vod_id, 't1');
+    
+    
+    DROP TEMPORARY TABLE IF EXISTS temp;
+    DROP TEMPORARY TABLE IF EXISTS temp2;
+    
+	CREATE TEMPORARY TABLE temp(id int,		
+								vodozahvat_id int,		
+                                vodozahvat varchar(1000),                          
+                                potrosnja double,
+                                emisija double,
+                                iznos double,
+                                proizvodnja double,
+                                spec_proizvodnja double) ENGINE=MEMORY;
+                                
+                                
+	CREATE TEMPORARY TABLE temp2(vodozahvat_id int,		
+								 vodozahvat varchar(1000),                
+                                 proizvodnja double) ENGINE=MEMORY;
+    
+    SET @row_number = 0;
+    SET sql_safe_updates = 0;
+    
+    -- po godinama --
+	insert into temp(id, vodozahvat_id, vodozahvat, potrosnja, emisija, iznos)
+	select (@row_number:=@row_number + 1), vodozahvat_id, naziv, potrosnja, emisija, iznos
+    from (
+			select v.id vodozahvat_id, v.naziv, v.mesto_id, sum(kolicina_kwh) potrosnja, sum(kolicina_kwh)*p_emisija emisija, sum(iznos) iznos
+			from rn_vodozahvat_bilans rn, vodozahvat v, brojilo_vodozahvat b
+			where datumr between i_datum_od and i_datum_do
+				  and brojilo_vodozahvat_id in (select id from brojilo_vodozahvat where vodozahvat_id in (select k1 from t1)) 
+				  and rn.brojilo_vodozahvat_id = b.id
+                  and b.vodozahvat_id = v.id
+			group by v.naziv, v.mesto_id
+		) t1
+    order by mesto_id, vodozahvat_id, naziv;
+    
+    insert into temp2(vodozahvat_id, vodozahvat, proizvodnja)
+    select v.id, v.naziv, sum(proizvodnja)
+	from proizvodnja_vode p, vodozahvat v
+	where p.datum between i_datum_od and i_datum_do
+			and vodozahvat_id in (select k1 from t1)
+            and p.vodozahvat_id = v.id
+	group by v.naziv;
+    
+     /* You cannot refer to a TEMPORARY table more than once in the same query. For example, the following does not work:
+			SELECT * FROM temp_table JOIN temp_table AS t2;   	*/  
+    
+    update temp
+    set proizvodnja = (select proizvodnja
+						from temp2
+                        where temp.vodozahvat_id = temp2.vodozahvat_id);
+                       
+	update temp
+    set spec_proizvodnja = potrosnja / 
+							(select proizvodnja
+							from temp2
+							where temp.vodozahvat_id = temp2.vodozahvat_id);
+                    
+	insert into temp(vodozahvat, proizvodnja)
+    select vodozahvat, proizvodnja
+    from temp2
+    where vodozahvat_id not in (
+						select vodozahvat_id
+                        from brojilo_vodozahvat
+                        where id in (
+								select distinct brojilo_vodozahvat_id
+								from rn_vodozahvat_bilans rn
+								where rn.datumr between i_datum_od and i_datum_do				  
+									  and brojilo_vodozahvat_id in (
+											select id from brojilo_vodozahvat where vodozahvat_id in (select k1 from t1))));
+
+    
+    select sum(proizvodnja)
+    into p_proizvodnja
+    from temp2;
+    
+    -- ukupno --
+    insert into temp(id, vodozahvat, potrosnja, emisija, iznos, proizvodnja, spec_proizvodnja)
+    select (@row_number:=@row_number + 1), 'Ukupno:', sum(kolicina_kwh), sum(kolicina_kwh)*p_emisija, sum(iznos), p_proizvodnja, sum(kolicina_kwh) / p_proizvodnja
+	from rn_vodozahvat_bilans rn
+	where rn.datumr between i_datum_od and i_datum_do		
+		  and brojilo_vodozahvat_id in (select id from brojilo_vodozahvat where vodozahvat_id in (select k1 from t1));
+    
+    select id, vodozahvat, ROUND(potrosnja,2) potrosnja, ROUND(emisija,2) emisija, 
+					ROUND(iznos,2) iznos, ROUND(proizvodnja,2) proizvodnja, ROUND(spec_proizvodnja,2) spec_proizvodnja
+	from temp
+	order by id;
+
+
+end
+%

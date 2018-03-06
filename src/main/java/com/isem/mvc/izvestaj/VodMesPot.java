@@ -22,6 +22,8 @@ public class VodMesPot {
 	private Double potrosnja;
 	private Double emisija;
 	private Double iznos;
+	private Double proizvodnja;
+	private Double specProizvodnja;
 	
 	public VodMesPot(String godina, String mesec, 
 			Double potrosnja, Double emisija, Double iznos) {
@@ -31,6 +33,18 @@ public class VodMesPot {
 		this.potrosnja = potrosnja;
 		this.emisija = emisija;
 		this.iznos = iznos;
+	}
+	
+	public VodMesPot(String godina, String mesec, 
+			Double potrosnja, Double emisija, Double iznos, Double proizvodnja, Double specProizvodnja) {
+		super();
+		this.godina = godina;
+		this.mesec = mesec;
+		this.potrosnja = potrosnja;
+		this.emisija = emisija;
+		this.iznos = iznos;
+		this.proizvodnja = proizvodnja;
+		this.specProizvodnja = specProizvodnja;
 	}
 
 	public String getGodina() {
@@ -52,4 +66,13 @@ public class VodMesPot {
 	public Double getIznos() {
 		return iznos;
 	}
+
+	public Double getProizvodnja() {
+		return proizvodnja;
+	}
+
+	public Double getSpecProizvodnja() {
+		return specProizvodnja;
+	}	
+	
 }

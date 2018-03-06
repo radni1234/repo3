@@ -151,12 +151,12 @@ public class IzvestajService {
 		return dao13.vodGodPot(grupa_id, vod_id, datum_od, datum_do);
 	}
 	
-	public List<VodMesPot> vodMesPot (String vod_id, Date datum_od, Date datum_do) {
-		return dao14.vodMesPot(vod_id, datum_od, datum_do);
+	public List<VodMesPot> vodMesPot (Integer grupa_id, String vod_id, Date datum_od, Date datum_do) {
+		return dao14.vodMesPot(grupa_id, vod_id, datum_od, datum_do);
 	}
 	
-	public List<VodPotPoVod> vodPotPoVod (String vod_id, Date datum_od, Date datum_do) {
-		return dao15.vodPotPoVod(vod_id, datum_od, datum_do);
+	public List<VodPotPoVod> vodPotPoVod (Integer grupa_id, String vod_id, Date datum_od, Date datum_do) {
+		return dao15.vodPotPoVod(grupa_id, vod_id, datum_od, datum_do);
 	}
 	
 	public List<KotGodPot> kotGodPot (String kot_id, String ene_tip_id, Date datum_od, Date datum_do) {
