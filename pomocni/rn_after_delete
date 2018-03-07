@@ -1,0 +1,5 @@
+CREATE DEFINER=`isem`@`%` TRIGGER `heroku_75858eca71cd74b`.`rn_AFTER_DELETE` AFTER DELETE ON `rn` FOR EACH ROW
+BEGIN
+	delete from rn_stavke where rn_id = old.id;
+    delete from rn_bilans where rn_id = old.id;
+END

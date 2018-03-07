@@ -1,0 +1,23 @@
+
+delimiter %
+drop procedure obrisi_objekat;
+%
+create procedure obrisi_objekat (i_obj_id numeric)
+begin
+	
+    set sql_safe_updates = 0;
+    
+    delete from rn where brojilo_id in (select id from brojilo where objekat_id = i_obj_id);
+    delete from brojilo_dobavljac where brojilo_id in (select id from brojilo where objekat_id = i_obj_id);
+	delete from brojilo where objekat_id = i_obj_id;
+    delete from korisnik_objekat where objekat_id = i_obj_id;
+    delete from objekat_dokument where objekat_id = i_obj_id;
+    delete from objekat_mere where objekat_id = i_obj_id;
+    delete from trend_iskljuceno where objekat_id = i_obj_id;
+    delete from trend_obracunato where objekat_id = i_obj_id;
+    delete from objekat where id = i_obj_id;
+    
+    set sql_safe_updates = 1;
+    
+end
+%
