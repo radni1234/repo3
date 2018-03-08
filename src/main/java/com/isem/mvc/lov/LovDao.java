@@ -187,6 +187,49 @@ public class LovDao {
 
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Lov> javnoPreduzeceLov(String user, Long opsId, Long mesId) {
+		
+		Query query = entityManager.createNativeQuery(
+				"select id, naziv as name "
+				+ "from javno_preduzece_view "
+				+ "where ((mesto_id in (select id from mesto where opstina_id = (select opstina_id from mesto where id = (select mesto_id from user where username like :user))) "
+				+ "		and (select authority_id from user_authority where user_id = (select id from user where username like :user)) in (2,3,4)) "
+				+ "or ((select authority_id from user_authority where user_id = "
+ 				+ "		(select u.id from user u where username like :user)) in (1)))"
+ 				+ "		and (opstina_id = :opsId or :opsId = 0) "
+				+ "		and (mesto_id = :mesId or :mesId = 0) ",
+				"Lov"
+				).setParameter("user", user)
+				 .setParameter("opsId", opsId)
+				 .setParameter("mesId", mesId);
+		
+		return query.getResultList();		
+
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Lov> voziloLov(String user, Long opsId, Long mesId, Long javPredId) {
+		
+		Query query = entityManager.createNativeQuery(
+				"select id, concat(kategorija_vozila,' ', marka, ' ', model, ' (', registracija, ')') as name "
+				+ "from vozilo_view "
+				+ "where ((mesto_id in (select id from mesto where opstina_id = (select opstina_id from mesto where id = (select mesto_id from user where username like :user))) "
+				+ "		and (select authority_id from user_authority where user_id = (select id from user where username like :user)) in (2,3,4)) "
+				+ "or ((select authority_id from user_authority where user_id = "
+ 				+ "		(select u.id from user u where username like :user)) in (1)))"
+ 				+ "		and (opstina_id = :opsId or :opsId = 0) "
+				+ "		and (mesto_id = :mesId or :mesId = 0) "
+				+ "		and (javno_preduzece_id = :javPredId or :javPredId = 0) ",
+				"Lov"
+				).setParameter("user", user)
+				 .setParameter("opsId", opsId)
+				 .setParameter("mesId", mesId)
+				 .setParameter("javPredId", javPredId);
+		
+		return query.getResultList();		
+
+	}
 	
 	@SuppressWarnings("unchecked")
 	public List<Lov> dobavljacLov(String user, Long opsId, Long mesId) {
@@ -194,10 +237,10 @@ public class LovDao {
 		Query query = entityManager.createNativeQuery(
 				"select id, naziv as name "
 				+ "from dobavljac_view "
-				+ "where (mesto_id in (select id from mesto where opstina_id = (select opstina_id from mesto where id = (select mesto_id from user where username like :user))) "
+				+ "where ((mesto_id in (select id from mesto where opstina_id = (select opstina_id from mesto where id = (select mesto_id from user where username like :user))) "
 				+ "		and (select authority_id from user_authority where user_id = (select id from user where username like :user)) in (2,3,4)) "
 				+ "or ((select authority_id from user_authority where user_id = "
- 				+ "		(select u.id from user u where username like :user)) in (1))"
+ 				+ "		(select u.id from user u where username like :user)) in (1)))"
  				+ "		and (opstina_id = :opsId or :opsId = 0) "
 				+ "		and (mesto_id = :mesId or :mesId = 0) ",
 				"Lov"

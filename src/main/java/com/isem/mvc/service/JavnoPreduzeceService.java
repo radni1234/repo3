@@ -56,6 +56,10 @@ public class JavnoPreduzeceService {
 	public List<Lov> javnoPreduzeceLov (String user) {
 		return daoLov.javnoPreduzeceLov(user);
 	}
+	
+	public List<Lov> javnoPreduzeceLov (String user, Long opsId, Long mesId) {
+		return daoLov.javnoPreduzeceLov(user, opsId, mesId);
+	}
 
 	public JavnoPreduzece save(JavnoPreduzece obj) {
 		return dao.save(obj);

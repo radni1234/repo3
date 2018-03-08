@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.isem.mvc.lov.Lov;
 import com.isem.mvc.model.Vozilo;
 import com.isem.mvc.security.JwtTokenUtil;
 import com.isem.mvc.service.VoziloService;
@@ -49,7 +50,15 @@ public class VoziloController {
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
 	public Vozilo findById(@RequestParam("id") Long id){
 		return service.findById(id);
-	}		
+	}	
+	
+	@RequestMapping(value="/lov", params = {"ops_id", "mes_id", "jav_pred_id"}, method=RequestMethod.GET)
+	public List<Lov> energentTipLov(@RequestParam(value = "ops_id") Long opsId, 
+			   @RequestParam(value = "mes_id") Long mesId,
+			   @RequestParam(value = "jav_pred_id") Long javPredId,
+			   @RequestHeader("Authorization") String user) {
+		return service.voziloLov(jwtTokenUtil.vratiKorisnikaIzTokena(user), opsId, mesId, javPredId);
+	}
 
 	@RequestMapping(value="/dodaj", method=RequestMethod.POST)
 	public Vozilo add(@RequestBody Vozilo obj) {

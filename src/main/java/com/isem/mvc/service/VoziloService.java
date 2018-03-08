@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.isem.mvc.dao.VoziloDao;
 import com.isem.mvc.dao.VoziloViewDao;
+import com.isem.mvc.lov.Lov;
+import com.isem.mvc.lov.LovDao;
 import com.isem.mvc.model.Vozilo;
 import com.isem.mvc.tab.VoziloView;
 
@@ -19,6 +21,9 @@ public class VoziloService {
 	
 	@Autowired
 	private VoziloViewDao daoView;
+	
+	@Autowired
+	private LovDao daoLov;
 		
 	public Vozilo findById (Long id) {
 		return dao.findById(id);
@@ -38,6 +43,10 @@ public class VoziloService {
 
 	public Page<VoziloView> findAllView (Pageable pageRequest, String user) {
 		return daoView.findAll(user, pageRequest);
+	}
+	
+	public List<Lov> voziloLov (String user, Long opsId, Long mesId, Long javPredId) {
+		return daoLov.voziloLov(user, opsId, mesId, javPredId);
 	}
 
 	public Vozilo save(Vozilo obj) {

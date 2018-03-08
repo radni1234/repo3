@@ -67,6 +67,13 @@ public class JavnoPreduzeceController {
 	public List<Lov> energentTipLov(@RequestHeader("Authorization") String user) {
 		return service.javnoPreduzeceLov(jwtTokenUtil.vratiKorisnikaIzTokena(user));
 	}
+	
+	@RequestMapping(value="/lov", params = {"ops_id", "mes_id"}, method=RequestMethod.GET)
+	public List<Lov> energentTipLov(@RequestParam(value = "ops_id") Long opsId, 
+			   @RequestParam(value = "mes_id") Long mesId,
+			   @RequestHeader("Authorization") String user) {
+		return service.javnoPreduzeceLov(jwtTokenUtil.vratiKorisnikaIzTokena(user), opsId, mesId);
+	}
 
 	@RequestMapping(value="/jedan", params = {"id"}, method=RequestMethod.GET)
 	public JavnoPreduzece findById(@RequestParam("id") Long id){
