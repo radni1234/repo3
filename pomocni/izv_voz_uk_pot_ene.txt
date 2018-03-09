@@ -1,0 +1,129 @@
+delimiter %
+DROP PROCEDURE `izv_voz_uk_pot_ene`;
+%
+
+CREATE PROCEDURE `izv_voz_uk_pot_ene`(i_voz_id varchar(1000), i_ene_id varchar(1000), i_datum_od date, i_datum_do date)
+begin
+	
+    CALL upisi_id_u_temp(i_voz_id,'t1');
+	CALL upisi_id_u_temp(i_ene_id,'t2');
+	
+	DROP TEMPORARY TABLE IF EXISTS temp;
+	CREATE TEMPORARY TABLE temp(id int,                     
+								tekst varchar(100),
+                                kolicina double,
+                                kolicina_kwh double,
+                                emisija_co2 double,
+                                iznos double,
+                                grupa varchar(100),
+                                energent varchar(100),
+                                grupa2 varchar(100),
+                                energent2 varchar(100),
+                                vozilo varchar(1000),
+                                sort1 double,
+                                sort2 double,
+                                sort3 double) ENGINE=MEMORY;
+    
+        SET @rank=0;
+        
+        /* nivo grupa moze biti javno preduzece 
+        insert into temp(tekst, grupa, sort1, grupa2) 
+        select distinct g.naziv, g.naziv, 1, g.naziv
+		group by g.naziv; ; 	
+        */
+        
+        /*
+        insert into temp(tekst, grupa, energent, sort1, sort2, grupa2, energent2) 
+        select concat('   ',e.naziv,' (', j.naziv, ')'), g.naziv, e.naziv, 2, 1, g.naziv, e.naziv   
+        group by g.naziv, e.naziv;     
+        */
+		
+        insert into temp(tekst, grupa, energent, sort1, sort2, grupa2, energent2) 
+        select concat('   ',e.naziv,' (', j.naziv, ')'), null, e.naziv, 2, 1, null, e.naziv                
+		from vozilo_potrosnja v, energent e, jed_mere j
+		where v.energent_id = e.id	
+			  and e.jed_mere_id = j.id
+			  and vozilo_id in (select k1 from t1)
+              and v.datum between i_datum_od and i_datum_do
+              and v.energent_id in (select k1 from t2)             
+		group by e.naziv;
+        
+        /*
+        insert into temp(tekst, kolicina, kolicina_kwh, emisija_co2, iznos, grupa, energent, objekat, sort1, sort2, grupa2, energent2) 
+        select concat('      ',o.naziv), sum(kolicina) kolicina, sum(kolicina_kwh) kolicina_kwh, sum(emisija_co2) emisija_co2, sum(iznos) iznos, g.naziv, e.naziv, o.naziv, 2, 2, g.naziv, e.naziv	                        
+		group by o.naziv, g.naziv, e.naziv; 
+        */
+        
+        insert into temp(tekst, kolicina, kolicina_kwh, emisija_co2, iznos, grupa, energent, vozilo, sort1, sort2, grupa2, energent2) 
+        select concat('      ',v.naziv), sum(potrosnja) kolicina, sum(potrosnja * e.kwh_jm) kolicina_kwh, 
+				sum(potrosnja * e.kwh_jm * e.emisija) emisija_co2, sum(iznos) iznos, null, e.naziv, v.naziv, 2, 2, null, e.naziv	                 
+		from vozilo_potrosnja p, energent e, jed_mere j, vozilo_view v 
+		where p.energent_id = e.id	
+			  and e.jed_mere_id = j.id
+              and p.vozilo_id = v.id
+			  and vozilo_id in (select k1 from t1)  
+              and p.datum between i_datum_od and i_datum_do
+              and p.energent_id in (select k1 from t2)             
+		group by v.naziv, e.naziv;  
+		
+        /*
+        insert into temp(tekst, kolicina, kolicina_kwh, emisija_co2, iznos, grupa, energent, sort1, sort2, grupa2, energent2) 
+        select '   Ukupno za energent: ', sum(kolicina), sum(kolicina_kwh), sum(emisija_co2), sum(iznos), g.naziv, 'Ukupno za energent: ', 2, 3, g.naziv, e.naziv   
+        group by g.naziv, e.naziv;      		
+        */
+        
+        insert into temp(tekst, kolicina, kolicina_kwh, emisija_co2, iznos, grupa, energent, sort1, sort2, grupa2, energent2)
+        select '   Ukupno za energent: ', sum(potrosnja) kolicina, sum(potrosnja * e.kwh_jm) kolicina_kwh, 
+		sum(potrosnja * e.kwh_jm * e.emisija) emisija_co2, sum(iznos), null, 'Ukupno za energent: ', 2, 3, null, e.naziv   
+		from vozilo_potrosnja v, energent e, jed_mere j
+		where v.energent_id = e.id	
+			  and e.jed_mere_id = j.id
+			  and vozilo_id in (select k1 from t1)
+			  and v.datum between i_datum_od and i_datum_do
+			  and v.energent_id in (select k1 from t2)     
+		group by e.naziv;
+        
+        /*
+        insert into temp(tekst, kolicina, kolicina_kwh, emisija_co2, iznos, grupa, sort1, grupa2) 
+        select 'Ukupno za grupu: ', sum(kolicina), sum(kolicina_kwh), sum(emisija_co2), sum(iznos), 'Ukupno za grupu: ', 3, g.naziv   
+		group by g.naziv; 	
+        */
+        
+        /*
+        insert into temp(tekst, grupa, kolicina, kolicina_kwh, emisija_co2, iznos, sort1) 
+		select 'Ukupno: ',  'Ukupno: ', null, sum(kolicina_kwh), sum(emisija_co2), sum(iznos), 4     
+		*/  
+        
+        insert into temp(tekst, energent, kolicina, kolicina_kwh, emisija_co2, iznos, sort1) 
+        select 'Ukupno: ',  'Ukupno: ', null, sum(potrosnja * e.kwh_jm) , sum(potrosnja * e.kwh_jm * e.emisija), sum(iznos), 4     
+		from vozilo_potrosnja v, energent e, jed_mere j
+		where v.energent_id = e.id	
+			  and e.jed_mere_id = j.id
+			  and vozilo_id in (select k1 from t1)
+			  and v.datum between i_datum_od and i_datum_do
+              and v.energent_id in (select k1 from t2) 
+		;  
+        
+
+    commit; 
+	
+    SET @row_number = 0;
+    
+	/*
+	select 
+            case isnull(energent) when 1 then grupa else null end as grupa, 
+            case isnull(vozilo) when 1 then energent else null end as energent,
+            vozilo, kolicina, kolicina_kwh, emisija_co2, iznos
+	from temp
+	order by isnull(grupa2), grupa2, sort1, isnull(energent2), energent2, sort2, isnull(vozilo), vozilo;
+    */
+    
+    select 
+            case isnull(energent) when 1 then grupa else null end as grupa, 
+            case isnull(vozilo) when 1 then energent else null end as energent,
+            vozilo, ROUND(kolicina,2), ROUND(kolicina_kwh,2), ROUND(emisija_co2,2), ROUND(iznos,2)
+	from temp
+	order by sort1, isnull(energent2), energent2, sort2, isnull(vozilo), vozilo;
+
+ 
+end

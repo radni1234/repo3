@@ -24,6 +24,8 @@ import com.isem.mvc.izvestaj.UkPotObj;
 import com.isem.mvc.izvestaj.VodGodPot;
 import com.isem.mvc.izvestaj.VodMesPot;
 import com.isem.mvc.izvestaj.VodPotPoVod;
+import com.isem.mvc.izvestaj.VozPregled;
+import com.isem.mvc.izvestaj.VozUkPotEne;
 import com.isem.mvc.izvestaj.dao.ApsGodPotDao;
 import com.isem.mvc.izvestaj.dao.ApsMesPotDao;
 import com.isem.mvc.izvestaj.dao.EfikObjDao;
@@ -42,6 +44,8 @@ import com.isem.mvc.izvestaj.dao.UkPotObjDao;
 import com.isem.mvc.izvestaj.dao.VodGodPotDao;
 import com.isem.mvc.izvestaj.dao.VodMesPotDao;
 import com.isem.mvc.izvestaj.dao.VodPotPoVodDao;
+import com.isem.mvc.izvestaj.dao.VozPregledDao;
+import com.isem.mvc.izvestaj.dao.VozUkPotEneDao;
 
 @Service
 public class IzvestajService {
@@ -98,6 +102,12 @@ public class IzvestajService {
 	
 	@Autowired
 	private KotPotPoKotDao dao18;
+	
+	@Autowired
+	private VozUkPotEneDao dao19;
+	
+	@Autowired
+	private VozPregledDao dao20;
 	
 	public List<ApsMesPot> apsMesPot (String obj_id, String ene_tip_id, Date datum_od, Date datum_do) {
 		return dao.apsMesPot(obj_id, ene_tip_id, datum_od, datum_do);
@@ -169,6 +179,14 @@ public class IzvestajService {
 	
 	public List<KotPotPoKot> kotPotPoKot (String kot_id, String ene_tip_id, Date datum_od, Date datum_do) {
 		return dao18.kotPotPoKot(kot_id, ene_tip_id, datum_od, datum_do);
+	}
+	
+	public List<VozUkPotEne> vozUkPotEne (String voz_id, String ene_id, Date datum_od, Date datum_do) {
+		return dao19.vozUkPotEne(voz_id, ene_id, datum_od, datum_do);
+	}
+	
+	public List<VozPregled> vozPregled (String voz_id) {
+		return dao20.vozPregled(voz_id);
 	}
 
 }

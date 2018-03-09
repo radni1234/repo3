@@ -1,0 +1,11 @@
+delimiter %
+
+CREATE PROCEDURE `izv_voz_pregled`(i_voz_id varchar(1000))
+begin
+
+	CALL upisi_id_u_temp(i_voz_id,'t1');
+
+	select kategorija_vozila, registracija, marka, model, kubikaza, godiste, emisiona_klasa 
+	from vozilo_view
+    where id in (select k1 from t1);
+end;

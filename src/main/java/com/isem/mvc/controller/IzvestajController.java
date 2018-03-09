@@ -28,6 +28,8 @@ import com.isem.mvc.izvestaj.UkPotObj;
 import com.isem.mvc.izvestaj.VodGodPot;
 import com.isem.mvc.izvestaj.VodMesPot;
 import com.isem.mvc.izvestaj.VodPotPoVod;
+import com.isem.mvc.izvestaj.VozPregled;
+import com.isem.mvc.izvestaj.VozUkPotEne;
 import com.isem.mvc.service.IzvestajService;
 
 @RestController
@@ -177,5 +179,18 @@ public class IzvestajController {
 			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
 			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
 		return service.kotPotPoKot(kot_id, ene_tip_id, datum_od, datum_do);
+	}
+	
+	@RequestMapping(value="/voz_uk_pot_ene", params = {"voz_id", "ene_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
+	public List<VozUkPotEne> vozUkPotEne(@RequestParam("voz_id") String voz_id,
+			@RequestParam("ene_id") String ene_id,
+			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
+			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
+		return service.vozUkPotEne(voz_id, ene_id, datum_od, datum_do);
+	}
+	
+	@RequestMapping(value="/voz_pregled", params = {"voz_id"}, method=RequestMethod.GET)
+	public List<VozPregled> vozPregled(@RequestParam("voz_id") String voz_id) {
+		return service.vozPregled(voz_id);
 	}
 }

@@ -504,9 +504,6 @@ VIEW `svetiljka_view` AS
         
 
 CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
-    SQL SECURITY DEFINER
 VIEW `vozilo_view` AS
     SELECT 
         `v`.`id` AS `id`,
@@ -519,12 +516,15 @@ VIEW `vozilo_view` AS
         `v`.`javno_preduzece_id` AS `javno_preduzece_id`,
         `j`.`naziv` AS `javno_preduzece`,
         `v`.`kategorija_vozila_id` AS `kategorija_vozila_id`,
-        `k`.`naziv` AS `kategorija_vozila`
+        `k`.`naziv` AS `kategorija_vozila`,
+        j.mesto_id as mesto_id,
+		m.opstina_id as opstina_id
     FROM
-        (((`vozilo` `v`
+        ((((`vozilo` `v`
         LEFT JOIN `javno_preduzece` `j` ON ((`v`.`javno_preduzece_id` = `j`.`id`)))
         LEFT JOIN `kategorija_vozila` `k` ON ((`v`.`kategorija_vozila_id` = `k`.`id`)))
-        LEFT JOIN `vozilo_emisiona_klasa` `e` ON ((`v`.`vozilo_emisiona_klasa_id` = `e`.`id`)));
+        LEFT JOIN `vozilo_emisiona_klasa` `e` ON ((`v`.`vozilo_emisiona_klasa_id` = `e`.`id`)))
+        LEFT JOIN `mesto` `m` ON ((`j`.`mesto_id` = `m`.`id`)));
         
         
  
