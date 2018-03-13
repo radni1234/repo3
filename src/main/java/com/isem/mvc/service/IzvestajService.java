@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.isem.mvc.izvestaj.ApsGodPot;
 import com.isem.mvc.izvestaj.ApsMesPot;
 import com.isem.mvc.izvestaj.EfikObj;
+import com.isem.mvc.izvestaj.KotEfikasnost;
 import com.isem.mvc.izvestaj.KotGodPot;
 import com.isem.mvc.izvestaj.KotMesPot;
 import com.isem.mvc.izvestaj.KotPotPoKot;
@@ -30,6 +31,7 @@ import com.isem.mvc.izvestaj.VozUkPotEne;
 import com.isem.mvc.izvestaj.dao.ApsGodPotDao;
 import com.isem.mvc.izvestaj.dao.ApsMesPotDao;
 import com.isem.mvc.izvestaj.dao.EfikObjDao;
+import com.isem.mvc.izvestaj.dao.KotEfikasnostDao;
 import com.isem.mvc.izvestaj.dao.KotGodPotDao;
 import com.isem.mvc.izvestaj.dao.KotMesPotDao;
 import com.isem.mvc.izvestaj.dao.KotPotPoKotDao;
@@ -114,6 +116,9 @@ public class IzvestajService {
 	@Autowired
 	private VozEfikasnostDao dao21;
 	
+	@Autowired
+	private KotEfikasnostDao dao22;
+	
 	public List<ApsMesPot> apsMesPot (String obj_id, String ene_tip_id, Date datum_od, Date datum_do) {
 		return dao.apsMesPot(obj_id, ene_tip_id, datum_od, datum_do);
 	}	
@@ -196,6 +201,10 @@ public class IzvestajService {
 	
 	public List<VozEfikasnost> vozEfikasnost (String voz_id, Date datum_od, Date datum_do) {
 		return dao21.vozEfikasnost(voz_id, datum_od, datum_do);
+	}
+	
+	public List<KotEfikasnost> kotEfikasnost (String kot_id, Date datum_od, Date datum_do) {
+		return dao22.kotEfikasnost(kot_id, datum_od, datum_do);
 	}
 
 }

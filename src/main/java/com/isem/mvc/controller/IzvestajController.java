@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isem.mvc.izvestaj.ApsGodPot;
 import com.isem.mvc.izvestaj.ApsMesPot;
 import com.isem.mvc.izvestaj.EfikObj;
+import com.isem.mvc.izvestaj.KotEfikasnost;
 import com.isem.mvc.izvestaj.KotGodPot;
 import com.isem.mvc.izvestaj.KotMesPot;
 import com.isem.mvc.izvestaj.KotPotPoKot;
@@ -200,5 +201,12 @@ public class IzvestajController {
 			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
 			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
 		return service.vozEfikasnost(voz_id, datum_od, datum_do);
+	}
+	
+	@RequestMapping(value="/kot_efikasnost", params = {"kot_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
+	public List<KotEfikasnost> kotEfikasnost(@RequestParam("kot_id") String kot_id,		
+			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
+			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
+		return service.kotEfikasnost(kot_id, datum_od, datum_do);
 	}
 }

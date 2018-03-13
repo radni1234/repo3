@@ -49,7 +49,7 @@ begin
 		  END;
           
           BEGIN
-			DECLARE CONTINUE HANDLER FOR NOT FOUND SET p_km_od := 0;
+			DECLARE CONTINUE HANDLER FOR NOT FOUND SET p_km_od := null;
             
 			  select DATE(datum), kilometraza
 			  into p_datum_km_od, p_km_od
@@ -57,26 +57,28 @@ begin
 			  where DATE(datum) = (select min(DATE(datum))
 									from vozilo_kilometraza
 									where vozilo_id = p_vozilo_id
-										  and DATE(datum) >= DATE(i_datum_od))
+										  and DATE(datum) >= DATE(i_datum_od)
+                                          and DATE(datum) <= DATE(i_datum_do))
 					and vozilo_id = p_vozilo_id;
 
 		  END;
           
           BEGIN
-			DECLARE CONTINUE HANDLER FOR NOT FOUND SET p_km_do := 0;
+			DECLARE CONTINUE HANDLER FOR NOT FOUND SET p_km_do := null;
 			  select DATE(datum), kilometraza
 			  into p_datum_km_do, p_km_do
 			  from vozilo_kilometraza
 			  where DATE(datum) = (select max(DATE(datum))
 									from vozilo_kilometraza
 									where vozilo_id = p_vozilo_id
+										  and DATE(datum) >= DATE(i_datum_od)
 										  and DATE(datum) <= DATE(i_datum_do))
 					and vozilo_id = p_vozilo_id;
 
 		  END;
           
           BEGIN
-			DECLARE CONTINUE HANDLER FOR NOT FOUND SET p_potrosnja_kwh := 0;
+			DECLARE CONTINUE HANDLER FOR NOT FOUND SET p_potrosnja_kwh := null;
 			  select sum(potrosnja * e.kwh_jm)
 			  into p_potrosnja_kwh
 				from vozilo_potrosnja p, energent e
@@ -115,4 +117,5 @@ begin
 		) t;
 
  
-end;
+end
+%
