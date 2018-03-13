@@ -28,6 +28,7 @@ import com.isem.mvc.izvestaj.UkPotObj;
 import com.isem.mvc.izvestaj.VodGodPot;
 import com.isem.mvc.izvestaj.VodMesPot;
 import com.isem.mvc.izvestaj.VodPotPoVod;
+import com.isem.mvc.izvestaj.VozEfikasnost;
 import com.isem.mvc.izvestaj.VozPregled;
 import com.isem.mvc.izvestaj.VozUkPotEne;
 import com.isem.mvc.service.IzvestajService;
@@ -192,5 +193,12 @@ public class IzvestajController {
 	@RequestMapping(value="/voz_pregled", params = {"voz_id"}, method=RequestMethod.GET)
 	public List<VozPregled> vozPregled(@RequestParam("voz_id") String voz_id) {
 		return service.vozPregled(voz_id);
+	}
+	
+	@RequestMapping(value="/voz_efikasnost", params = {"voz_id", "datum_od", "datum_do"}, method=RequestMethod.GET)
+	public List<VozEfikasnost> vozEfikasnost(@RequestParam("voz_id") String voz_id,
+			@RequestParam(value = "datum_od") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_od,
+			@RequestParam(value = "datum_do") @DateTimeFormat(pattern = "dd.MM.yyyy") Date datum_do) {
+		return service.vozEfikasnost(voz_id, datum_od, datum_do);
 	}
 }

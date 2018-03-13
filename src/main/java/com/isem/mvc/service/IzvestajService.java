@@ -24,6 +24,7 @@ import com.isem.mvc.izvestaj.UkPotObj;
 import com.isem.mvc.izvestaj.VodGodPot;
 import com.isem.mvc.izvestaj.VodMesPot;
 import com.isem.mvc.izvestaj.VodPotPoVod;
+import com.isem.mvc.izvestaj.VozEfikasnost;
 import com.isem.mvc.izvestaj.VozPregled;
 import com.isem.mvc.izvestaj.VozUkPotEne;
 import com.isem.mvc.izvestaj.dao.ApsGodPotDao;
@@ -44,6 +45,7 @@ import com.isem.mvc.izvestaj.dao.UkPotObjDao;
 import com.isem.mvc.izvestaj.dao.VodGodPotDao;
 import com.isem.mvc.izvestaj.dao.VodMesPotDao;
 import com.isem.mvc.izvestaj.dao.VodPotPoVodDao;
+import com.isem.mvc.izvestaj.dao.VozEfikasnostDao;
 import com.isem.mvc.izvestaj.dao.VozPregledDao;
 import com.isem.mvc.izvestaj.dao.VozUkPotEneDao;
 
@@ -108,6 +110,9 @@ public class IzvestajService {
 	
 	@Autowired
 	private VozPregledDao dao20;
+	
+	@Autowired
+	private VozEfikasnostDao dao21;
 	
 	public List<ApsMesPot> apsMesPot (String obj_id, String ene_tip_id, Date datum_od, Date datum_do) {
 		return dao.apsMesPot(obj_id, ene_tip_id, datum_od, datum_do);
@@ -187,6 +192,10 @@ public class IzvestajService {
 	
 	public List<VozPregled> vozPregled (String voz_id) {
 		return dao20.vozPregled(voz_id);
+	}
+	
+	public List<VozEfikasnost> vozEfikasnost (String voz_id, Date datum_od, Date datum_do) {
+		return dao21.vozEfikasnost(voz_id, datum_od, datum_do);
 	}
 
 }

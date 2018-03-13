@@ -1,0 +1,118 @@
+delimiter %
+
+DROP PROCEDURE `izv_voz_efi`;
+%
+
+CREATE PROCEDURE `izv_voz_efi`(i_voz_id varchar(1000), i_datum_od date, i_datum_do date)
+begin
+	
+    DECLARE done BOOL DEFAULT FALSE; 
+    DECLARE p_vozilo_id numeric;
+    DECLARE p_km_od, p_km_do, p_potrosnja_kwh double;
+    DECLARE p_datum_km_od, p_datum_km_do date; 
+    DECLARE p_vozilo varchar(500);
+    DECLARE cur_vozila CURSOR FOR
+		select k1 from t1;
+        
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done := TRUE;
+    
+    
+    CALL upisi_id_u_temp(i_voz_id,'t1');
+	
+	DROP TEMPORARY TABLE IF EXISTS temp;
+	CREATE TEMPORARY TABLE temp(vozilo_id int, 							
+								vozilo varchar(1000),					
+                                potrosnja_kwh double,
+                                kilometraza double,
+                                specificna_potrosnja double
+								) ENGINE=MEMORY;
+        
+        
+        
+	OPEN cur_vozila;
+		vozilaLoop: LOOP
+
+		FETCH cur_vozila INTO p_vozilo_id;      
+
+		  IF done THEN
+			CLOSE cur_vozila;
+			LEAVE vozilaLoop;
+		  END IF;
+                    
+          BEGIN
+			DECLARE CONTINUE HANDLER FOR NOT FOUND SET p_vozilo := 'Nepoznat id vozila';
+			  select v.naziv
+			  into p_vozilo
+				from vozilo_view v 
+				where v.id =  p_vozilo_id 
+				; 
+		  END;
+          
+          BEGIN
+			DECLARE CONTINUE HANDLER FOR NOT FOUND SET p_km_od := 0;
+            
+			  select DATE(datum), kilometraza
+			  into p_datum_km_od, p_km_od
+			  from vozilo_kilometraza
+			  where DATE(datum) = (select min(DATE(datum))
+									from vozilo_kilometraza
+									where vozilo_id = p_vozilo_id
+										  and DATE(datum) >= DATE(i_datum_od))
+					and vozilo_id = p_vozilo_id;
+
+		  END;
+          
+          BEGIN
+			DECLARE CONTINUE HANDLER FOR NOT FOUND SET p_km_do := 0;
+			  select DATE(datum), kilometraza
+			  into p_datum_km_do, p_km_do
+			  from vozilo_kilometraza
+			  where DATE(datum) = (select max(DATE(datum))
+									from vozilo_kilometraza
+									where vozilo_id = p_vozilo_id
+										  and DATE(datum) <= DATE(i_datum_do))
+					and vozilo_id = p_vozilo_id;
+
+		  END;
+          
+          BEGIN
+			DECLARE CONTINUE HANDLER FOR NOT FOUND SET p_potrosnja_kwh := 0;
+			  select sum(potrosnja * e.kwh_jm)
+			  into p_potrosnja_kwh
+				from vozilo_potrosnja p, energent e
+				where p.energent_id = e.id						 
+					  and p.vozilo_id =  p_vozilo_id 
+					  and DATE(p.datum) between DATE(p_datum_km_od) and DATE(p_datum_km_do)              
+				; 
+
+		  END;
+                                      
+          insert into temp(vozilo_id , 							
+							vozilo,					
+							potrosnja_kwh,
+							kilometraza,
+							specificna_potrosnja)
+          values (p_vozilo_id, 
+				  p_vozilo,
+                  p_potrosnja_kwh,
+                  p_km_do - p_km_od,
+                  (p_potrosnja_kwh/(p_km_do - p_km_od))*100);
+				
+          
+		END LOOP vozilaLoop;
+        
+
+     commit; 
+	
+    SET @row_number = 0;
+    
+    select @row_number:=@row_number + 1 id, vozilo, potrosnja, kilometraza, specificna_potrosnja
+    from (
+			select vozilo, round(potrosnja_kwh,2) potrosnja, round(kilometraza,2) kilometraza, 
+					round(specificna_potrosnja,2) specificna_potrosnja
+			from temp
+			order by specificna_potrosnja
+		) t;
+
+ 
+end;
