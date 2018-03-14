@@ -406,3 +406,34 @@ VIEW `kotlarnica_view` AS
  create view proizvodnja_vode_view as
 select p.id, p.vodozahvat_id, YEAR(p.datum) godina, `m`.`naziv` mesec, p.proizvodnja
 from proizvodnja_vode p join mesec m on m.id = MONTH(p.datum);
+
+
+CREATE 
+VIEW `vozilo_view` AS
+    SELECT 
+        `v`.`id` AS `id`,
+        `v`.`registracija` AS `registracija`,
+        `e`.`naziv` AS `emisiona_klasa`,
+        `v`.`godiste` AS `godiste`,
+        `v`.`kubikaza` AS `kubikaza`,
+        `v`.`marka` AS `marka`,
+        `v`.`model` AS `model`,
+        `v`.`javno_preduzece_id` AS `javno_preduzece_id`,
+        `j`.`naziv` AS `javno_preduzece`,
+        `v`.`kategorija_vozila_id` AS `kategorija_vozila_id`,
+        `k`.`naziv` AS `kategorija_vozila`,
+        `j`.`mesto_id` AS `mesto_id`,
+        `m`.`opstina_id` AS `opstina_id`,
+        CONCAT(IFNULL(`k`.`naziv`, ''),
+                ' ',
+                IFNULL(`v`.`marka`, ''),
+                ' ',
+                IFNULL(`v`.`model`, ''),
+                ' ',
+                IFNULL(`v`.`registracija`, '')) AS `naziv`
+    FROM
+        ((((`vozilo` `v`
+        LEFT JOIN `javno_preduzece` `j` ON ((`v`.`javno_preduzece_id` = `j`.`id`)))
+        LEFT JOIN `kategorija_vozila` `k` ON ((`v`.`kategorija_vozila_id` = `k`.`id`)))
+        LEFT JOIN `vozilo_emisiona_klasa` `e` ON ((`v`.`vozilo_emisiona_klasa_id` = `e`.`id`)))
+        LEFT JOIN `mesto` `m` ON ((`j`.`mesto_id` = `m`.`id`)));

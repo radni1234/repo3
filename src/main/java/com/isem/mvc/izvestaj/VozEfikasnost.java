@@ -20,14 +20,19 @@ public class VozEfikasnost {
 	private String vozilo;
 	private Double potrosnja;
 	private Double kilometraza;
-	private Double specificnaPotrosnja;
+	private Double specificnaPotrosnjaKwh;
+	private Double specificnaPotrosnjaCo2;
+	private Double specificnaPotrosnjaDin;
 	
-	public VozEfikasnost(String vozilo, Double potrosnja, Double kilometraza, Double specificnaPotrosnja) {
+	public VozEfikasnost(String vozilo, Double potrosnja, Double kilometraza, Double specificnaPotrosnjaKwh,
+			Double specificnaPotrosnjaCo2, Double specificnaPotrosnjaDin) {
 		super();
 		this.vozilo = vozilo;
 		this.potrosnja = potrosnja;
 		this.kilometraza = kilometraza;
-		this.specificnaPotrosnja = specificnaPotrosnja;
+		this.specificnaPotrosnjaKwh = specificnaPotrosnjaKwh;
+		this.specificnaPotrosnjaCo2 = specificnaPotrosnjaCo2;
+		this.specificnaPotrosnjaDin = specificnaPotrosnjaDin;
 	}
 
 	public String getVozilo() {
@@ -42,9 +47,19 @@ public class VozEfikasnost {
 		return kilometraza;
 	}
 
-	public Double getSpecificnaPotrosnja() {
-		return specificnaPotrosnja;
+	public Double getSpecificnaPotrosnjaKwh() {
+		return specificnaPotrosnjaKwh;
 	}
+
+	public Double getSpecificnaPotrosnjaCo2() {
+		return specificnaPotrosnjaCo2;
+	}
+
+	public Double getSpecificnaPotrosnjaDin() {
+		return specificnaPotrosnjaDin;
+	}
+	
+	
 	
 	
 	

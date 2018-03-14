@@ -212,7 +212,7 @@ public class LovDao {
 	public List<Lov> voziloLov(String user, Long opsId, Long mesId, Long javPredId) {
 		
 		Query query = entityManager.createNativeQuery(
-				"select id, concat(kategorija_vozila,' ', marka, ' ', model, ' (', registracija, ')') as name "
+				"select id, naziv as name "
 				+ "from vozilo_view "
 				+ "where ((mesto_id in (select id from mesto where opstina_id = (select opstina_id from mesto where id = (select mesto_id from user where username like :user))) "
 				+ "		and (select authority_id from user_authority where user_id = (select id from user where username like :user)) in (2,3,4)) "

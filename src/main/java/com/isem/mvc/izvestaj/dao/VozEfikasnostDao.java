@@ -38,7 +38,9 @@ public class VozEfikasnostDao {
             result.add(new VozEfikasnost((String) row[1],
         							(Double) row[2],
                                     (Double) row[3],
-                                    (Double) row[4]));
+                                    (Double) row[4],
+                                    (Double) row[5],
+                                    (Double) row[6]));
         }
         
         return result;

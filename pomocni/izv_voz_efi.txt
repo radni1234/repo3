@@ -1,14 +1,9 @@
-delimiter %
-
-DROP PROCEDURE `izv_voz_efi`;
-%
-
-CREATE PROCEDURE `izv_voz_efi`(i_voz_id varchar(1000), i_datum_od date, i_datum_do date)
+CREATE DEFINER=`isem`@`%` PROCEDURE `izv_voz_efi`(i_voz_id varchar(1000), i_datum_od date, i_datum_do date)
 begin
 	
     DECLARE done BOOL DEFAULT FALSE; 
     DECLARE p_vozilo_id numeric;
-    DECLARE p_km_od, p_km_do, p_potrosnja_kwh double;
+    DECLARE p_km_od, p_km_do, p_potrosnja_kwh, p_potrosnja_co2, p_potrosnja_din double;
     DECLARE p_datum_km_od, p_datum_km_do date; 
     DECLARE p_vozilo varchar(500);
     DECLARE cur_vozila CURSOR FOR
@@ -24,7 +19,9 @@ begin
 								vozilo varchar(1000),					
                                 potrosnja_kwh double,
                                 kilometraza double,
-                                specificna_potrosnja double
+                                specificna_potrosnja_kwh double,
+                                specificna_potrosnja_co2 double,
+                                specificna_potrosnja_din double
 								) ENGINE=MEMORY;
         
         
@@ -79,8 +76,8 @@ begin
           
           BEGIN
 			DECLARE CONTINUE HANDLER FOR NOT FOUND SET p_potrosnja_kwh := null;
-			  select sum(potrosnja * e.kwh_jm)
-			  into p_potrosnja_kwh
+			  select sum(potrosnja * e.kwh_jm), sum(potrosnja * e.kwh_jm * e.emisija), sum(iznos)
+			  into p_potrosnja_kwh, p_potrosnja_co2, p_potrosnja_din
 				from vozilo_potrosnja p, energent e
 				where p.energent_id = e.id						 
 					  and p.vozilo_id =  p_vozilo_id 
@@ -93,12 +90,17 @@ begin
 							vozilo,					
 							potrosnja_kwh,
 							kilometraza,
-							specificna_potrosnja)
+							specificna_potrosnja_kwh,
+                            specificna_potrosnja_co2,
+                            specificna_potrosnja_din)
           values (p_vozilo_id, 
 				  p_vozilo,
                   p_potrosnja_kwh,
                   p_km_do - p_km_od,
-                  (p_potrosnja_kwh/(p_km_do - p_km_od))*100);
+                  (p_potrosnja_kwh/(p_km_do - p_km_od))*100,
+                  (p_potrosnja_co2/(p_km_do - p_km_od))*100,
+                  (p_potrosnja_din/(p_km_do - p_km_od))*100);
+               
 				
           
 		END LOOP vozilaLoop;
@@ -108,14 +110,16 @@ begin
 	
     SET @row_number = 0;
     
-    select @row_number:=@row_number + 1 id, vozilo, potrosnja, kilometraza, specificna_potrosnja
+    select @row_number:=@row_number + 1 id, vozilo, potrosnja, kilometraza, 
+			specificna_potrosnja_kwh, specificna_potrosnja_co2, specificna_potrosnja_din
     from (
 			select vozilo, round(potrosnja_kwh,2) potrosnja, round(kilometraza,2) kilometraza, 
-					round(specificna_potrosnja,2) specificna_potrosnja
+					round(specificna_potrosnja_kwh,2) specificna_potrosnja_kwh,
+                    round(specificna_potrosnja_co2,2) specificna_potrosnja_co2,
+                    round(specificna_potrosnja_din,2) specificna_potrosnja_din
 			from temp
-			order by specificna_potrosnja
+			order by specificna_potrosnja_kwh
 		) t;
 
  
 end
-%

@@ -1,0 +1,57 @@
+CREATE DEFINER=`isem`@`%` PROCEDURE `izv_kot_efi`(i_kot_id varchar(1000), i_datum_od date, i_datum_do date)
+begin
+		
+    CALL upisi_id_u_temp(i_kot_id,'t1');
+	
+	DROP TEMPORARY TABLE IF EXISTS temp;
+	CREATE TEMPORARY TABLE temp(kotlarnica_id int,								
+                                kotlarnica varchar(300),
+                                potrosnja double,
+                                isporucena_energija double,
+                                gubitak double) ENGINE=MEMORY;
+                                
+	DROP TEMPORARY TABLE IF EXISTS temp2;
+	CREATE TEMPORARY TABLE temp2(kotlarnica_id int,								
+                                kotlarnica varchar(300),
+                                potrosnja double) ENGINE=MEMORY;
+                                
+	DROP TEMPORARY TABLE IF EXISTS temp3;
+	CREATE TEMPORARY TABLE temp3(kotlarnica_id int,			
+                                isporucena_energija double) ENGINE=MEMORY;
+                                
+    insert into temp2(kotlarnica_id, kotlarnica, potrosnja)                       
+	select k.id, k.naziv, sum(kolicina_kwh) 	
+	from rn_kotlarnica_bilans rn, brojilo_kotlarnica b, kotlarnica k	
+	where rn.brojilo_kotlarnica_id = b.id
+		  and b.kotlarnica_id = k.id					  
+		  and brojilo_kotlarnica_id in (select id from brojilo_kotlarnica where kotlarnica_id in (select k1 from t1))
+		  and rn.datumr between i_datum_od and i_datum_do          
+	group by k.id, k.naziv; 
+    
+    insert into temp3(kotlarnica_id, isporucena_energija)
+    select k.id, sum(potrosnja_kwh)		
+	from potrosnja_podstanice pp, podstanica p, kotlarnica k	
+	where pp.podstanica_id = p.id
+		  and p.kotlarnica_id = k.id					  
+		  and pp.podstanica_id in (select id from podstanica where kotlarnica_id in (select k1 from t1))
+		  and pp.datum between i_datum_od and i_datum_do 
+	group by k.id
+	;    
+    
+    insert into temp(kotlarnica_id, kotlarnica, potrosnja, isporucena_energija, gubitak) 
+    select t2.kotlarnica_id, t2.kotlarnica, t2.potrosnja, t3.isporucena_energija,
+			((potrosnja - isporucena_energija)/potrosnja)*100
+    from temp2 t2 left outer join temp3 t3 on t2.kotlarnica_id = t3.kotlarnica_id;
+    
+	
+    SET @row_number = 0;    
+  
+	select (@row_number:=@row_number + 1) AS id, 
+			kotlarnica,
+            ROUND(potrosnja,2),
+            ROUND(isporucena_energija,2),
+            ROUND(gubitak,2)
+	from temp
+	order by gubitak;
+ 
+end
