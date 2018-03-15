@@ -1,9 +1,4 @@
-delimiter %
-
-DROP PROCEDURE `izv_vod_pot_po_vod_proiz`;
-%
-
-CREATE PROCEDURE `izv_vod_pot_po_vod_proiz`(i_vod_id varchar(1000), i_datum_od date, i_datum_do date)
+CREATE DEFINER=`isem`@`%` PROCEDURE `izv_vod_pot_po_vod_proiz`(i_vod_id varchar(1000), i_datum_od date, i_datum_do date)
 begin
 
 
@@ -26,7 +21,9 @@ begin
                                 emisija double,
                                 iznos double,
                                 proizvodnja double,
-                                spec_proizvodnja double) ENGINE=MEMORY;
+                                spec_proizvodnja_kwh double,
+                                spec_proizvodnja_co2 double,
+                                spec_proizvodnja_din double) ENGINE=MEMORY;
                                 
                                 
 	CREATE TEMPORARY TABLE temp2(vodozahvat_id int,		
@@ -67,10 +64,21 @@ begin
                         where temp.vodozahvat_id = temp2.vodozahvat_id);
                        
 	update temp
-    set spec_proizvodnja = potrosnja / 
-							(select proizvodnja
-							from temp2
-							where temp.vodozahvat_id = temp2.vodozahvat_id);
+    set spec_proizvodnja_kwh = potrosnja / 
+								(select proizvodnja
+								from temp2
+								where temp.vodozahvat_id = temp2.vodozahvat_id);
+	update temp
+    set spec_proizvodnja_co2 = emisija / 
+								(select proizvodnja
+								from temp2
+								where temp.vodozahvat_id = temp2.vodozahvat_id);
+                                
+    update temp
+    set spec_proizvodnja_din = iznos / 
+								(select proizvodnja
+								from temp2
+								where temp.vodozahvat_id = temp2.vodozahvat_id);
                     
 	insert into temp(vodozahvat, proizvodnja)
     select vodozahvat, proizvodnja
@@ -91,17 +99,20 @@ begin
     from temp2;
     
     -- ukupno --
-    insert into temp(id, vodozahvat, potrosnja, emisija, iznos, proizvodnja, spec_proizvodnja)
-    select (@row_number:=@row_number + 1), 'Ukupno:', sum(kolicina_kwh), sum(kolicina_kwh)*p_emisija, sum(iznos), p_proizvodnja, sum(kolicina_kwh) / p_proizvodnja
+    insert into temp(id, vodozahvat, potrosnja, emisija, iznos, proizvodnja)
+    select (@row_number:=@row_number + 1), 'Ukupno:', sum(kolicina_kwh), sum(kolicina_kwh)*p_emisija, 
+			sum(iznos), p_proizvodnja
 	from rn_vodozahvat_bilans rn
 	where rn.datumr between i_datum_od and i_datum_do		
 		  and brojilo_vodozahvat_id in (select id from brojilo_vodozahvat where vodozahvat_id in (select k1 from t1));
     
     select id, vodozahvat, ROUND(potrosnja,2) potrosnja, ROUND(emisija,2) emisija, 
-					ROUND(iznos,2) iznos, ROUND(proizvodnja,2) proizvodnja, ROUND(spec_proizvodnja,2) spec_proizvodnja
+					ROUND(iznos,2) iznos, ROUND(proizvodnja,2) proizvodnja, 
+                    ROUND(spec_proizvodnja_kwh,2) spec_proizvodnja_kwh,
+                    ROUND(spec_proizvodnja_co2,2) spec_proizvodnja_co2,
+                    ROUND(spec_proizvodnja_din,2) spec_proizvodnja_din
 	from temp
 	order by id;
 
 
 end
-%

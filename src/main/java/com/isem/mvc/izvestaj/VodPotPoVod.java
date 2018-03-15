@@ -22,7 +22,9 @@ public class VodPotPoVod {
 	private Double emisija;
 	private Double iznos;
 	private Double proizvodnja;
-	private Double specProizvodnja;
+	private Double specProizvodnjaKwh;
+	private Double specProizvodnjaCo2;
+	private Double specProizvodnjaDin;
 	
 	public VodPotPoVod(String vodozahvat, 
 			Double potrosnja, Double emisija, Double iznos) {
@@ -33,16 +35,22 @@ public class VodPotPoVod {
 		this.iznos = iznos;
 	}
 	
-	public VodPotPoVod(String vodozahvat, 
-			Double potrosnja, Double emisija, Double iznos, Double proizvodnja, Double specProizvodnja) {
+	
+
+	public VodPotPoVod(String vodozahvat, Double potrosnja, Double emisija, Double iznos, Double proizvodnja,
+			Double specProizvodnjaKwh, Double specProizvodnjaCo2, Double specProizvodnjaDin) {
 		super();
 		this.vodozahvat = vodozahvat;
 		this.potrosnja = potrosnja;
 		this.emisija = emisija;
 		this.iznos = iznos;
 		this.proizvodnja = proizvodnja;
-		this.specProizvodnja = specProizvodnja;
+		this.specProizvodnjaKwh = specProizvodnjaKwh;
+		this.specProizvodnjaCo2 = specProizvodnjaCo2;
+		this.specProizvodnjaDin = specProizvodnjaDin;
 	}
+
+
 
 	public String getVodozahvat() {
 		return vodozahvat;
@@ -64,9 +72,19 @@ public class VodPotPoVod {
 		return proizvodnja;
 	}
 
-	public Double getSpecProizvodnja() {
-		return specProizvodnja;
+	public Double getSpecProizvodnjaKwh() {
+		return specProizvodnjaKwh;
 	}
+
+	public Double getSpecProizvodnjaCo2() {
+		return specProizvodnjaCo2;
+	}
+
+	public Double getSpecProizvodnjaDin() {
+		return specProizvodnjaDin;
+	}
+
+	
 	
 	
 }

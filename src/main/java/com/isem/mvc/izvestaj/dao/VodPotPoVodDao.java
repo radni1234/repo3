@@ -66,7 +66,9 @@ public class VodPotPoVodDao {
 	                    (Double) row[3],
 	                    (Double) row[4],
 	                    (Double) row[5],
-	                    (Double) row[6]));
+	                    (Double) row[6],
+	                    (Double) row[7],
+	                    (Double) row[8]));
 	        }
 	        
 	        return result;
